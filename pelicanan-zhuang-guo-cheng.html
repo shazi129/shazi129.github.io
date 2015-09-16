@@ -29,7 +29,7 @@
 		  <a class="brand" href="/">ZhangWen's Blog</a>
 			<ul class="nav">
 					<li ><a href="/category/c.html">C++</a></li>
-					<li ><a href="/category/pelican.html">Pelican</a></li>
+					<li class="active"><a href="/category/pelican.html">Pelican</a></li>
 			</ul>
 			<p class="pull-right"><a href="/archives.html">[archives]</a> <a href="/tags.html">[tags]</a></p>
 		</div>
@@ -50,14 +50,13 @@
 		</div>
 	  </div>
 	  <div class="content">
-<div class="page-header"><h1> ZhangWen's Blog </h1></div>
-<div class='article'>
-	<h2>Pelican安装过程</h2>
-	<div class="well small">Permalink: <a class="more" href="/pelicanan-zhuang-guo-cheng.html">2015-09-16 00:00:00+02:00</a>
+	<div class='article'>
+		<div class="page-header"><h1>Pelican安装过程</h1></div>
+		<div class="well small">Permalink: <a class="more" href="/pelicanan-zhuang-guo-cheng.html">2015-09-16 00:00:00+02:00</a>
 by <a class="url fn" href="/author/zhangwen.html">zhangwen </a>
  in <a href="/category/pelican.html">Pelican</a>
 </div>
-	<div class="summary"><h1>Pelican安装过程</h1>
+		<div><h1>Pelican安装过程</h1>
 <p>今天安装了Pelican，下面来说下过程和遇到的问题</p>
 <ol>
 <li>安装Python，因为在Mac下，省掉这一步</li>
@@ -69,27 +68,18 @@ Traceback (most recent call last):
   File "/usr/local/bin/pelican-quickstart", line 7, in <module>
     from pelican.tools.pelican_quickstart import main
   File "/Library/Python/2.7/site-packages/pelican/<strong>init</strong>.py", line 20, in <module>
-    from pelican.generators ...</module></module></li></ol> <a class="btn primary xsmall" href="/pelicanan-zhuang-guo-cheng.html">more…</a>
+    from pelican.generators import (ArticlesGenerator, PagesGenerator,
+  File "/Library/Python/2.7/site-packages/pelican/generators.py", line 22, in <module>
+    from pelican.readers import Readers
+  File "/Library/Python/2.7/site-packages/pelican/readers.py", line 24, in <module>
+    from six.moves.html_parser import HTMLParser
+ImportError: No module named html_parser</li>
+</ol>
+<p>解决办法</p>
+<p>vim /Library/Python/2.7/site-packages/pelican/readers.py</p>
+<p>将from six.moves.html_parser import HTMLParser换成 from HTMLParser import HTMLParser
+正常启动</p></div>
 	</div>
-</div>	
-<div class='article'>
-	<h2>C++中类成员变量的初始化</h2>
-	<div class="well small">Permalink: <a class="more" href="/czhong-lei-cheng-yuan-bian-liang-de-chu-shi-hua.html">2013-04-18 00:00:00+02:00</a>
-by <a class="url fn" href="/author/zhangwen.html">zhangwen </a>
- in <a href="/category/c.html">C++</a>
-</div>
-	<div class="summary"><h3>静态变量</h3>
-<div class="highlight"><pre><span class="nt">class</span> <span class="nt">MyClass</span>
-<span class="p">{</span>
-    <span class="n">public</span><span class="o">:</span>
-        <span class="k">static</span> <span class="n">int</span> <span class="n">a</span><span class="p">;</span>
-<span class="p">}</span><span class="o">;</span>
-<span class="nt">static</span> <span class="nt">int</span> <span class="nt">MyClass</span><span class="o">:</span><span class="nd">:a</span> <span class="o">=</span> <span class="nt">100</span><span class="o">;</span>
-</pre></div> <a class="btn primary xsmall" href="/czhong-lei-cheng-yuan-bian-liang-de-chu-shi-hua.html">more…</a>
-	</div>
-</div>	
-
-
 		<footer>
 		  <p>Powered by <a href="http://getpelican.com/">Pelican</a>. Theme based on <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a>.</p>
 		  <p>&copy; zhangwen</p>
