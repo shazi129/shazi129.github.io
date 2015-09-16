@@ -11,6 +11,7 @@ PATH = 'content'
 TIMEZONE = 'Europe/Paris'
 
 THEME = "./../../pelican-themes/bootstrap"
+OUTPUT_PATH = "./../"
 
 DEFAULT_LANG = u'zh'
 

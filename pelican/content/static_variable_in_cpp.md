@@ -5,11 +5,10 @@ Tag: C++, 语法
 
 ###静态变量
 
-```
+
 	class MyClass
 	{
 		public:
 			static int a;
 	};
 	static int MyClass::a = 100;
-```

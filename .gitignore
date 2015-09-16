@@ -1,2 +1,3 @@
 pelican/cache
 *.pyc
+*.swp
