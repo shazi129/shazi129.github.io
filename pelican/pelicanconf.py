@@ -12,7 +12,7 @@ TIMEZONE = 'Europe/Paris'
 
 THEME = "./../../pelican-themes/foundation-default-colours"
 OUTPUT_PATH = "./../"
-
+MONTH_ARCHIVE_SAVE_AS = 'posts/{date:%Y}/{date:%m}/index.html'
 DEFAULT_LANG = u'zh'
 
 # Feed generation is usually not desired when developing
