@@ -1,71 +1,171 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>ZhangWen's Blog</title>
-	<meta name="description" content="">
-	<meta name="author" content="zhangwen">
+<!doctype html>
+<html class="no-js" lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-	<!-- HTML5 shim, for IE6-8 support of HTML elements -->
-	<!--[if lt IE 9]>
-		<script src="/theme/html5.js"></script>
-	<![endif]-->
+		<title>ZhangWen's Blog</title>
+		<meta name="description" content="">
+		<meta name="author" content="zhangwen">
 
-	<!-- Styles -->
-	<link href="/theme/bootstrap.min.css" rel="stylesheet">
-	<link href="/theme/local.css" rel="stylesheet">
-	<link href="/theme/pygments.css" rel="stylesheet">
-
-	<!-- Feeds -->
+		<link rel="stylesheet" href="/theme/css/foundation.css" />
+		<link rel="stylesheet" href="/theme/css/pygment/monokai.css" />
+		<link rel="stylesheet" href="/theme/css/custom.css" />
 
 
+		<script src="/theme/js/modernizr.js"></script>
+
+		<!-- Feeds -->
 
 
-</head>
-<body>
-	<div class="topbar">
-	  <div class="topbar-inner">
-		<div class="container-fluid">
-		  <a class="brand" href="/">ZhangWen's Blog</a>
-			<ul class="nav">
-					<li ><a href="/category/c.html">C++</a></li>
-					<li ><a href="/category/pelican.html">Pelican</a></li>
-			</ul>
-			<p class="pull-right"><a href="/archives.html">[archives]</a> <a href="/tags.html">[tags]</a></p>
+		<!-- mathjax config similar to math.stackexchange -->
+		<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({
+			jax: ["input/TeX", "output/HTML-CSS"],
+			tex2jax: {
+				inlineMath: [ ['$', '$'] ],
+				displayMath: [ ['$$', '$$']],
+				processEscapes: true,
+				skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+			},
+			messageStyle: "none",
+			"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+		});
+		</script>
+		<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+	</head>
+	<body>
+		<div class="off-canvas-wrap">
+			<div class="inner-wrap">
+				<!-- mobile top bar to activate nav -->
+				<nav class="tab-bar show-for-small">
+					<section class="left-small">
+						<a class="left-off-canvas-toggle menu-icon" ><span></span></a>
+					</section>
+
+					<section class="middle tab-bar-section">
+						<h1 class="title">ZhangWen's&nbsp;Blog</h1>
+					</section>
+				</nav>
+
+				<!-- mobile side bar nav -->
+				<aside class="left-off-canvas-menu">
+					<ul class="off-canvas-list">
+						<li><a href="">Home</a></li>
+						<li><label>Categories</label></li>
+							<li ><a href="/category/c.html">C++</a></li>
+							<li ><a href="/category/pelican.html">Pelican</a></li>
+
+						<li><label>Links</label></li>
+
+
+
+						<li><label>Social</label></li>
+					</ul>	
+				</aside>
+
+				<!-- top bar nav -->
+				<nav class="top-bar hide-for-small-only" data-topbar>
+					<ul class="title-area">
+						<li class="name">
+							<h1><a href="/">ZhangWen's Blog</a></h1>
+						</li>
+					</ul>
+
+					<section class="top-bar-section">
+						<ul class="left">
+								<li ><a href="/category/c.html">C++</a></li>
+								<li ><a href="/category/pelican.html">Pelican</a></li>
+						</ul>
+                        <ul class="right">                                                                                                                                           
+                                                                                                                                             
+                        </ul>  
+					</section>
+				</nav>
+
+				<!-- Main Page Content and Sidebar -->
+				<section class="main-section">
+					<div class="row">
+						<!-- Main Content -->
+						<div class="medium-9 small-12 columns" role="content">
+							<div class="row">
+								<div class="small-12 columns">
+									<h2>Archives</h2>
+								</div>
+							</div>
+	<div class="row">
+		<div class="small-10 columns small-centered">
+				<div class="row archive-year">
+					<div class="small-2 columns text-right">
+						<h3>2015</h3>
+					</div>
+				</div>
+					<div class="row archive-entry">
+						<div class="small-2 columns text-right">
+							<h5> 9 16</h5>
+						</div>
+						<div class="small-10 columns">
+							<h5><a href="/pelicanan-zhuang-guo-cheng.html">Pelican安装过程</a></h5>
+						</div>
+					</div>
+				<div class="row archive-year">
+					<div class="small-2 columns text-right">
+						<h3>2013</h3>
+					</div>
+				</div>
+					<div class="row archive-entry">
+						<div class="small-2 columns text-right">
+							<h5> 4 18</h5>
+						</div>
+						<div class="small-10 columns">
+							<h5><a href="/czhong-lei-cheng-yuan-bian-liang-de-chu-shi-hua.html">C++中类成员变量的初始化</a></h5>
+						</div>
+					</div>
 		</div>
-	  </div>
 	</div>
+						</div>
+						<!-- End Main Content -->
+						<!-- Sidebar -->
+						<aside class="medium-3 hide-for-small-only columns">
+							<div class="panel">
+								<h5>Links</h5>
+								<ul class="side-nav">
+								</ul>
+							</div>
 
-	<div class="container-fluid">
-	  <div class="sidebar">
-		<div class="well">
-			<h3>Blogroll</h3>
-			<ul>
-			</ul>
-			<div class="social">
-			<h3>Social</h3>
-			<ul>
-			</ul>
-			</div>
-		</div>
-	  </div>
-	  <div class="content">
-<div class="page-header"><h1>ZhangWen's Blog <small>[archive]</small></h1></div><h2>2013</h2>
-<h3>四月</h3>
-<ul>
-	<li><a href="czhong-lei-cheng-yuan-bian-liang-de-chu-shi-hua.html">C++中类成员变量的初始化</a></li>
-</ul>
-<h2>2015</h2>
-<h3>九月</h3>
-<ul>
-	<li><a href="pelicanan-zhuang-guo-cheng.html">Pelican安装过程</a></li>
-</ul>
-		<footer>
-		  <p>Powered by <a href="http://getpelican.com/">Pelican</a>. Theme based on <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a>.</p>
-		  <p>&copy; zhangwen</p>
-		</footer>
-	  </div>
+							<div class="panel">
+								<h5>Tags</h5>
+								<ul class="tag-cloud">
+								</ul>
+							</div>
 
-	</div>
-</body>
+
+							<div class="panel">
+								<h5>Social</h5>
+								<ul class="side-nav">
+								</ul>
+							</div>
+						</aside>
+						<!-- End Sidebar -->
+					</div>
+
+					<!-- Footer -->
+					<footer class="row">
+						<div class="medium-9 small-12">
+							<hr/>
+							<p class="text-center">Powered by <a href="http://getpelican.com">Pelican</a> and <a href="http://foundation.zurb.com/">Zurb Foundation</a>. Theme by <a href="http://hamaluik.com">Kenton Hamaluik</a>.</p>
+						</div>
+					</footer>
+					<!-- End Footer -->
+				</section>
+				<a class="exit-off-canvas"></a>
+			</div><!--off-canvas inner-->
+		</div><!--off-canvas wrap-->
+
+		<script src="/theme/js/jquery.js"></script>
+		<script src="/theme/js/foundation.min.js"></script>
+		<script>
+			$(document).foundation();
+		</script>
+	</body>
 </html>

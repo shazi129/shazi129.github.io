@@ -10,7 +10,7 @@ PATH = 'content'
 
 TIMEZONE = 'Europe/Paris'
 
-THEME = "./../../pelican-themes/bootstrap"
+THEME = "./../../pelican-themes/foundation-default-colours"
 OUTPUT_PATH = "./../"
 
 DEFAULT_LANG = u'zh'
