@@ -23,8 +23,7 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 #其他文章
-LINKS = (('CSDN', 'http://blog.csdn.net/i_am_zw129'),
-         ('百度', 'http://hi.baidu.com/shazi129'),)
+LINKS = ()
 
 
 DEFAULT_PAGINATION = 10
