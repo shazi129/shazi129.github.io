@@ -1,3 +1,6 @@
 pelican/cache
 *.pyc
 *.swp
+CNAME
+README.md
+
