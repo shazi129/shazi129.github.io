@@ -4,14 +4,17 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<title>ZhangWen's Blog</title>
+		<title>观心苑</title>
 		<meta name="description" content="">
-		<meta name="author" content="zhangwen">
+		<meta name="author" content="张文">
 
 		<link rel="stylesheet" href="/theme/css/foundation.css" />
 		<link rel="stylesheet" href="/theme/css/pygment/monokai.css" />
 		<link rel="stylesheet" href="/theme/css/custom.css" />
 
+		<!-- GOOGLE WEB FONTS -->
+		<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Sans+Mono|Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="/theme/css/alt-fonts.css" />
 
 		<script src="/theme/js/modernizr.js"></script>
 
@@ -44,7 +47,7 @@
 					</section>
 
 					<section class="middle tab-bar-section">
-						<h1 class="title">ZhangWen's&nbsp;Blog</h1>
+						<h1 class="title">观心苑</h1>
 					</section>
 				</nav>
 
@@ -59,8 +62,8 @@
 						<li><label>Links</label></li>
 
 
-						<li><label>Monthly Archives</label></li>
-									<li><a href="/posts/2015/09/index.html">九月 2015 (1)</a></li>
+						<li><label>按日期</label></li>
+									<li><a href="/time_category/2015/09/index.html">2015-09 (1)</a></li>
 
 						<li><label>Social</label></li>
 					</ul>	
@@ -70,7 +73,7 @@
 				<nav class="top-bar hide-for-small-only" data-topbar>
 					<ul class="title-area">
 						<li class="name">
-							<h1><a href="/">ZhangWen's Blog</a></h1>
+							<h1><a href="/">观心苑</a></h1>
 						</li>
 					</ul>
 
@@ -98,20 +101,27 @@
 
 <article>
 	<h3><a href="/pelicanan-zhuang-guo-cheng.html">Pelican安装过程</a></h3>
-	<h6>Written by <a href="/author/zhangwen.html">zhangwen</a> in <a href="/category/pelican.html">Pelican</a> on 三 16 九月 2015.</h6>
-	<h1>Pelican安装过程</h1>
-<p>今天安装了Pelican，下面来说下过程和遇到的问题</p>
-<ol>
-<li>安装Python，因为在Mac下，省掉这一步</li>
-<li>安装pip，<a href="https://pypi.python.org/packages/source/p/pip/pip-7.1.2.tar.gz#md5=3823d2343d9f3aaab21cf9c917710196">下载地址</a>, 解压后安装</li>
-<li>安装pelican
-    pip install pelican</li>
-<li>启动pelican创建工程，pelican－quickstart
-Traceback (most recent call last):
-  File "/usr/local/bin/pelican-quickstart", line 7, in <module>
-    from pelican.tools.pelican_quickstart import main
-  File "/Library/Python/2.7/site-packages/pelican/<strong>init</strong>.py", line 20, in <module>
-    from pelican.generators ...</module></module></li></ol>
+	<h6>Written by <a href="/author/张文.html">张文</a> in <a href="/category/pelican.html">Pelican</a> on 2015-09-16 00:00:00. Tags: <a href="/tag/pelican.html">Pelican</a>, </h6>
+	<p>今天安装了Pelican，下面来说下过程和遇到的问题</p>
+<ul>
+<li>
+<p>安装Python，因为在Mac下，省掉这一步</p>
+</li>
+<li>
+<p>安装pip(<a href="https://pypi.python.org/packages/source/p/pip/pip-7.1.2.tar.gz#md5=3823d2343d9f3aaab21cf9c917710196">下载地址</a>), 解压后运行： <code>python setup.py install</code> 安装</p>
+</li>
+<li>
+<p>安装pelican， 运行 <code>pip install pelican</code></p>
+</li>
+<li>
+<p>安装markdown， 运行 <code>pip install markdown</code></p>
+</li>
+<li>
+<p>启动pelican创建工程，pelican－quickstart, 此时有可能出现如下错误：</p>
+<div class="highlight"><pre><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>  
+<span class="n">File</span> <span class="s">&quot;/usr/local/bin/pelican-quickstart&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">7</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
+    <span class="kn">from</span> <span class="nn">pelican.tools.pelican_quickstart</span> <span class="kn">import</span> <span class="n">main</span>  
+<span class="n">File</span> <span class="s">&quot;/Library/Python ...</span></pre></div></li></ul>
 		<p class="continue"><a href="/pelicanan-zhuang-guo-cheng.html">Continue reading &raquo;</a></p>
 </article>
 <hr />
@@ -134,9 +144,9 @@ Traceback (most recent call last):
 							</div>
 
 							<div class="panel">
-								<h5>Monthly Archives</h5>
+								<h5>按日期</h5>
 								<ul class="side-nav">
-											<li><a href="/posts/2015/09/index.html">九月 2015 (1)</a></li>
+											<li><a href="/time_category/2015/09/index.html">2015-09 (1)</a></li>
 								</ul>
 							</div>
 
