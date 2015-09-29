@@ -53,8 +53,8 @@
 					<ul class="off-canvas-list">
 						<li><a href="">Home</a></li>
 						<li><label>Categories</label></li>
-							<li ><a href="/category/c.html">C++</a></li>
 							<li ><a href="/category/pelican.html">Pelican</a></li>
+							<li ><a href="/category/unity.html">Unity</a></li>
 
 						<li><label>Links</label></li>
 
@@ -74,8 +74,8 @@
 
 					<section class="top-bar-section">
 						<ul class="left">
-								<li ><a href="/category/c.html">C++</a></li>
 								<li ><a href="/category/pelican.html">Pelican</a></li>
+								<li ><a href="/category/unity.html">Unity</a></li>
 						</ul>
                         <ul class="right">                                                                                                                                           
                                                                                                                                              
@@ -90,8 +90,38 @@
 						<div class="medium-9 small-12 columns" role="content">
 
 <article>
+	<h3><a href="/unity2dzheng-dong-hua-shi-xian-de-liang-chong-fang-shi.html">Unity2D帧动画实现的两种方式</a></h3>
+	<h6>Written by <a href="/author/张文.html">张文</a> in <a href="/category/unity.html">Unity</a> on 周日 20 九月 2015. Tags: <a href="/tag/unity.html">Unity</a>, </h6>
+	<p>在游戏制作过程中，经常用到帧动画，这里介绍两种实现帧动画的方式</p>
+<h2>源材料准备</h2>
+<p>序列帧所用到的图片：</p>
+<p><img alt="" src="http://h.picphotos.baidu.com/album/s%3D550%3Bq%3D90%3Bc%3Dxiangce%2C100%2C100/sign=4f1d8faf0ff79052eb1f473b3cc8a6f7/472309f7905298221db7c57fd1ca7bcb0b46d482.jpg?referer=3cfa327eb41193139e54cb801480&amp;x=.jpg" /></p>
+<p>生成这些序列帧所用到的资源可以参考： <a href="http://www.raywenderlich.com/61532/unity-2d-tutorial-getting-started">http://www.raywenderlich.com/61532/unity-2d-tutorial-getting-started</a></p>
+<h2>1. 脚本方式实现</h2>
+<p>脚本实现的方式在上面的链接中有介绍，这里把列出源码：</p>
+<div class="highlight"><pre>using UnityEngine;
+using System.Collections;
+
+public class Zombie : MonoBehaviour {
+
+    public Sprite[] m_sprits;
+    public int m_frameRate;
+
+    ／／帧率
+    float m_frameTime;
+    SpriteRenderer m_spriteRenderer;
+
+    // Use this for initialization
+    void Start () {
+
+        m_frameTime = 1.0f / (float)m_frameRate;
+        m_spriteRenderer = GetComponent&lt;SpriteRenderer ...</pre></div>
+		<p class="continue"><a href="/unity2dzheng-dong-hua-shi-xian-de-liang-chong-fang-shi.html">Continue reading &raquo;</a></p>
+</article>
+<hr />
+<article>
 	<h3><a href="/pelicanan-zhuang-guo-cheng.html">Pelican安装过程</a></h3>
-	<h6>Written by <a href="/author/张文.html">张文</a> in <a href="/category/pelican.html">Pelican</a> on 三 16 九月 2015. Tags: <a href="/tag/pelican.html">Pelican</a>, </h6>
+	<h6>Written by <a href="/author/张文.html">张文</a> in <a href="/category/pelican.html">Pelican</a> on 周三 16 九月 2015. Tags: <a href="/tag/pelican.html">Pelican</a>, </h6>
 	<p>今天安装了Pelican，下面来说下过程和遇到的问题</p>
 <ul>
 <li>
@@ -113,21 +143,6 @@
     <span class="kn">from</span> <span class="nn">pelican.tools.pelican_quickstart</span> <span class="kn">import</span> <span class="n">main</span>  
 <span class="n">File</span> <span class="s">&quot;/Library/Python ...</span></pre></div></li></ul>
 		<p class="continue"><a href="/pelicanan-zhuang-guo-cheng.html">Continue reading &raquo;</a></p>
-</article>
-<hr />
-<article>
-	<h3><a href="/czhong-lei-cheng-yuan-bian-liang-de-chu-shi-hua.html">C++中类成员变量的初始化</a></h3>
-	<h6>Written by <a href="/author/张文.html">张文</a> in <a href="/category/c.html">C++</a> on 四 18 四月 2013. Tags: <a href="/tag/c.html">C++</a>, </h6>
-	<p>在C++中，一些特殊变量有着不同的初始化方式。</p>
-<h3>静态变量</h3>
-<div class="highlight"><pre><span class="nt">class</span> <span class="nt">MyClass</span>
-<span class="p">{</span>
-    <span class="n">public</span><span class="o">:</span>
-        <span class="k">static</span> <span class="n">int</span> <span class="n">a</span><span class="p">;</span>
-<span class="p">}</span><span class="o">;</span>
-<span class="nt">static</span> <span class="nt">int</span> <span class="nt">MyClass</span><span class="o">:</span><span class="nd">:a</span> <span class="o">=</span> <span class="nt">100</span><span class="o">;</span>
-</pre></div>
-		<p class="continue"><a href="/czhong-lei-cheng-yuan-bian-liang-de-chu-shi-hua.html">Continue reading &raquo;</a></p>
 </article>
 <hr />
 
