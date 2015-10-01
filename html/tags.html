@@ -8,12 +8,12 @@
 		<meta name="description" content="">
 		<meta name="author" content="张文">
 
-		<link rel="stylesheet" href="/theme/css/foundation.css" />
-		<link rel="stylesheet" href="/theme/css/pygment/monokai.css" />
-		<link rel="stylesheet" href="/theme/css/custom.css" />
+		<link rel="stylesheet" href="html/theme/css/foundation.css" />
+		<link rel="stylesheet" href="html/theme/css/pygment/monokai.css" />
+		<link rel="stylesheet" href="html/theme/css/custom.css" />
 
 
-		<script src="/theme/js/modernizr.js"></script>
+		<script src="html/theme/js/modernizr.js"></script>
 
 		<!-- Feeds -->
 
@@ -51,10 +51,10 @@
 				<!-- mobile side bar nav -->
 				<aside class="left-off-canvas-menu">
 					<ul class="off-canvas-list">
-						<li><a href="">Home</a></li>
+						<li><a href="html">Home</a></li>
 						<li><label>Categories</label></li>
-							<li ><a href="/category/c.html">C++</a></li>
-							<li class="active"><a href="/category/pelican.html">Pelican</a></li>
+							<li ><a href="html/category/pelican.html">Pelican</a></li>
+							<li ><a href="html/category/unity.html">Unity</a></li>
 
 						<li><label>Links</label></li>
 
@@ -68,15 +68,17 @@
 				<nav class="top-bar hide-for-small-only" data-topbar>
 					<ul class="title-area">
 						<li class="name">
-							<h1><a href="/">观心苑</a></h1>
+							<h1><a href="html/">观心苑</a></h1>
 						</li>
 					</ul>
 
 					<section class="top-bar-section">
+						<!--Do not show categories in top menu
 						<ul class="left">
-								<li ><a href="/category/c.html">C++</a></li>
-								<li class="active"><a href="/category/pelican.html">Pelican</a></li>
+								<li ><a href="html/category/pelican.html">Pelican</a></li>
+								<li ><a href="html/category/unity.html">Unity</a></li>
 						</ul>
+						-->
                         <ul class="right">                                                                                                                                           
                                                                                                                                              
                         </ul>  
@@ -88,45 +90,23 @@
 					<div class="row">
 						<!-- Main Content -->
 						<div class="medium-9 small-12 columns" role="content">
-							<div class="row">
-								<div class="small-12 columns">
-									<h2>Category: Pelican</h2>
-								</div>
-							</div>
-
-<article>
-	<h3><a href="/pelicanan-zhuang-guo-cheng.html">Pelican安装过程</a></h3>
-	<h6>Written by <a href="/author/张文.html">张文</a> in <a href="/category/pelican.html">Pelican</a> on 三 16 九月 2015. Tags: <a href="/tag/pelican.html">Pelican</a>, </h6>
-	<p>今天安装了Pelican，下面来说下过程和遇到的问题</p>
-<ul>
-<li>
-<p>安装Python，因为在Mac下，省掉这一步</p>
-</li>
-<li>
-<p>安装pip(<a href="https://pypi.python.org/packages/source/p/pip/pip-7.1.2.tar.gz#md5=3823d2343d9f3aaab21cf9c917710196">下载地址</a>), 解压后运行： <code>python setup.py install</code> 安装</p>
-</li>
-<li>
-<p>安装pelican， 运行 <code>pip install pelican</code></p>
-</li>
-<li>
-<p>安装markdown， 运行 <code>pip install markdown</code></p>
-</li>
-<li>
-<p>启动pelican创建工程，pelican－quickstart, 此时有可能出现如下错误：</p>
-<div class="highlight"><pre><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>  
-<span class="n">File</span> <span class="s">&quot;/usr/local/bin/pelican-quickstart&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">7</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.tools.pelican_quickstart</span> <span class="kn">import</span> <span class="n">main</span>  
-<span class="n">File</span> <span class="s">&quot;/Library/Python ...</span></pre></div></li></ul>
-		<p class="continue"><a href="/pelicanan-zhuang-guo-cheng.html">Continue reading &raquo;</a></p>
-</article>
-<hr />
-
-
+	<ul>
+		<li><a href="html/tag/pelican.html">Pelican</a></li>
+		<li><a href="html/tag/unity.html">Unity</a></li>
+	</ul>
 						</div>
 						<!-- End Main Content -->
 						<!-- Sidebar -->
 
 						<aside class="medium-3 hide-for-small-only columns">
+
+							<div class="panel">
+								<h5>分类</h5>
+								<ul class="side-nav">
+									<li><a href="html/category/pelican.html">Pelican</a></li>
+									<li><a href="html/category/unity.html">Unity</a></li>
+								</ul>
+							</div>
 
 
 
@@ -148,8 +128,8 @@
 			</div><!--off-canvas inner-->
 		</div><!--off-canvas wrap-->
 
-		<script src="/theme/js/jquery.js"></script>
-		<script src="/theme/js/foundation.min.js"></script>
+		<script src="html/theme/js/jquery.js"></script>
+		<script src="html/theme/js/foundation.min.js"></script>
 		<script>
 			$(document).foundation();
 		</script>
