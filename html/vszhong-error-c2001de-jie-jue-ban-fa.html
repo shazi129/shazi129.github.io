@@ -53,8 +53,8 @@
 					<ul class="off-canvas-list">
 						<li><a href=".">Home</a></li>
 						<li><label>Categories</label></li>
-							<li ><a href="./category/c.html">C++</a></li>
-							<li class="active"><a href="./category/pelican.html">Pelican</a></li>
+							<li class="active"><a href="./category/c.html">C++</a></li>
+							<li ><a href="./category/pelican.html">Pelican</a></li>
 							<li ><a href="./category/unity.html">Unity</a></li>
 
 						<li><label>Links</label></li>
@@ -76,8 +76,8 @@
 					<section class="top-bar-section">
 						<!--Do not show categories in top menu
 						<ul class="left">
-								<li ><a href="./category/c.html">C++</a></li>
-								<li class="active"><a href="./category/pelican.html">Pelican</a></li>
+								<li class="active"><a href="./category/c.html">C++</a></li>
+								<li ><a href="./category/pelican.html">Pelican</a></li>
 								<li ><a href="./category/unity.html">Unity</a></li>
 						</ul>
 						-->
@@ -93,46 +93,25 @@
 						<!-- Main Content -->
 						<div class="medium-9 small-12 columns" role="content">
 <article>
-	<h2>Pelican安装过程</h2>
-	<p>今天安装了Pelican，下面来说下过程和遇到的问题</p>
-<ul>
-<li>
-<p>安装Python，因为在Mac下，省掉这一步</p>
-</li>
-<li>
-<p>安装pip(<a href="https://pypi.python.org/packages/source/p/pip/pip-7.1.2.tar.gz#md5=3823d2343d9f3aaab21cf9c917710196">下载地址</a>), 解压后运行： <code>python setup.py install</code> 安装</p>
-</li>
-<li>
-<p>安装pelican， 运行 <code>pip install pelican</code></p>
-</li>
-<li>
-<p>安装markdown， 运行 <code>pip install markdown</code></p>
-</li>
-<li>
-<p>启动pelican创建工程，pelican－quickstart, 此时有可能出现如下错误：</p>
-<div class="highlight"><pre><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>  
-<span class="n">File</span> <span class="s">&quot;/usr/local/bin/pelican-quickstart&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">7</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.tools.pelican_quickstart</span> <span class="kn">import</span> <span class="n">main</span>  
-<span class="n">File</span> <span class="s">&quot;/Library/Python/2.7/site-packages/pelican/__init__.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">20</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.generators</span> <span class="kn">import</span> <span class="p">(</span><span class="n">ArticlesGenerator</span><span class="p">,</span> <span class="n">PagesGenerator</span><span class="p">,</span>  
-<span class="n">File</span> <span class="s">&quot;/Library/Python/2.7/site-packages/pelican/generators.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">22</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.readers</span> <span class="kn">import</span> <span class="n">Readers</span>  
-<span class="n">File</span> <span class="s">&quot;/Library/Python/2.7/site-packages/pelican/readers.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">24</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">six.moves.html_parser</span> <span class="kn">import</span> <span class="n">HTMLParser</span>  
-<span class="ne">ImportError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="n">html_parser</span>
+	<h2>VS中Error C2001的解决办法</h2>
+	<p>今天遇到一个问题，在VS2010工程中，出现中文字符串时，出现了如下错误：</p>
+<div class="highlight"><pre><span class="nt">error</span> <span class="nt">C2001</span><span class="o">:</span> <span class="nt">newline</span> <span class="nt">in</span> <span class="nt">constant</span>
+<span class="nt">error</span> <span class="nt">C2143</span><span class="o">:</span> <span class="nt">syntax</span> <span class="nt">error</span> <span class="o">:</span> <span class="nt">missing</span> <span class="s1">&#39;)&#39;</span> <span class="nt">before</span> <span class="s1">&#39;}&#39;</span>
+<span class="nt">error</span> <span class="nt">C2143</span><span class="o">:</span> <span class="nt">syntax</span> <span class="nt">error</span> <span class="o">:</span> <span class="nt">missing</span> <span class="s1">&#39;;&#39;</span> <span class="nt">before</span> <span class="s1">&#39;}&#39;</span>
 </pre></div>
 
 
-<p>这时只需要更改一下源文件即可：<code>vim /Library/Python/2.7/site-packages/pelican/readers.py</code>。<br />
-将24行的：<br />
-<code>from six.moves.html_parser import HTMLParser</code><br />
- 换成：<br />
-<code>from HTMLParser import HTMLParser</code><br />
-即可</p>
-</li>
-</ul>
+<p>产生原因可以参照：<a href="http://blog.163.com/zhaowenjia1989@126/blog/static/1094985792010224153119/">http://blog.163.com/zhaowenjia1989@126/blog/static/1094985792010224153119/</a>  <br />
+一些结局办法可以参照：<a href="http://www.cnblogs.com/kuliuheng/p/3397796.html">http://www.cnblogs.com/kuliuheng/p/3397796.html</a></p>
+<p>还有一个简单的办法：  <br />
+1. 在VS中打开该代码文件。           <br />
+2. 选择VS菜单栏中<strong>File</strong>-&gt;<strong>Advanced Save Options</strong>    <br />
+<img alt="image" src="http://i11.tietuku.com/474690f91abe4d90.png" /> <br />
+3. 选择中文的编码：       <br />
+<img alt="image" src="http://i11.tietuku.com/957100223efafcb4.png" /> <br />
+4. 重新编译，OK</p>
 	<hr/>
-	<h6>Written by <a href="./author/张文.html">张文</a> in <a href="./category/pelican.html">Pelican</a> on 周三 16 九月 2015. Tags: <a href="./tag/pelican.html">Pelican</a>, </h6>
+	<h6>Written by <a href="./author/张文.html">张文</a> in <a href="./category/c.html">C++</a> on 周二 20 十月 2015. Tags: <a href="./tag/c.html">C++</a>, </h6>
 </article>
 
 <hr/>
