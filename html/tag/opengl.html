@@ -53,7 +53,7 @@
 					<ul class="off-canvas-list">
 						<li><a href=".">Home</a></li>
 						<li><label>Categories</label></li>
-							<li class="active"><a href="./category/c.html">C++</a></li>
+							<li ><a href="./category/c.html">C++</a></li>
 							<li ><a href="./category/opengl.html">OpenGL</a></li>
 							<li ><a href="./category/pelican.html">Pelican</a></li>
 							<li ><a href="./category/python.html">Python</a></li>
@@ -78,7 +78,7 @@
 					<section class="top-bar-section">
 						<!--Do not show categories in top menu
 						<ul class="left">
-								<li class="active"><a href="./category/c.html">C++</a></li>
+								<li ><a href="./category/c.html">C++</a></li>
 								<li ><a href="./category/opengl.html">OpenGL</a></li>
 								<li ><a href="./category/pelican.html">Pelican</a></li>
 								<li ><a href="./category/python.html">Python</a></li>
@@ -96,45 +96,21 @@
 					<div class="row">
 						<!-- Main Content -->
 						<div class="medium-9 small-12 columns" role="content">
+							<div class="row">
+								<div class="small-12 columns">
+									<h2>Posts Tagged With 'OpenGL'</h2>
+								</div>
+							</div>
+
 <article>
-	<h2>VS中Error C2001的解决办法</h2>
-	<p>今天遇到一个问题，在VS2010工程中，出现中文字符串时，出现了如下错误：</p>
-<div class="highlight"><pre><span class="nt">error</span> <span class="nt">C2001</span><span class="o">:</span> <span class="nt">newline</span> <span class="nt">in</span> <span class="nt">constant</span>
-<span class="nt">error</span> <span class="nt">C2143</span><span class="o">:</span> <span class="nt">syntax</span> <span class="nt">error</span> <span class="o">:</span> <span class="nt">missing</span> <span class="s1">&#39;)&#39;</span> <span class="nt">before</span> <span class="s1">&#39;}&#39;</span>
-<span class="nt">error</span> <span class="nt">C2143</span><span class="o">:</span> <span class="nt">syntax</span> <span class="nt">error</span> <span class="o">:</span> <span class="nt">missing</span> <span class="s1">&#39;;&#39;</span> <span class="nt">before</span> <span class="s1">&#39;}&#39;</span>
-</pre></div>
-
-
-<p>产生原因可以参照：<a href="http://blog.163.com/zhaowenjia1989@126/blog/static/1094985792010224153119/">http://blog.163.com/zhaowenjia1989@126/blog/static/1094985792010224153119/</a>  <br />
-一些结局办法可以参照：<a href="http://www.cnblogs.com/kuliuheng/p/3397796.html">http://www.cnblogs.com/kuliuheng/p/3397796.html</a></p>
-<p>还有一个简单的办法：  <br />
-1. 在VS中打开该代码文件。           <br />
-2. 选择VS菜单栏中<strong>File</strong>-&gt;<strong>Advanced Save Options</strong>    <br />
-<img alt="image" src="http://i11.tietuku.com/474690f91abe4d90.png" /> <br />
-3. 选择中文的编码：       <br />
-<img alt="image" src="http://i11.tietuku.com/957100223efafcb4.png" /> <br />
-4. 重新编译，OK</p>
-	<hr/>
-	<h6>Written by <a href="./author/张文.html">张文</a> in <a href="./category/c.html">C++</a> on 周二 20 十月 2015. Tags: <a href="./tag/c.html">C++</a>, </h6>
+	<h3><a href="./glscissorhan-shu.html">glScissor函数</a></h3>
+	<h6>Written by <a href="./author/张文.html">张文</a> in <a href="./category/opengl.html">OpenGL</a> on 周四 05 十一月 2015. Tags: <a href="./tag/opengl.html">OpenGL</a>, </h6>
+	<p>glScissor函数用来剪裁一个绘制区域，比如只要展示纹理的一部分 ...</p>
+		<p class="continue"><a href="./glscissorhan-shu.html">Continue reading &raquo;</a></p>
 </article>
+<hr />
 
-<hr/>
-<div class="row">
-	<div class="small-12 columns">
-		<h3>Comments</h3>
-		<div id="disqus_thread"></div>
-		<script type="text/javascript">
-			var disqus_shortname = 'vmetu';
-			(function() {
-				var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-				dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-			})();
-		</script>
-		<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-		<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-	</div>
-</div>
+
 						</div>
 						<!-- End Main Content -->
 						<!-- Sidebar -->
