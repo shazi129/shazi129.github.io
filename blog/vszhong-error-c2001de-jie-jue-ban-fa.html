@@ -1,0 +1,181 @@
+<!doctype html>
+<html class="no-js" lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<title>观心苑</title>
+		<meta name="description" content="">
+		<meta name="author" content="张文">
+
+		<link rel="stylesheet" href="http://www.vmetu.com/blog/theme/css/foundation.css" />
+		<link rel="stylesheet" href="http://www.vmetu.com/blog/theme/css/pygment/monokai.css" />
+		<link rel="stylesheet" href="http://www.vmetu.com/blog/theme/css/custom.css" />
+
+
+		<script src="http://www.vmetu.com/blog/theme/js/modernizr.js"></script>
+
+		<!-- Feeds -->
+
+
+		<!-- mathjax config similar to math.stackexchange -->
+		<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({
+			jax: ["input/TeX", "output/HTML-CSS"],
+			tex2jax: {
+				inlineMath: [ ['$', '$'] ],
+				displayMath: [ ['$$', '$$']],
+				processEscapes: true,
+				skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+			},
+			messageStyle: "none",
+			"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+		});
+		</script>
+		<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+	</head>
+	<body>
+		<div class="off-canvas-wrap">
+			<div class="inner-wrap">
+				<!-- mobile top bar to activate nav -->
+				<nav class="tab-bar show-for-small">
+					<section class="left-small">
+						<a class="left-off-canvas-toggle menu-icon" ><span></span></a>
+					</section>
+
+					<section class="middle tab-bar-section">
+						<h1 class="title">观心苑</h1>
+					</section>
+				</nav>
+
+				<!-- mobile side bar nav -->
+				<aside class="left-off-canvas-menu">
+					<ul class="off-canvas-list">
+						<li><a href="http://www.vmetu.com/blog">Home</a></li>
+						<li><label>Categories</label></li>
+							<li class="active"><a href="http://www.vmetu.com/blog/category/c.html">C++</a></li>
+							<li ><a href="http://www.vmetu.com/blog/category/opengl.html">OpenGL</a></li>
+							<li ><a href="http://www.vmetu.com/blog/category/pelican.html">Pelican</a></li>
+							<li ><a href="http://www.vmetu.com/blog/category/python.html">Python</a></li>
+							<li ><a href="http://www.vmetu.com/blog/category/unity.html">Unity</a></li>
+
+						<li><label>Links</label></li>
+
+
+
+						<li><label>Social</label></li>
+					</ul>	
+				</aside>
+
+				<!-- top bar nav -->
+				<nav class="top-bar hide-for-small-only" data-topbar>
+					<ul class="title-area">
+						<li class="name">
+							<h1><a href="http://www.vmetu.com/blog/">观心苑</a></h1>
+						</li>
+					</ul>
+
+					<section class="top-bar-section">
+						<!--Do not show categories in top menu
+						<ul class="left">
+								<li class="active"><a href="http://www.vmetu.com/blog/category/c.html">C++</a></li>
+								<li ><a href="http://www.vmetu.com/blog/category/opengl.html">OpenGL</a></li>
+								<li ><a href="http://www.vmetu.com/blog/category/pelican.html">Pelican</a></li>
+								<li ><a href="http://www.vmetu.com/blog/category/python.html">Python</a></li>
+								<li ><a href="http://www.vmetu.com/blog/category/unity.html">Unity</a></li>
+						</ul>
+						-->
+                        <ul class="right">                                                                                                                                           
+                                                                                                                                             
+                        </ul>  
+					</section>
+				</nav>
+
+				<!-- Main Page Content and Sidebar -->
+				<section class="main-section">
+					<div class="row">
+						<!-- Main Content -->
+						<div class="medium-9 small-12 columns" role="content">
+<article>
+	<h2>VS中Error C2001的解决办法</h2>
+	<p>今天遇到一个问题，在VS2010工程中，出现中文字符串时，出现了如下错误：</p>
+<div class="highlight"><pre><span class="nt">error</span> <span class="nt">C2001</span><span class="o">:</span> <span class="nt">newline</span> <span class="nt">in</span> <span class="nt">constant</span>
+<span class="nt">error</span> <span class="nt">C2143</span><span class="o">:</span> <span class="nt">syntax</span> <span class="nt">error</span> <span class="o">:</span> <span class="nt">missing</span> <span class="s1">&#39;)&#39;</span> <span class="nt">before</span> <span class="s1">&#39;}&#39;</span>
+<span class="nt">error</span> <span class="nt">C2143</span><span class="o">:</span> <span class="nt">syntax</span> <span class="nt">error</span> <span class="o">:</span> <span class="nt">missing</span> <span class="s1">&#39;;&#39;</span> <span class="nt">before</span> <span class="s1">&#39;}&#39;</span>
+</pre></div>
+
+
+<p>产生原因可以参照：<a href="http://blog.163.com/zhaowenjia1989@126/blog/static/1094985792010224153119/">http://blog.163.com/zhaowenjia1989@126/blog/static/1094985792010224153119/</a>  <br />
+一些结局办法可以参照：<a href="http://www.cnblogs.com/kuliuheng/p/3397796.html">http://www.cnblogs.com/kuliuheng/p/3397796.html</a></p>
+<p>还有一个简单的办法：  <br />
+1. 在VS中打开该代码文件。           <br />
+2. 选择VS菜单栏中<strong>File</strong>-&gt;<strong>Advanced Save Options</strong>    <br />
+<img alt="image" src="http://i11.tietuku.com/474690f91abe4d90.png" /> <br />
+3. 选择中文的编码：       <br />
+<img alt="image" src="http://i11.tietuku.com/957100223efafcb4.png" /> <br />
+4. 重新编译，OK</p>
+	<hr/>
+	<h6>Written by <a href="http://www.vmetu.com/blog/author/张文.html">张文</a> in <a href="http://www.vmetu.com/blog/category/c.html">C++</a> on 周二 20 十月 2015. Tags: <a href="http://www.vmetu.com/blog/tag/c.html">C++</a>, </h6>
+</article>
+
+<hr/>
+<div class="row">
+	<div class="small-12 columns">
+		<h3>Comments</h3>
+		<div id="disqus_thread"></div>
+		<script type="text/javascript">
+			var disqus_shortname = 'vmetu';
+			(function() {
+				var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+				dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+			})();
+		</script>
+		<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+		<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	</div>
+</div>
+						</div>
+						<!-- End Main Content -->
+						<!-- Sidebar -->
+
+						<aside class="medium-3 hide-for-small-only columns">
+
+							<div class="panel">
+								<h5>分类</h5>
+								<ul class="side-nav">
+									<li><a href="http://www.vmetu.com/blog/category/c.html">C++</a></li>
+									<li><a href="http://www.vmetu.com/blog/category/opengl.html">OpenGL</a></li>
+									<li><a href="http://www.vmetu.com/blog/category/pelican.html">Pelican</a></li>
+									<li><a href="http://www.vmetu.com/blog/category/python.html">Python</a></li>
+									<li><a href="http://www.vmetu.com/blog/category/unity.html">Unity</a></li>
+								</ul>
+							</div>
+
+
+
+
+						</aside>
+						<!-- End Sidebar -->
+					</div>
+
+					<!-- Footer -->
+					<footer class="row">
+						<div class="medium-9 small-12">
+							<hr/>
+							<p class="text-center">Powered by <a href="http://getpelican.com">Pelican</a> and <a href="http://foundation.zurb.com/">Zurb Foundation</a>. Theme by <a href="http://hamaluik.com">Kenton Hamaluik</a>.</p>
+						</div>
+					</footer>
+					<!-- End Footer -->
+				</section>
+				<a class="exit-off-canvas"></a>
+			</div><!--off-canvas inner-->
+		</div><!--off-canvas wrap-->
+
+		<script src="http://www.vmetu.com/blog/theme/js/jquery.js"></script>
+		<script src="http://www.vmetu.com/blog/theme/js/foundation.min.js"></script>
+		<script>
+			$(document).foundation();
+		</script>
+	</body>
+</html>

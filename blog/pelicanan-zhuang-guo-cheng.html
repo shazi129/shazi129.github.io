@@ -1,0 +1,202 @@
+<!doctype html>
+<html class="no-js" lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<title>观心苑</title>
+		<meta name="description" content="">
+		<meta name="author" content="张文">
+
+		<link rel="stylesheet" href="http://www.vmetu.com/blog/theme/css/foundation.css" />
+		<link rel="stylesheet" href="http://www.vmetu.com/blog/theme/css/pygment/monokai.css" />
+		<link rel="stylesheet" href="http://www.vmetu.com/blog/theme/css/custom.css" />
+
+
+		<script src="http://www.vmetu.com/blog/theme/js/modernizr.js"></script>
+
+		<!-- Feeds -->
+
+
+		<!-- mathjax config similar to math.stackexchange -->
+		<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({
+			jax: ["input/TeX", "output/HTML-CSS"],
+			tex2jax: {
+				inlineMath: [ ['$', '$'] ],
+				displayMath: [ ['$$', '$$']],
+				processEscapes: true,
+				skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+			},
+			messageStyle: "none",
+			"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+		});
+		</script>
+		<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+	</head>
+	<body>
+		<div class="off-canvas-wrap">
+			<div class="inner-wrap">
+				<!-- mobile top bar to activate nav -->
+				<nav class="tab-bar show-for-small">
+					<section class="left-small">
+						<a class="left-off-canvas-toggle menu-icon" ><span></span></a>
+					</section>
+
+					<section class="middle tab-bar-section">
+						<h1 class="title">观心苑</h1>
+					</section>
+				</nav>
+
+				<!-- mobile side bar nav -->
+				<aside class="left-off-canvas-menu">
+					<ul class="off-canvas-list">
+						<li><a href="http://www.vmetu.com/blog">Home</a></li>
+						<li><label>Categories</label></li>
+							<li ><a href="http://www.vmetu.com/blog/category/c.html">C++</a></li>
+							<li ><a href="http://www.vmetu.com/blog/category/opengl.html">OpenGL</a></li>
+							<li class="active"><a href="http://www.vmetu.com/blog/category/pelican.html">Pelican</a></li>
+							<li ><a href="http://www.vmetu.com/blog/category/python.html">Python</a></li>
+							<li ><a href="http://www.vmetu.com/blog/category/unity.html">Unity</a></li>
+
+						<li><label>Links</label></li>
+
+
+
+						<li><label>Social</label></li>
+					</ul>	
+				</aside>
+
+				<!-- top bar nav -->
+				<nav class="top-bar hide-for-small-only" data-topbar>
+					<ul class="title-area">
+						<li class="name">
+							<h1><a href="http://www.vmetu.com/blog/">观心苑</a></h1>
+						</li>
+					</ul>
+
+					<section class="top-bar-section">
+						<!--Do not show categories in top menu
+						<ul class="left">
+								<li ><a href="http://www.vmetu.com/blog/category/c.html">C++</a></li>
+								<li ><a href="http://www.vmetu.com/blog/category/opengl.html">OpenGL</a></li>
+								<li class="active"><a href="http://www.vmetu.com/blog/category/pelican.html">Pelican</a></li>
+								<li ><a href="http://www.vmetu.com/blog/category/python.html">Python</a></li>
+								<li ><a href="http://www.vmetu.com/blog/category/unity.html">Unity</a></li>
+						</ul>
+						-->
+                        <ul class="right">                                                                                                                                           
+                                                                                                                                             
+                        </ul>  
+					</section>
+				</nav>
+
+				<!-- Main Page Content and Sidebar -->
+				<section class="main-section">
+					<div class="row">
+						<!-- Main Content -->
+						<div class="medium-9 small-12 columns" role="content">
+<article>
+	<h2>Pelican安装过程</h2>
+	<p>今天安装了Pelican，下面来说下过程和遇到的问题</p>
+<ul>
+<li>
+<p>安装Python，因为在Mac下，省掉这一步</p>
+</li>
+<li>
+<p>安装pip(<a href="https://pypi.python.org/packages/source/p/pip/pip-7.1.2.tar.gz#md5=3823d2343d9f3aaab21cf9c917710196">下载地址</a>), 解压后运行： <code>python setup.py install</code> 安装</p>
+</li>
+<li>
+<p>安装pelican， 运行 <code>pip install pelican</code></p>
+</li>
+<li>
+<p>安装markdown， 运行 <code>pip install markdown</code></p>
+</li>
+<li>
+<p>启动pelican创建工程，pelican－quickstart, 此时有可能出现如下错误：</p>
+<div class="highlight"><pre><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>  
+<span class="n">File</span> <span class="s">&quot;/usr/local/bin/pelican-quickstart&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">7</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
+    <span class="kn">from</span> <span class="nn">pelican.tools.pelican_quickstart</span> <span class="kn">import</span> <span class="n">main</span>  
+<span class="n">File</span> <span class="s">&quot;/Library/Python/2.7/site-packages/pelican/__init__.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">20</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
+    <span class="kn">from</span> <span class="nn">pelican.generators</span> <span class="kn">import</span> <span class="p">(</span><span class="n">ArticlesGenerator</span><span class="p">,</span> <span class="n">PagesGenerator</span><span class="p">,</span>  
+<span class="n">File</span> <span class="s">&quot;/Library/Python/2.7/site-packages/pelican/generators.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">22</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
+    <span class="kn">from</span> <span class="nn">pelican.readers</span> <span class="kn">import</span> <span class="n">Readers</span>  
+<span class="n">File</span> <span class="s">&quot;/Library/Python/2.7/site-packages/pelican/readers.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">24</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
+    <span class="kn">from</span> <span class="nn">six.moves.html_parser</span> <span class="kn">import</span> <span class="n">HTMLParser</span>  
+<span class="ne">ImportError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="n">html_parser</span>
+</pre></div>
+
+
+<p>这时只需要更改一下源文件即可：<code>vim /Library/Python/2.7/site-packages/pelican/readers.py</code>。<br />
+将24行的：<br />
+<code>from six.moves.html_parser import HTMLParser</code><br />
+ 换成：<br />
+<code>from HTMLParser import HTMLParser</code><br />
+即可</p>
+</li>
+</ul>
+	<hr/>
+	<h6>Written by <a href="http://www.vmetu.com/blog/author/张文.html">张文</a> in <a href="http://www.vmetu.com/blog/category/pelican.html">Pelican</a> on 周三 16 九月 2015. Tags: <a href="http://www.vmetu.com/blog/tag/pelican.html">Pelican</a>, </h6>
+</article>
+
+<hr/>
+<div class="row">
+	<div class="small-12 columns">
+		<h3>Comments</h3>
+		<div id="disqus_thread"></div>
+		<script type="text/javascript">
+			var disqus_shortname = 'vmetu';
+			(function() {
+				var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+				dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+			})();
+		</script>
+		<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+		<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	</div>
+</div>
+						</div>
+						<!-- End Main Content -->
+						<!-- Sidebar -->
+
+						<aside class="medium-3 hide-for-small-only columns">
+
+							<div class="panel">
+								<h5>分类</h5>
+								<ul class="side-nav">
+									<li><a href="http://www.vmetu.com/blog/category/c.html">C++</a></li>
+									<li><a href="http://www.vmetu.com/blog/category/opengl.html">OpenGL</a></li>
+									<li><a href="http://www.vmetu.com/blog/category/pelican.html">Pelican</a></li>
+									<li><a href="http://www.vmetu.com/blog/category/python.html">Python</a></li>
+									<li><a href="http://www.vmetu.com/blog/category/unity.html">Unity</a></li>
+								</ul>
+							</div>
+
+
+
+
+						</aside>
+						<!-- End Sidebar -->
+					</div>
+
+					<!-- Footer -->
+					<footer class="row">
+						<div class="medium-9 small-12">
+							<hr/>
+							<p class="text-center">Powered by <a href="http://getpelican.com">Pelican</a> and <a href="http://foundation.zurb.com/">Zurb Foundation</a>. Theme by <a href="http://hamaluik.com">Kenton Hamaluik</a>.</p>
+						</div>
+					</footer>
+					<!-- End Footer -->
+				</section>
+				<a class="exit-off-canvas"></a>
+			</div><!--off-canvas inner-->
+		</div><!--off-canvas wrap-->
+
+		<script src="http://www.vmetu.com/blog/theme/js/jquery.js"></script>
+		<script src="http://www.vmetu.com/blog/theme/js/foundation.min.js"></script>
+		<script>
+			$(document).foundation();
+		</script>
+	</body>
+</html>
