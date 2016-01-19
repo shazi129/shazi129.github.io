@@ -1,8 +1,8 @@
-pelican_prj/pelican/cache
-pelican_prj/pelican/cache
-pelican_prj/pelican/pelican.pid
-pelican_prj/pelican/srv.pid
-pelican_prj/pelican/output
+pelican_blog/pelican/cache
+pelican_blog/pelican/cache
+pelican_blog/pelican/pelican.pid
+pelican_blog/pelican/srv.pid
+pelican_blog/pelican/output
 CNAME
 README.md
 *.pyc
