@@ -128,6 +128,12 @@
 <div class="highlight"><pre><span class="kn">import</span> <span class="nn">shutil</span>
 <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">dirPath</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span> <span class="c">#True表示即使为空也强制删除，如果不加True, 只能删除空文件夹</span>
 </pre></div>
+
+
+<h2>创建文件夹</h2>
+<div class="highlight"><pre>if not os.path.isdir(dir): 
+    os.makedirs(dir)  #makedirs和mkdir的区别是，如果父目录不存在，makedirs会创建父目录，而mkdir不会
+</pre></div>
 	<hr/>
 	<h6>Written by <a href="http://www.vmetu.com/blog/author/张文.html">张文</a> in <a href="http://www.vmetu.com/blog/category/python.html">Python</a> on 周二 10 十一月 2015. Tags: <a href="http://www.vmetu.com/blog/tag/python.html">Python</a>, </h6>
 </article>

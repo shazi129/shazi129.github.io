@@ -31,3 +31,7 @@ Tags: Python
 ##删除文件夹##
     import shutil
     shutil.rmtree(dirPath, True) #True表示即使为空也强制删除，如果不加True, 只能删除空文件夹
+
+##创建文件夹##
+    if not os.path.isdir(dir): 
+		os.makedirs(dir)  #makedirs和mkdir的区别是，如果父目录不存在，makedirs会创建父目录，而mkdir不会
