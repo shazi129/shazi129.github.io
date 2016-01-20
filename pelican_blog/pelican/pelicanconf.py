@@ -37,4 +37,6 @@ USE_FOLDER_AS_CATEGORY = True
 #MONTH_ARCHIVE_SAVE_AS = 'time_category/{date:%Y}/{date:%b}/index.html'
 
 DISQUS_SITENAME = 'vmetu'
-SUMMARY_MAX_LENGTH = 2
+SUMMARY_MAX_LENGTH = 1
+
+FOUNDATION_FOOTER_TEXT = "Copyright &copy; 2015 - 2016 Vmetu. All Rights Reserved"
