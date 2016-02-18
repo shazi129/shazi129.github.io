@@ -58,7 +58,7 @@
 							<li ><a href="http://www.vmetu.com/blog/category/opengl.html">OpenGL</a></li>
 							<li ><a href="http://www.vmetu.com/blog/category/pelican.html">Pelican</a></li>
 							<li ><a href="http://www.vmetu.com/blog/category/python.html">Python</a></li>
-							<li class="active"><a href="http://www.vmetu.com/blog/category/unity.html">Unity</a></li>
+							<li ><a href="http://www.vmetu.com/blog/category/unity.html">Unity</a></li>
 
 						<li><label>Links</label></li>
 
@@ -84,7 +84,7 @@
 								<li ><a href="http://www.vmetu.com/blog/category/opengl.html">OpenGL</a></li>
 								<li ><a href="http://www.vmetu.com/blog/category/pelican.html">Pelican</a></li>
 								<li ><a href="http://www.vmetu.com/blog/category/python.html">Python</a></li>
-								<li class="active"><a href="http://www.vmetu.com/blog/category/unity.html">Unity</a></li>
+								<li ><a href="http://www.vmetu.com/blog/category/unity.html">Unity</a></li>
 						</ul>
 						-->
                         <ul class="right">                                                                                                                                           
@@ -98,89 +98,21 @@
 					<div class="row">
 						<!-- Main Content -->
 						<div class="medium-9 small-12 columns" role="content">
+							<div class="row">
+								<div class="small-12 columns">
+									<h2>Posts Tagged With '计算机图像'</h2>
+								</div>
+							</div>
+
 <article>
-	<h2>Unity2D帧动画实现的两种方式</h2>
-	<p>在游戏制作过程中，经常用到帧动画，这里介绍两种实现帧动画的方式</p>
-<h2>源材料准备</h2>
-<p>序列帧所用到的图片：</p>
-<p><img alt="image" src="http://i11.tietuku.com/c42269cb3abd49bf.png" /></p>
-<p>生成这些序列帧所用到的资源可以参考： <a href="http://www.raywenderlich.com/61532/unity-2d-tutorial-getting-started">http://www.raywenderlich.com/61532/unity-2d-tutorial-getting-started</a></p>
-<h2>1. 脚本方式实现</h2>
-<p>脚本实现的方式在上面的链接中有介绍，这里把列出源码：</p>
-<div class="highlight"><pre>using UnityEngine;
-using System.Collections;
-
-public class Zombie : MonoBehaviour {
-
-    public Sprite[] m_sprits;
-    public int m_frameRate;
-
-    ／／帧率
-    float m_frameTime;
-    SpriteRenderer m_spriteRenderer;
-
-    // Use this for initialization
-    void Start () {
-
-        m_frameTime = 1.0f / (float)m_frameRate;
-        m_spriteRenderer = GetComponent&lt;SpriteRenderer&gt; ();
-    }
-
-    // Update is called once per frame
-    void Update () {
-
-        m_frameTime -= Time.deltaTime;
-        if (m_frameTime &lt; 0.0f) {
-
-            int index = 0;
-            for (; index &lt; m_sprits.Length; index ++ ) {
-
-                if (m_sprits[index] == m_spriteRenderer.sprite) {
-                    break;
-                }
-            }
-            index = (index + 1) % m_sprits.Length;
-            m_spriteRenderer.sprite = m_sprits[index];
-
-            m_frameTime = 1.0f / (float)m_frameRate;
-        }
-    }
-}
-</pre></div>
-
-
-<h2>2.编辑器实现</h2>
-<p>帧动画也可以由Unity的动画编辑器来实现，实现方式如下。</p>
-<h3>打开动画编辑器</h3>
-<p>先在场景中以序列帧的第一帧创建一个精灵，选中它，然后通过快捷键Ctrl + 6 或者菜单中的 Window -&gt; Animation打开动画编辑器。在弹出窗口的左上角点击<strong>Add Property</strong>, 会弹出一个让你保存动画的界面，如图：</p>
-<p><img alt="image" src="http://i11.tietuku.com/f2685707fa981717.png" />  <br />
-输入一个名字将其保存起来。</p>
-<p>根据上面程序实现的方法，我们知道绘制精灵是通过SpriteRender来实现的, 所以在动画编辑器中可以增加一个SpriteRender属性：</p>
-<p><img alt="image" src="http://i11.tietuku.com/5d483c4cddef2115.png" /></p>
-<p>之后就可以将序列帧拖入动画编辑器中：</p>
-<p><img alt="image" src="http://i11.tietuku.com/3797c8d911c3aa84.png" /></p>
-<p>加好之后，点击左上角的三角符号，就可以发现Unity编辑器中的僵尸动起来了。</p>
-	<hr/>
-	<h6>Written by <a href="http://www.vmetu.com/blog/author/张文.html">张文</a> in <a href="http://www.vmetu.com/blog/category/unity.html">Unity</a> on 周日 20 九月 2015. Tags: <a href="http://www.vmetu.com/blog/tag/unity.html">Unity</a>, </h6>
+	<h3><a href="http://www.vmetu.com/blog/tu-xing-shu-xue-zhong-ju-zhen-xue-xi-bi-ji.html">图形数学中矩阵学习笔记</a></h3>
+	<h6>Written by <a href="http://www.vmetu.com/blog/author/张文.html">张文</a> in <a href="http://www.vmetu.com/blog/category/ji-suan-ji-tu-xiang.html">计算机图像</a> on 周二 02 二月 2016. Tags: <a href="http://www.vmetu.com/blog/tag/ji-suan-ji-tu-xiang.html">计算机图像</a>, </h6>
+	<!DOCTYPE html><html><head><title>矩阵与坐标变换 ...</title></head></html></!doctype>
+		<p class="continue"><a href="http://www.vmetu.com/blog/tu-xing-shu-xue-zhong-ju-zhen-xue-xi-bi-ji.html">Continue reading &raquo;</a></p>
 </article>
+<hr />
 
-<hr/>
-<div class="row">
-	<div class="small-12 columns">
-		<h3>Comments</h3>
-		<div id="disqus_thread"></div>
-		<script type="text/javascript">
-			var disqus_shortname = 'vmetu';
-			(function() {
-				var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-				dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-			})();
-		</script>
-		<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-		<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-	</div>
-</div>
+
 						</div>
 						<!-- End Main Content -->
 						<!-- Sidebar -->
