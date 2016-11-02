@@ -1,160 +1,90 @@
-<!doctype html>
-<html class="no-js" lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="张文" />
+        <meta name="copyright" content="张文" />
 
-		<title>观心苑</title>
-		<meta name="description" content="">
-		<meta name="author" content="张文">
+        <title>观心苑
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://www.vmetu.com/blog/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://www.vmetu.com/blog/"><span class=site-name>观心苑</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://www.vmetu.com/blog">Home</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/categories.html">Categories</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/tags.html">Tags</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/archives.html">Archives</a></li>
+                            <li><form class="navbar-search" action="http://www.vmetu.com/blog/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<div class="row-fluid">
 
-		<link rel="stylesheet" href="http://www.vmetu.com/blog/theme/css/foundation.css" />
-		<link rel="stylesheet" href="http://www.vmetu.com/blog/theme/css/pygment/monokai.css" />
-		<link rel="stylesheet" href="http://www.vmetu.com/blog/theme/css/custom.css" />
+    <div class="row-fluid">
 
+    </div>
 
-		<script src="http://www.vmetu.com/blog/theme/js/modernizr.js"></script>
-
-		<!-- Feeds -->
-
-
-		<!-- mathjax config similar to math.stackexchange -->
-		<script type="text/x-mathjax-config">
-		MathJax.Hub.Config({
-			jax: ["input/TeX", "output/HTML-CSS"],
-			tex2jax: {
-				inlineMath: [ ['$', '$'] ],
-				displayMath: [ ['$$', '$$']],
-				processEscapes: true,
-				skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-			},
-			messageStyle: "none",
-			"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
-		});
-		</script>
-		<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-	</head>
-	<body>
-		<div class="off-canvas-wrap">
-			<div class="inner-wrap">
-				<!-- mobile top bar to activate nav -->
-				<nav class="tab-bar show-for-small">
-					<section class="left-small">
-						<a class="left-off-canvas-toggle menu-icon" ><span></span></a>
-					</section>
-
-					<section class="middle tab-bar-section">
-						<h1 class="title">观心苑</h1>
-					</section>
-				</nav>
-
-				<!-- mobile side bar nav -->
-				<aside class="left-off-canvas-menu">
-					<ul class="off-canvas-list">
-						<li><a href="http://www.vmetu.com/blog">Home</a></li>
-						<li><label>Categories</label></li>
-							<li ><a href="http://www.vmetu.com/blog/category/c.html">C++</a></li>
-							<li ><a href="http://www.vmetu.com/blog/category/ji-suan-ji-tu-xiang.html">计算机图像</a></li>
-							<li class="active"><a href="http://www.vmetu.com/blog/category/opengl.html">OpenGL</a></li>
-							<li ><a href="http://www.vmetu.com/blog/category/pelican.html">Pelican</a></li>
-							<li ><a href="http://www.vmetu.com/blog/category/python.html">Python</a></li>
-							<li ><a href="http://www.vmetu.com/blog/category/unity.html">Unity</a></li>
-
-						<li><label>Links</label></li>
-
-
-
-						<li><label>Social</label></li>
-					</ul>	
-				</aside>
-
-				<!-- top bar nav -->
-				<nav class="top-bar hide-for-small-only" data-topbar>
-					<ul class="title-area">
-						<li class="name">
-							<h1><a href="http://www.vmetu.com/blog/">观心苑</a></h1>
-						</li>
-					</ul>
-
-					<section class="top-bar-section">
-						<!--Do not show categories in top menu
-						<ul class="left">
-								<li ><a href="http://www.vmetu.com/blog/category/c.html">C++</a></li>
-								<li ><a href="http://www.vmetu.com/blog/category/ji-suan-ji-tu-xiang.html">计算机图像</a></li>
-								<li class="active"><a href="http://www.vmetu.com/blog/category/opengl.html">OpenGL</a></li>
-								<li ><a href="http://www.vmetu.com/blog/category/pelican.html">Pelican</a></li>
-								<li ><a href="http://www.vmetu.com/blog/category/python.html">Python</a></li>
-								<li ><a href="http://www.vmetu.com/blog/category/unity.html">Unity</a></li>
-						</ul>
-						-->
-                        <ul class="right">                                                                                                                                           
-                                                                                                                                             
-                        </ul>  
-					</section>
-				</nav>
-
-				<!-- Main Page Content and Sidebar -->
-				<section class="main-section">
-					<div class="row">
-						<!-- Main Content -->
-						<div class="medium-9 small-12 columns" role="content">
-							<div class="row">
-								<div class="small-12 columns">
-									<h2>Category: OpenGL</h2>
-								</div>
-							</div>
-
-<article>
-	<h3><a href="http://www.vmetu.com/blog/glscissorhan-shu.html">glScissor函数</a></h3>
-	<h6>Written by <a href="http://www.vmetu.com/blog/author/张文.html">张文</a> in <a href="http://www.vmetu.com/blog/category/opengl.html">OpenGL</a> on 周四 05 十一月 2015. Tags: <a href="http://www.vmetu.com/blog/tag/opengl.html">OpenGL</a>, </h6>
-	<p>glScissor函数用来剪裁一个绘制区域 ...</p>
-		<p class="continue"><a href="http://www.vmetu.com/blog/glscissorhan-shu.html">Continue reading &raquo;</a></p>
-</article>
-<hr />
-
-
-						</div>
-						<!-- End Main Content -->
-						<!-- Sidebar -->
-
-						<aside class="medium-3 hide-for-small-only columns">
-
-							<div class="panel">
-								<h5>分类</h5>
-								<ul class="side-nav">
-									<li><a href="http://www.vmetu.com/blog/category/c.html">C++</a></li>
-									<li><a href="http://www.vmetu.com/blog/category/ji-suan-ji-tu-xiang.html">计算机图像</a></li>
-									<li><a href="http://www.vmetu.com/blog/category/opengl.html">OpenGL</a></li>
-									<li><a href="http://www.vmetu.com/blog/category/pelican.html">Pelican</a></li>
-									<li><a href="http://www.vmetu.com/blog/category/python.html">Python</a></li>
-									<li><a href="http://www.vmetu.com/blog/category/unity.html">Unity</a></li>
-								</ul>
-							</div>
-
-
-
-
-						</aside>
-						<!-- End Sidebar -->
-					</div>
-
-					<!-- Footer -->
-					<footer class="row">
-						<div class="medium-9 small-12">
-							<hr/>
-							<p class="text-center">Copyright &copy; 2015 - 2016 Vmetu. All Rights Reserved</p>
-						</div>
-					</footer>
-					<!-- End Footer -->
-				</section>
-				<a class="exit-off-canvas"></a>
-			</div><!--off-canvas inner-->
-		</div><!--off-canvas wrap-->
-
-		<script src="http://www.vmetu.com/blog/theme/js/jquery.js"></script>
-		<script src="http://www.vmetu.com/blog/theme/js/foundation.js"></script>
-		<script>
-			$(document).foundation();
-		</script>
-	</body>
+    <div class="row-fluid">
+        <div class="span12">
+            <header>
+            <h1 id="recent-posts">Recent Posts <a id="allposts" href="http://www.vmetu.com/blog/archives.html">all posts</a></h1>
+            </header>
+            <ul class="list-all-articles">
+                <li>
+                <a href="http://www.vmetu.com/blog/glscissorhan-shu.html">glScissor函数  </a> 
+                <time pubdate="pubdate" datetime="2015-11-05T00:00:00+08:00">周四 05 十一月 2015</time>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>        <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+    </body>
 </html>

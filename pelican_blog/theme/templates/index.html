@@ -1,47 +1,65 @@
 {% extends "base.html" %}
+
+{% block title %}
+{{ super() }}
+{% endblock title %}
+
 {% block content %}
+<div class="row-fluid">
+    {% if LANDING_PAGE_ABOUT and LANDING_PAGE_ABOUT.title %}
+    <header class="page_header span12">
+    <h1><a href="{{ SITEURL }}">{{ LANDING_PAGE_ABOUT.title }}</a></h1>
+    </header>
+    {% endif %}
 
-{# show summaries of the latest articles #}
-{% if articles %}
-{% for article in (articles_page.object_list if articles_page else articles) %}
-<article>
-	<h3><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h3>
-	<h6>Written by <a href="{{ SITEURL }}/author/{{ article.author|lower|replace(' ', '-') }}.html">{{ article.author }}</a> {% if article.category %}in <a href="{{ SITEURL }}/{{ article.category.url }}">{{ article.category}}</a> {% endif %}on {{ article.locale_date }}.{% if article.tags|count > 0 %} Tags: {% for tag in article.tags %}<a href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a>, {% endfor %}{% endif %}</h6>
-	{{ article.content if FOUNDATION_FRONT_PAGE_FULL_ARTICLES else article.summary }}
-	{% if not FOUNDATION_FRONT_PAGE_FULL_ARTICLES %}
-		{# add a 'Continue reading' link if we're displaying summaries #}
-		<p class="continue"><a href="{{ SITEURL }}/{{ article.url }}">Continue reading &raquo;</a></p>
-	{% endif %}
-</article>
-<hr />
-{% endfor %}
-{%endif%}
+    <div class="row-fluid">
+        {% if LANDING_PAGE_ABOUT and LANDING_PAGE_ABOUT.details %}
+        <div class="span8">
+            <header>
+            <h1 id="about-me">About me</h1>
+            </header>
+            <div class="article-content">
+                {{ LANDING_PAGE_ABOUT.details }}
+            </div>
+        </div>
+        {% endif %}
 
-{# deal with pagination #}
-{% if articles_page and articles_paginator.num_pages > 1 %}
-<div class="row" style="margin-bottom: -1.25em;">
-	<div class="small-12 columns text-center">
-		<div class="pagination-centered">
-			<ul class="pagination">
-			{% if articles_page.has_previous() %}
-				{% set num = articles_page.previous_page_number() %}
-				<li class="arrow"><a href="{{ SITEURL }}/{{ page_name }}{{ num if num > 1 else '' }}.html">&larr; Previous</a></li>
-			{% else %}
-				<li class="arrow unavailable"><a href="#">&larr; Previous</a></li>
-			{% endif %}
-			{% for num in range( 1, 1 + articles_paginator.num_pages ) %}
-				<li class="{{ 'current' if num == articles_page.number else '' }}"><a href="{{ SITEURL }}/{{ page_name }}{{ num if num > 1 else '' }}.html">{{ num }}</a></li>
-			{% endfor %}
-			{% if articles_page.has_next() %}
-				<li class="arrow"><a href="{{ SITEURL }}/{{ page_name }}{{ articles_page.next_page_number() }}.html">Next &rarr;</a></li>
-			{% else %}
-				<li class="arrow unavailable"><a href="#">&rarr; Next</a></li>
-			{% endif %}
-			</ul>
-		</div>
-	</div>
+        {% if PROJECTS %}
+        <div class="span4">
+            <header>
+            <h1 id="my-projects">My Projects</h1>
+            {% for project in PROJECTS %}
+            <ul class="list-all-articles">
+                <li>
+                <a href="{{ project.url }}" title="{{ project.name }}">{{ project.name }}</a> <span class="proj_desc">{{ project.description }}</span>
+                </li>
+            </ul>
+            {%endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    {% if articles %}
+    <div class="row-fluid">
+        <div class="span12">
+            <header>
+            <h1 id="recent-posts">Recent Posts <a id="allposts" href="{{ SITEURL }}/archives.html">all posts</a></h1>
+            </header>
+            {% for article in articles %}
+            {% if not RECENT_ARTICLES_COUNT %}
+            {% set RECENT_ARTICLES_COUNT = 10 %}
+            {% endif %}
+            {% if loop.index0 < RECENT_ARTICLES_COUNT %}
+            <ul class="list-all-articles">
+                <li>
+                <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }} {%if article.subtitle %} <small> {{ article.subtitle }} </small> {% endif %} </a> 
+                <time pubdate="pubdate" datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time>
+                </li>
+            </ul>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
 </div>
-{% endif %}
-
-{% endblock %}
-
+{% endblock content %}

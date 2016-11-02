@@ -1,106 +1,64 @@
-<!doctype html>
-<html class="no-js" lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="张文" />
+        <meta name="copyright" content="张文" />
 
-		<title>观心苑</title>
-		<meta name="description" content="">
-		<meta name="author" content="张文">
-
-		<link rel="stylesheet" href="http://www.vmetu.com/blog/theme/css/foundation.css" />
-		<link rel="stylesheet" href="http://www.vmetu.com/blog/theme/css/pygment/monokai.css" />
-		<link rel="stylesheet" href="http://www.vmetu.com/blog/theme/css/custom.css" />
-
-
-		<script src="http://www.vmetu.com/blog/theme/js/modernizr.js"></script>
-
-		<!-- Feeds -->
-
-
-		<!-- mathjax config similar to math.stackexchange -->
-		<script type="text/x-mathjax-config">
-		MathJax.Hub.Config({
-			jax: ["input/TeX", "output/HTML-CSS"],
-			tex2jax: {
-				inlineMath: [ ['$', '$'] ],
-				displayMath: [ ['$$', '$$']],
-				processEscapes: true,
-				skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-			},
-			messageStyle: "none",
-			"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
-		});
-		</script>
-		<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-	</head>
-	<body>
-		<div class="off-canvas-wrap">
-			<div class="inner-wrap">
-				<!-- mobile top bar to activate nav -->
-				<nav class="tab-bar show-for-small">
-					<section class="left-small">
-						<a class="left-off-canvas-toggle menu-icon" ><span></span></a>
-					</section>
-
-					<section class="middle tab-bar-section">
-						<h1 class="title">观心苑</h1>
-					</section>
-				</nav>
-
-				<!-- mobile side bar nav -->
-				<aside class="left-off-canvas-menu">
-					<ul class="off-canvas-list">
-						<li><a href="http://www.vmetu.com/blog">Home</a></li>
-						<li><label>Categories</label></li>
-							<li ><a href="http://www.vmetu.com/blog/category/c.html">C++</a></li>
-							<li ><a href="http://www.vmetu.com/blog/category/ji-suan-ji-tu-xiang.html">计算机图像</a></li>
-							<li ><a href="http://www.vmetu.com/blog/category/opengl.html">OpenGL</a></li>
-							<li ><a href="http://www.vmetu.com/blog/category/pelican.html">Pelican</a></li>
-							<li ><a href="http://www.vmetu.com/blog/category/python.html">Python</a></li>
-							<li class="active"><a href="http://www.vmetu.com/blog/category/unity.html">Unity</a></li>
-
-						<li><label>Links</label></li>
-
-
-
-						<li><label>Social</label></li>
-					</ul>	
-				</aside>
-
-				<!-- top bar nav -->
-				<nav class="top-bar hide-for-small-only" data-topbar>
-					<ul class="title-area">
-						<li class="name">
-							<h1><a href="http://www.vmetu.com/blog/">观心苑</a></h1>
-						</li>
-					</ul>
-
-					<section class="top-bar-section">
-						<!--Do not show categories in top menu
-						<ul class="left">
-								<li ><a href="http://www.vmetu.com/blog/category/c.html">C++</a></li>
-								<li ><a href="http://www.vmetu.com/blog/category/ji-suan-ji-tu-xiang.html">计算机图像</a></li>
-								<li ><a href="http://www.vmetu.com/blog/category/opengl.html">OpenGL</a></li>
-								<li ><a href="http://www.vmetu.com/blog/category/pelican.html">Pelican</a></li>
-								<li ><a href="http://www.vmetu.com/blog/category/python.html">Python</a></li>
-								<li class="active"><a href="http://www.vmetu.com/blog/category/unity.html">Unity</a></li>
-						</ul>
-						-->
-                        <ul class="right">                                                                                                                                           
-                                                                                                                                             
-                        </ul>  
-					</section>
-				</nav>
-
-				<!-- Main Page Content and Sidebar -->
-				<section class="main-section">
-					<div class="row">
-						<!-- Main Content -->
-						<div class="medium-9 small-12 columns" role="content">
+<meta name="keywords" content="Unity, Unity, " />
+        <title>Mathf相关函数  · 观心苑
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://www.vmetu.com/blog/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://www.vmetu.com/blog/"><span class=site-name>观心苑</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://www.vmetu.com/blog">Home</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/categories.html">Categories</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/tags.html">Tags</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/archives.html">Archives</a></li>
+                            <li><form class="navbar-search" action="http://www.vmetu.com/blog/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
 <article>
-	<h2>Mathf相关函数</h2>
-	<p>这里对Mathf相关函数做一个简要说明，抄的。</p>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://www.vmetu.com/blog/mathfxiang-guan-han-shu.html"> Mathf相关函数  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p>这里对Mathf相关函数做一个简要说明，抄的。</p>
 <h2>Mathf.Abs绝对值##</h2>
 <p>计算并返回指定参数 f 绝对值。 </p>
 <h2>Mathf.Acos反余弦</h2>
@@ -109,7 +67,7 @@
 <h2>Mathf.Approximately近似</h2>
 <p><code>static function Approximately (a : float, b: float) : bool</code>  <br />
 比较两个浮点数值，看它们是否非常接近, 由于浮点数值不精确，不建议使用等于来比较它们。例如，1.0==10.0/10.0也许不会返回true。 </p>
-<div class="highlight"><pre>public class example : MonoBehaviour { 
+<div class="highlight"><pre><span></span>public class example : MonoBehaviour { 
     publicvoid Awake() { 
         if(Mathf.Approximately(1.0F, 10.0F / 10.0F)) 
             print(&quot;same&quot;); 
@@ -125,7 +83,7 @@
 <p><code>static function Atan2 (y : float, x :float) : float</code>  <br />
 以弧度为单位计算并返回 y/x 的反正切值。返回值表示相对直角三角形对角的角，其中 x 是临边边长，而 y 是对边边长。    <br />
 返回值是在x轴和一个二维向量开始于0个结束在(x,y)处之间的角。 </p>
-<div class="highlight"><pre>public class example : MonoBehaviour { 
+<div class="highlight"><pre><span></span>public class example : MonoBehaviour { 
     publicTransform target; 
     voidUpdate() { 
         Vector3relative = transform.InverseTransformPoint(target.position); 
@@ -170,7 +128,7 @@
 <h2>Mathf.DeltaAngle增量角</h2>
 <p><code>static function DeltaAngle (current :float, target : float) : float</code>  <br />
 计算给定的两个角之间最短的差异。 </p>
-<div class="highlight"><pre>// Prints 90 
+<div class="highlight"><pre><span></span>// Prints 90 
 Debug.Log(Mathf.DeltaAngle(1080,90));
 </pre></div>
 
@@ -207,7 +165,7 @@ public class example : MonoBehaviour {
 表示正无穷，也就是无穷大，∞ （只读） </p>
 <h2>Mathf.InverseLerp反插值</h2>
 <p>计算两个值之间的Lerp参数。也就是value在from和to之间的比例值。     </p>
-<div class="highlight"><pre>//现在参数是3/5 
+<div class="highlight"><pre><span></span>//现在参数是3/5 
 float parameter =Mathf.InverseLerp(walkSpeed, runSpeed, speed);
 </pre></div>
 
@@ -215,7 +173,7 @@ float parameter =Mathf.InverseLerp(walkSpeed, runSpeed, speed);
 <h2>Mathf.IsPowerOfTwo是否2的幂</h2>
 <p><code>static function IsPowerOfTwo (value : int): bool</code>  <br />
 如果该值是2的幂，返回true。 </p>
-<div class="highlight"><pre>// prints false 
+<div class="highlight"><pre><span></span>// prints false 
 Debug.Log(Mathf.IsPowerOfTwo(7)); 
 // prints true 
 Debug.Log(Mathf.IsPowerOfTwo(32));
@@ -226,7 +184,7 @@ Debug.Log(Mathf.IsPowerOfTwo(32));
 <p><code>static function LerpAngle (a : float, b :float, t : float) : float</code>   <br />
 和Lerp的原理一样，当他们环绕360度确保插值正确。   <br />
 a和b是代表度数。 </p>
-<div class="highlight"><pre>public class example : MonoBehaviour { 
+<div class="highlight"><pre><span></span>public class example : MonoBehaviour { 
     publicfloat minAngle = 0.0F; 
     publicfloat maxAngle = 90.0F; 
     voidUpdate() { 
@@ -247,7 +205,7 @@ a和b是代表度数。 </p>
 <h2>Mathf.Log对数</h2>
 <p><code>static function Log (f : float, p : float): float</code>   <br />
 返回参数 f 的对数。 </p>
-<div class="highlight"><pre>// logarithm of 6 in base 2 
+<div class="highlight"><pre><span></span>// logarithm of 6 in base 2 
 //以2为底6的对数 
 // prints 2.584963 
 print(Mathf.Log(6, 2));
@@ -289,7 +247,7 @@ PI（读pai）的值，也就是圆周率（π）的值3.14159265358979323846...
 <p><code>static function Repeat (t : float, length :float) : float</code>   <br />
 循环数值t，0到length之间。t值永远不会大于length的值，也永远不会小于0。    <br />
 这是类似于模运算符，但可以使用浮点数。</p>
-<div class="highlight"><pre>public class example : MonoBehaviour { 
+<div class="highlight"><pre><span></span>public class example : MonoBehaviour { 
     voidUpdate() { 
         transform.position= new Vector3(Mathf.Repeat(Time.time, 3),             transform.position.y,transform.position.z); 
     } 
@@ -323,7 +281,7 @@ PI（读pai）的值，也就是圆周率（π）的值3.14159265358979323846...
 <strong>deltaTime</strong>: 上次调用该函数到现在的时间。缺省为Time.deltaTime。    <br />
 随着时间的推移逐渐改变一个给定的角度到期望的角度。 
 这个值通过一些弹簧减震器类似的功能被平滑。这个函数可以用来平滑任何一种值，位置，颜色，标量。最常见的是平滑一个跟随摄像机。 </p>
-<div class="highlight"><pre>//一个简单的平滑跟随摄像机 
+<div class="highlight"><pre><span></span>//一个简单的平滑跟随摄像机 
 //跟随目标的朝向 
 public class example : MonoBehaviour { 
     publicTransform target; 
@@ -358,7 +316,7 @@ public class example : MonoBehaviour {
 描述 
 随着时间的推移逐渐改变一个值到期望值。 
 这个值就像被一个不会崩溃的弹簧减振器一样被平滑。这个函数可以用来平滑任何类型的值，位置，颜色，标量。</p>
-<div class="highlight"><pre>public class example : MonoBehaviour { 
+<div class="highlight"><pre><span></span>public class example : MonoBehaviour { 
         publicTransform target; 
         publicfloat smoothTime = 0.3F; 
         privatefloat yVelocity = 0.0F; 
@@ -373,7 +331,7 @@ public class example : MonoBehaviour {
 <h2>Mathf.SmoothStep平滑插值</h2>
 <p><code>static function SmoothStep (from : float,to : float, t : float) : float</code>   <br />
 和lerp类似，在最小和最大值之间的插值，并在限制处渐入渐出。 </p>
-<div class="highlight"><pre>public class example : MonoBehaviour { 
+<div class="highlight"><pre><span></span>public class example : MonoBehaviour { 
         publicfloat minimum = 10.0F; 
         publicfloat maximum = 20.0F; 
         voidUpdate() { 
@@ -389,69 +347,112 @@ public class example : MonoBehaviour {
 <h2>Mathf.Tan正切</h2>
 <p><code>static function Tan (f : float) : float</code>   <br />
 计算并返回以弧度为单位 f 指定角度的正切值。</p>
-	<hr/>
-	<h6>Written by <a href="http://www.vmetu.com/blog/author/张文.html">张文</a> in <a href="http://www.vmetu.com/blog/category/unity.html">Unity</a> on 周一 05 十月 2015. Tags: <a href="http://www.vmetu.com/blog/tag/unity.html">Unity</a>, </h6>
-</article>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2"
+                href="http://www.vmetu.com/blog/mathfxiang-guan-han-shu.html#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'vmetu';
+        var disqus_identifier = 'http://www.vmetu.com/blog/mathfxiang-guan-han-shu.html';
+    var disqus_url = 'http://www.vmetu.com/blog/mathfxiang-guan-han-shu.html';
 
-<hr/>
-<div class="row">
-	<div class="small-12 columns">
-		<h3>Comments</h3>
-		<div id="disqus_thread"></div>
-		<script type="text/javascript">
-			var disqus_shortname = 'vmetu';
-			(function() {
-				var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-				dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-			})();
-		</script>
-		<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-		<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-	</div>
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
 </div>
-						</div>
-						<!-- End Main Content -->
-						<!-- Sidebar -->
+</section>
+            <aside>
+            <hr/>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://www.vmetu.com/blog/unity2dzheng-dong-hua-shi-xian-de-liang-chong-fang-shi.html" title="Previous: Unity2D帧动画实现的两种方式">Unity2D帧动画实现的两种方式</a></li>
+ 
+                <li class="next_article"><a href="http://www.vmetu.com/blog/vszhong-error-c2001de-jie-jue-ban-fa.html" title="Next: VS中Error C2001的解决办法">VS中Error C2001的解决办法</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2015-10-05T00:00:00+08:00">十月 5, 2015</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#Unity-ref">Unity</a> 
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article"> 
+                <li><a href="/tags.html#Unity-ref">Unity
+                    <span>2</span>
+</a></li>
+            </ul>
 
-						<aside class="medium-3 hide-for-small-only columns">
+        </div>
+        </section>
+</div>
+</article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
 
-							<div class="panel">
-								<h5>分类</h5>
-								<ul class="side-nav">
-									<li><a href="http://www.vmetu.com/blog/category/c.html">C++</a></li>
-									<li><a href="http://www.vmetu.com/blog/category/ji-suan-ji-tu-xiang.html">计算机图像</a></li>
-									<li><a href="http://www.vmetu.com/blog/category/opengl.html">OpenGL</a></li>
-									<li><a href="http://www.vmetu.com/blog/category/pelican.html">Pelican</a></li>
-									<li><a href="http://www.vmetu.com/blog/category/python.html">Python</a></li>
-									<li><a href="http://www.vmetu.com/blog/category/unity.html">Unity</a></li>
-								</ul>
-							</div>
+<script type="text/javascript">
+    var disqus_shortname = 'vmetu';
 
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+        <script  language="javascript" type="text/javascript">
+            function uncollapse() {
+                var hash_str = window.location.hash;
+                if (window.location.hash.match(/^#comment-\d+$/))
+                {
+                    var hash_str = '#disqus_thread';
+                }
+                $(hash_str).collapse({
+                    toggle: true
+                    })
+            }
+        </script>
 
-
-
-						</aside>
-						<!-- End Sidebar -->
-					</div>
-
-					<!-- Footer -->
-					<footer class="row">
-						<div class="medium-9 small-12">
-							<hr/>
-							<p class="text-center">Copyright &copy; 2015 - 2016 Vmetu. All Rights Reserved</p>
-						</div>
-					</footer>
-					<!-- End Footer -->
-				</section>
-				<a class="exit-off-canvas"></a>
-			</div><!--off-canvas inner-->
-		</div><!--off-canvas wrap-->
-
-		<script src="http://www.vmetu.com/blog/theme/js/jquery.js"></script>
-		<script src="http://www.vmetu.com/blog/theme/js/foundation.js"></script>
-		<script>
-			$(document).foundation();
-		</script>
-	</body>
+        <script type="text/javascript" language="JavaScript">
+            uncollapse(); 
+        </script>
+    </body>
 </html>
