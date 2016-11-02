@@ -13,6 +13,13 @@ TIMEZONE = 'Asia/Shanghai'
 
 DEFAULT_LANG = u'zh'
 
+
+PLUGIN_PATHS = ['../plugins/']
+PLUGINS = ['sitemap', 'extract_toc', 'tipue_search', 'liquid_tags',
+           'neighbors', 'render_math', 'related_posts', 'assets', 'share_post',
+           'multi_part']
+
+
 LANDING_PAGE_ABOUT = {
 	"title": "I have a dream",
 	"details": u"一个游戏开发者",
