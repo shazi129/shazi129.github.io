@@ -13,7 +13,9 @@ TIMEZONE = 'Asia/Shanghai'
 
 DEFAULT_LANG = u'zh'
 
-
+# Plugins and extensions
+MD_EXTENSIONS = ['codehilite(css_class=highlight)', 'extra', 'headerid',
+                'toc(permalink=true)']
 PLUGIN_PATHS = ['../plugins/']
 PLUGINS = ['sitemap', 'extract_toc', 'tipue_search', 'liquid_tags',
            'neighbors', 'render_math', 'related_posts', 'assets', 'share_post',
