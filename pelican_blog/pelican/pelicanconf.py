@@ -33,6 +33,14 @@ PROJECTS = [
     },
 ]
 
+# Elegant theme
+STATIC_PATHS = ['theme/images', 'images']
+DIRECT_TEMPLATES = (('index', 'tags', 'categories', 'archives', 'search', '404'))
+TAG_SAVE_AS = ''
+AUTHOR_SAVE_AS = ''
+CATEGORY_SAVE_AS = ''
+USE_SHORTCUT_ICONS = True
+
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
