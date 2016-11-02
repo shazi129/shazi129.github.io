@@ -15,7 +15,7 @@ DEFAULT_LANG = u'zh'
 
 LANDING_PAGE_ABOUT = {
 	"title": "I have a dream",
-	"detail": u"一个游戏开发者",
+	"detail": "About Me",
 }
 
 PROJECTS = [
