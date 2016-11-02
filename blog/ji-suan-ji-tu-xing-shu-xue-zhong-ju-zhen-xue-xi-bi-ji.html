@@ -124,11 +124,11 @@
 <p>直观上看，就是将HelloWord立起来。但却有三个坐标轴做了旋转，通过分析其中的插值可以看到，它运动的路径和我们期望的路径并不一样。</p>
 <p>计算错误的原因：因为是以万向节的形式旋转，物体旋转到某个位置，有可能需要同时旋转两个或三个坐标轴。此时真正的球面差值和欧拉角的差值不同。旋转依赖的参数太多。</p>
 <h2 id="_14">复数与旋转<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
-<p>要解决差值问题，还是要减少旋转依赖的参数。但矩阵的数据太冗余，好在数学家们发现如下规律：
-对于复数：</p>
-<p><span class="math">\( p = x + yi $
-$ q = cosθ + i sinθ\)</span>
-$ pq = (x + yi)(cosθ + isinθ) = (xcosθ - ysinθ) + (xsinθ+ ycosθ)i $</p>
+<p>要解决差值问题，还是要减少旋转依赖的参数。但矩阵的数据太冗余，好在数学家们发现如下规律:  <br />
+对于复数：    </p>
+<p><span class="math">\( p = x + yi\)</span>
+<span class="math">\( q = cos\theta + i sin\theta\)</span>
+<span class="math">\( pq = (x + yi)(cos\theta + isin\theta) = (xcos\theta - ysin\theta) + (xsin\theta+ ycos\theta)i\)</span></p>
 <p>这对于上面的旋转矩阵是不是很像？只要将复数的实部和虚部看做坐标轴，那么<em>p</em>可以看做一个向量，pq就可以看p成旋转θ角之后的向量。</p>
 <h3 id="_15">四元数<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
 <p>相对于二维坐标中的复数，数学家还定义了三维坐标中的四元数：</p>
