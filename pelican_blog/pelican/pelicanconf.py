@@ -13,6 +13,19 @@ TIMEZONE = 'Asia/Shanghai'
 
 DEFAULT_LANG = u'zh'
 
+LANDING_PAGE_ABOUT = {
+	"title": "I have a dream",
+	"detail": u"一个游戏开发者",
+}
+
+PROJECTS = [
+    {
+        'name': '英雄杀',
+        'url': 'http://yxs.qq.com/',
+        'description': u'策略卡牌游戏'
+    },
+]
+
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
