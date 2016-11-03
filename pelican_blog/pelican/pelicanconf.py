@@ -18,8 +18,22 @@ MD_EXTENSIONS = ['codehilite(css_class=highlight)', 'extra', 'headerid',
                 'toc(permalink=true)']
 PLUGIN_PATHS = ['../plugins/']
 PLUGINS = ['sitemap', 'extract_toc', 'tipue_search', 'liquid_tags',
-           'neighbors', 'render_math', 'related_posts', 'assets', 'share_post',
-           'multi_part']
+           'neighbors', 'render_math', 'assets', 'share_post']
+
+#SiteMap配置，允许搜索引擎搜索
+SITEMAP = {
+    'format': 'xml',
+    'priorities': {
+        'articles': 0.5,
+        'indexes': 0.5,
+        'pages': 0.5
+    },
+    'changefreqs': {
+        'articles': 'monthly',
+        'indexes': 'daily',
+        'pages': 'monthly'
+    }
+}
 
 
 LANDING_PAGE_ABOUT = {
