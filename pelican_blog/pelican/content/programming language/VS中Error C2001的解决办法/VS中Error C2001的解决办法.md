@@ -1,8 +1,9 @@
 Title: VS中Error C2001的解决办法        
 Date: 2015-10-20            
-Category: C++        
-Tags: C++           
+Category: 编程语言      
+Tags:VS          
 
+#VS中Error C2001的解决办法   
 
 今天遇到一个问题，在VS2010工程中，出现中文字符串时，出现了如下错误：
 
@@ -16,7 +17,9 @@ Tags: C++
 还有一个简单的办法：    
 1. 在VS中打开该代码文件。             
 2. 选择VS菜单栏中**File**->**Advanced Save Options**      
-![image](http://i11.tietuku.com/474690f91abe4d90.png)   
+![Alt text](./1478142429124.png)
+
 3. 选择中文的编码：         
-![image](http://i11.tietuku.com/957100223efafcb4.png)   
+![Alt text](./1478142455517.png)
+
 4. 重新编译，OK

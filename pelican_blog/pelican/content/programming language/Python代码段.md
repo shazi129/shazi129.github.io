@@ -1,11 +1,10 @@
 Title: python代码段     
 Date: 2015-11-10           
-Category: Python       
+Category: 编程语言      
 Tags: Python  
 
 #Python代码段
 
-@(默认笔记本)[python]
 
 [TOC]
 
@@ -53,3 +52,4 @@ Tags: Python
 	import shutil
 	imageName = os.path.basename(image)
 	shutil.copy(image, "%s/%s" % (pelicanconf.OUTPUT_PATH, imageName))
+PUT_PATH, imageName))
