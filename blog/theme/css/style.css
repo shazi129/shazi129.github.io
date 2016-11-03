@@ -84,6 +84,8 @@ td.code {
     border-radius:3px 0px 0px 3px;
     color:rgb(101,123,131);
     background-color:rgb(238,232,213);
+    width: 22px;
+    text-align: right;
 }
 
 /* Tags */
