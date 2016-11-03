@@ -11,6 +11,7 @@ Tags: Python
 下面总结一些日常Python代码段
 
 ##遍历文件夹
+
 	#!Python
     import os
     def getAllFile(dirPath):
@@ -25,6 +26,7 @@ Tags: Python
     	return ret
 
 ##打zip包
+
 	#!Python
     import zipfile, os
 
@@ -37,13 +39,15 @@ Tags: Python
 
 	#!Python
     import shutil
-    shutil.rmtree(dirPath, True) #True表示即使为空也强制删除，如果不加True, 只能删除空文件夹
+    #True表示即使为空也强制删除，如果不加True, 只能删除空文件夹
+    shutil.rmtree(dirPath, True) 
 
 ##创建文件夹
 
 	#!Python
     if not os.path.isdir(dir): 
-		os.makedirs(dir)  #makedirs和mkdir的区别是，如果父目录不存在，makedirs会创建父目录，而mkdir不会
+	    #makedirs和mkdir的区别是，如果父目录不存在，makedirs会创建父目录，而mkdir不会
+		os.makedirs(dir)  
 
 ##拷贝文件
 
@@ -52,4 +56,4 @@ Tags: Python
 	import shutil
 	imageName = os.path.basename(image)
 	shutil.copy(image, "%s/%s" % (pelicanconf.OUTPUT_PATH, imageName))
-PUT_PATH, imageName))
+geName))
