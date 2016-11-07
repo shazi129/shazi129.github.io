@@ -6,8 +6,8 @@
         <meta name="author" content="张文" />
         <meta name="copyright" content="张文" />
 
-<meta name="keywords" content="Pelican, Pelican, " />
-        <title>Pelican安装过程  · 观心苑
+<meta name="keywords" content="Python, 编程语言, " />
+        <title>一个能处理json的FieldStorage  · 观心苑
 </title>
         <link href="http://www.vmetu.com/blog/../external/css/slim-081711.css" rel="stylesheet" type="text/css">
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
@@ -51,56 +51,97 @@
 <article>
 <div class="row-fluid">
     <header class="page_header span10 offset2">
-    <h1><a href="http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html"> Pelican安装过程  </a></h1>
+    <h1><a href="http://www.vmetu.com/blog/yi-ge-neng-chu-li-jsonde-fieldstorage.html"> 一个能处理json的FieldStorage  </a></h1>
     </header>
 </div>
 
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
 
-            <p>今天安装了Pelican，下面来说下过程和遇到的问题</p>
-<ul>
-<li>
-<p>安装Python，因为在Mac下，省掉这一步</p>
-</li>
-<li>
-<p>安装pip(<a href="https://pypi.python.org/packages/source/p/pip/pip-7.1.2.tar.gz#md5=3823d2343d9f3aaab21cf9c917710196">下载地址</a>), 解压后运行： <code>python setup.py install</code> 安装</p>
-</li>
-<li>
-<p>安装pelican， 运行 <code>pip install pelican</code></p>
-</li>
-<li>
-<p>安装markdown， 运行 <code>pip install markdown</code></p>
-</li>
-<li>
-<p>启动pelican创建工程，pelican－quickstart, 此时有可能出现如下错误：</p>
-<div class="highlight"><pre><span></span><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>  
-<span class="n">File</span> <span class="s2">&quot;/usr/local/bin/pelican-quickstart&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">7</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.tools.pelican_quickstart</span> <span class="kn">import</span> <span class="n">main</span>  
-<span class="n">File</span> <span class="s2">&quot;/Library/Python/2.7/site-packages/pelican/__init__.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">20</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.generators</span> <span class="kn">import</span> <span class="p">(</span><span class="n">ArticlesGenerator</span><span class="p">,</span> <span class="n">PagesGenerator</span><span class="p">,</span>  
-<span class="n">File</span> <span class="s2">&quot;/Library/Python/2.7/site-packages/pelican/generators.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">22</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.readers</span> <span class="kn">import</span> <span class="n">Readers</span>  
-<span class="n">File</span> <span class="s2">&quot;/Library/Python/2.7/site-packages/pelican/readers.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">24</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">six.moves.html_parser</span> <span class="kn">import</span> <span class="n">HTMLParser</span>  
-<span class="ne">ImportError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="n">html_parser</span>
+            <h1 id="jsonfieldstorage">一个能处理json的FieldStorage<a class="headerlink" href="#jsonfieldstorage" title="Permanent link">&para;</a></h1>
+<p>@(编程语言)[python]</p>
+<p>一般的，FieldStorage是不能处理Json请求的，这里可以改写它的一个方法，使其具备接收json请求的能力。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">#encoding:utf-8</span>
+
+<span class="kn">import</span> <span class="nn">cgi</span>
+<span class="kn">import</span> <span class="nn">urlparse</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">class</span> <span class="nc">JSONFieldStorage</span><span class="p">(</span><span class="n">cgi</span><span class="o">.</span><span class="n">FieldStorage</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">FieldStorage类的改写，使其具有接收json的能力</span>
+<span class="sd"> &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">read_urlencoded</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Internal: read data in query string format.&quot;&quot;&quot;</span>
+        <span class="n">qs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">qs</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_json</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qs_on_post</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_json</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">qs_on_post</span><span class="p">:</span>
+            <span class="n">qs</span> <span class="o">+=</span> <span class="s1">&#39;&amp;&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">qs_on_post</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">list</span> <span class="o">=</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">urlparse</span><span class="o">.</span><span class="n">parse_qsl</span><span class="p">(</span><span class="n">qs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep_blank_values</span><span class="p">,</span>
+                                           <span class="bp">self</span><span class="o">.</span><span class="n">strict_parsing</span><span class="p">):</span>
+            <span class="nb">list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cgi</span><span class="o">.</span><span class="n">MiniFieldStorage</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skip_lines</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">getJson</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
 </pre></div>
+</td></tr></table>
 
-
-<p>这时只需要更改一下源文件即可：<code>vim /Library/Python/2.7/site-packages/pelican/readers.py</code>。<br />
-将24行的：<br />
-<code>from six.moves.html_parser import HTMLParser</code><br />
- 换成：<br />
-<code>from HTMLParser import HTMLParser</code><br />
-即可</p>
-</li>
-</ul>
+<p>使用方法和FieldStorage一致，要得到json请求时只需要调用getJson即可</p>
 <section>
 <div class="accordion" id="accordion2">
     <div class="accordion-group">
         <div class="accordion-heading">
             <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2"
-                href="http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html#disqus_thread">
+                href="http://www.vmetu.com/blog/yi-ge-neng-chu-li-jsonde-fieldstorage.html#disqus_thread">
                 Comments
             </a>
         </div>
@@ -110,8 +151,8 @@
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'vmetu';
-        var disqus_identifier = 'http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html';
-    var disqus_url = 'http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html';
+        var disqus_identifier = 'http://www.vmetu.com/blog/yi-ge-neng-chu-li-jsonde-fieldstorage.html';
+    var disqus_url = 'http://www.vmetu.com/blog/yi-ge-neng-chu-li-jsonde-fieldstorage.html';
 
     (function() {
          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -131,9 +172,9 @@
             <nav>
             <ul class="articles_timeline">
  
-                <li class="previous_article">« <a href="http://www.vmetu.com/blog/yi-ge-neng-chu-li-jsonde-fieldstorage.html" title="Previous: 一个能处理json的FieldStorage">一个能处理json的FieldStorage</a></li>
+                <li class="previous_article">« <a href="http://www.vmetu.com/blog/linuxxia-wei-zhuang-icmpgong-ji-de-shi-xian.html" title="Previous: linux下伪装ICMP攻击的实现">linux下伪装ICMP攻击的实现</a></li>
  
-                <li class="next_article"><a href="http://www.vmetu.com/blog/unity2dzheng-dong-hua-shi-xian-de-liang-chong-fang-shi.html" title="Next: Unity2D帧动画实现的两种方式">Unity2D帧动画实现的两种方式</a> »</li>
+                <li class="next_article"><a href="http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html" title="Next: Pelican安装过程">Pelican安装过程</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -142,13 +183,13 @@
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2015-09-16T00:00:00+08:00">九月 16, 2015</time>
+            <time pubdate="pubdate" datetime="2012-11-02T00:00:00+08:00">十一月 2, 2012</time>
             <h4>Category</h4>
-            <a class="category-link" href="/categories.html#Pelican-ref">Pelican</a> 
+            <a class="category-link" href="/categories.html#编程语言-ref">编程语言</a> 
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article"> 
-                <li><a href="/tags.html#Pelican-ref">Pelican
-                    <span>1</span>
+                <li><a href="/tags.html#Python-ref">Python
+                    <span>3</span>
 </a></li>
             </ul>
 

@@ -6,8 +6,8 @@
         <meta name="author" content="张文" />
         <meta name="copyright" content="张文" />
 
-<meta name="keywords" content="Pelican, Pelican, " />
-        <title>Pelican安装过程  · 观心苑
+<meta name="keywords" content="读书笔记, 杂七杂八, " />
+        <title>《聊斋志异》笔记  · 观心苑
 </title>
         <link href="http://www.vmetu.com/blog/../external/css/slim-081711.css" rel="stylesheet" type="text/css">
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
@@ -51,56 +51,26 @@
 <article>
 <div class="row-fluid">
     <header class="page_header span10 offset2">
-    <h1><a href="http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html"> Pelican安装过程  </a></h1>
+    <h1><a href="http://www.vmetu.com/blog/liao-zhai-zhi-yi-bi-ji.html"> 《聊斋志异》笔记  </a></h1>
     </header>
 </div>
 
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
 
-            <p>今天安装了Pelican，下面来说下过程和遇到的问题</p>
-<ul>
-<li>
-<p>安装Python，因为在Mac下，省掉这一步</p>
-</li>
-<li>
-<p>安装pip(<a href="https://pypi.python.org/packages/source/p/pip/pip-7.1.2.tar.gz#md5=3823d2343d9f3aaab21cf9c917710196">下载地址</a>), 解压后运行： <code>python setup.py install</code> 安装</p>
-</li>
-<li>
-<p>安装pelican， 运行 <code>pip install pelican</code></p>
-</li>
-<li>
-<p>安装markdown， 运行 <code>pip install markdown</code></p>
-</li>
-<li>
-<p>启动pelican创建工程，pelican－quickstart, 此时有可能出现如下错误：</p>
-<div class="highlight"><pre><span></span><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>  
-<span class="n">File</span> <span class="s2">&quot;/usr/local/bin/pelican-quickstart&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">7</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.tools.pelican_quickstart</span> <span class="kn">import</span> <span class="n">main</span>  
-<span class="n">File</span> <span class="s2">&quot;/Library/Python/2.7/site-packages/pelican/__init__.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">20</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.generators</span> <span class="kn">import</span> <span class="p">(</span><span class="n">ArticlesGenerator</span><span class="p">,</span> <span class="n">PagesGenerator</span><span class="p">,</span>  
-<span class="n">File</span> <span class="s2">&quot;/Library/Python/2.7/site-packages/pelican/generators.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">22</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.readers</span> <span class="kn">import</span> <span class="n">Readers</span>  
-<span class="n">File</span> <span class="s2">&quot;/Library/Python/2.7/site-packages/pelican/readers.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">24</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">six.moves.html_parser</span> <span class="kn">import</span> <span class="n">HTMLParser</span>  
-<span class="ne">ImportError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="n">html_parser</span>
-</pre></div>
-
-
-<p>这时只需要更改一下源文件即可：<code>vim /Library/Python/2.7/site-packages/pelican/readers.py</code>。<br />
-将24行的：<br />
-<code>from six.moves.html_parser import HTMLParser</code><br />
- 换成：<br />
-<code>from HTMLParser import HTMLParser</code><br />
-即可</p>
-</li>
-</ul>
+            <h1 id="_1">《聊斋志异》笔记<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>@(杂七杂八)[读书笔记]</p>
+<p>《青凤》中的耿生，是在狂得可以。当他晚上读书时，有个面黑如漆的鬼披着头发走进来，一直瞪耿生看。耿生也不害怕，直接用墨把脸涂黑了也瞪着那个鬼，最后鬼只好惭愧而去。耿生此举，是在令人排案叫绝：所谓来而不往非礼也，你不是黑么，我比你更黑，你瞪我，那我也瞪你，看你还能怎么样。终于，鬼都拿他没办法。同样，《妖术》中的于公也不怕鬼，不过于公的身体素质好一些，能和那卜者“召唤”出来的巨鬼搏斗。其中描写他们搏斗的那一节颇有武侠小说的味道。倘若耿生有相当好的功夫，看见鬼时掏把刀出来，说：“汝面皮黑，宜制墨。”保管让鬼屁滚尿流而出，岂不快哉！</p>
+<p>《水莽草》讲的是鬼找替身的故事。说一个姓祝的书生被女鬼寇三娘找做了替身，祝生死后“甚恨之”，打听到三娘已经投了胎，于是“驰去，强捉之来”，最后还讨了三娘做老婆，小日子过得还不错。同样讲到做了鬼还要报仇的是《董生》，董生被一只狐狸迷惑致死后，到阎王那里告了狐狸一状，最后狐狸也没了好下场。这让我有个想法：人不应该怕鬼。就算被鬼给弄死了，还是可以到下面去报复他，不是常说“我做了厉鬼也不放过你”么？</p>
+<p>《九山王》则是一篇狐狸报复人的故事，该狐狸和金庸小说中的飞天狐狸有相似之处，难怪机智狡黠皆以狐狸著称。九山王中的老胡为报李生的灭门之仇，撺掇李生发动叛乱，最后李生一家被朝廷诛灭。飞天狐狸也是一直协助吴三桂准备叛乱，不同的是，飞天狐狸却被天下人误会，最后死在自己兄弟手中，诚可痛哉。由是观之，报仇十年不晚之君子，非大智大勇只认不可为也。大智者，谋全局而不谋一域，谋万世而不谋一时；大勇者，忍辱负重，甘当天下唾骂也！</p>
+<p>《张老相公》说的也是报仇的故事。张老相公在给女儿办嫁妆时，妻子女儿都给大鳖吃了。张老相公“悼恨欲死”，决心报仇。于是登金山，向和尚打听鳖的情况，谁知这些和尚一个个贪生怕死，为求一时安宁，不惜破戒宰杀牛羊来祭祀大鳖，全无我不入地狱谁入地狱之气概，颇有割地赂秦之古风。传说当初佛祖有割肉喂鹰之举，可能和尚的蠢就是他传下来的。话说回来，张老相公最后烧了百多斤铁，当成祭祀的牛羊喂了那鳖，从此除了一害。这方法让我想起了小时候看的一篇童话故事，好像是两个小孩把烧红的秤砣当水饺喂了一只熊。类似的还有《佣兵天下》中大青山冬天打猎用的方法。人的机智当真为只会吃的畜生所不及的。和尚把大鳖当成神，而张老相公却轻易的灭了它，盖神之为神，人神之耳！</p>
+<p>《夜叉国》倒像一篇游记。该篇说的是商人徐某被海风吹到了一个陌生的国度，那里的人相貌凶恶，吃生肉。刚上岸的时候徐某也差点给他们吃了，好歹徐某也是文明人，有的是夜叉们见不到的好东西，徐某先拿干粮贿赂夜叉，进而煮肉给夜叉吃，慢慢的竟然和夜叉们“聚处如家人”，还娶了个夜叉老婆。这和我以前看的《辛巴达游记》有着相似之处，不过辛巴达到的是人的国度，给人造的是马鞍而已。话说徐某还是想回故土，于是趁母夜叉外出时，带着和母夜叉生的一个儿子乘船回去了。看到这里，不禁想到很久以前看的一个故事，说一个男人被一个女野人抓去做了丈夫，还生了一个孩子，结果在男人逃走的时候，野人把孩子撕成两半，扔了一般给男人。但那母夜叉倒是很开明，最后带着孩子跟徐某一起回了大陆，只是“恨其不谋”而已。故事的结局是皆大欢喜，母夜叉和儿女们在战场上建功立业，荣华无限。最妙的是蒲松龄最后来了一句：“家家床头有个夜叉在”，想来蒲公亦然。</p>
 <section>
 <div class="accordion" id="accordion2">
     <div class="accordion-group">
         <div class="accordion-heading">
             <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2"
-                href="http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html#disqus_thread">
+                href="http://www.vmetu.com/blog/liao-zhai-zhi-yi-bi-ji.html#disqus_thread">
                 Comments
             </a>
         </div>
@@ -110,8 +80,8 @@
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'vmetu';
-        var disqus_identifier = 'http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html';
-    var disqus_url = 'http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html';
+        var disqus_identifier = 'http://www.vmetu.com/blog/liao-zhai-zhi-yi-bi-ji.html';
+    var disqus_url = 'http://www.vmetu.com/blog/liao-zhai-zhi-yi-bi-ji.html';
 
     (function() {
          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -131,9 +101,7 @@
             <nav>
             <ul class="articles_timeline">
  
-                <li class="previous_article">« <a href="http://www.vmetu.com/blog/yi-ge-neng-chu-li-jsonde-fieldstorage.html" title="Previous: 一个能处理json的FieldStorage">一个能处理json的FieldStorage</a></li>
- 
-                <li class="next_article"><a href="http://www.vmetu.com/blog/unity2dzheng-dong-hua-shi-xian-de-liang-chong-fang-shi.html" title="Next: Unity2D帧动画实现的两种方式">Unity2D帧动画实现的两种方式</a> »</li>
+                <li class="next_article"><a href="http://www.vmetu.com/blog/meng-die.html" title="Next: 梦蝶">梦蝶</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -142,12 +110,12 @@
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2015-09-16T00:00:00+08:00">九月 16, 2015</time>
+            <time pubdate="pubdate" datetime="2009-04-20T00:00:00+08:00">四月 20, 2009</time>
             <h4>Category</h4>
-            <a class="category-link" href="/categories.html#Pelican-ref">Pelican</a> 
+            <a class="category-link" href="/categories.html#杂七杂八-ref">杂七杂八</a> 
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article"> 
-                <li><a href="/tags.html#Pelican-ref">Pelican
+                <li><a href="/tags.html#读书笔记-ref">读书笔记
                     <span>1</span>
 </a></li>
             </ul>
