@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="张文" />
+        <meta name="copyright" content="张文" />
+
+<meta name="keywords" content="学习笔记, 计算机图形学, " />
+        <title>计算机图形学笔记——画直线算法  · 观心苑
+</title>
+        <link href="http://www.vmetu.com/blog/../external/css/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://www.vmetu.com/blog/../external/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://www.vmetu.com/blog/"><span class=site-name>观心苑</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://www.vmetu.com/blog">Home</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/categories.html">Categories</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/tags.html">Tags</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/archives.html">Archives</a></li>
+                            <li><form class="navbar-search" action="http://www.vmetu.com/blog/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://www.vmetu.com/blog/ji-suan-ji-tu-xing-xue-bi-ji-hua-zhi-xian-suan-fa.html"> 计算机图形学笔记——画直线算法  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+    <div class="span2 table-of-content">
+        <nav>
+        <h4>Contents</h4>
+        <div class="toc">
+<ul>
+<li><a href="#_1">计算机图形学笔记——画直线算法</a><ul>
+<li><a href="#dda">DDA算法</a></li>
+<li><a href="#bresenham">Bresenham算法</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </nav>
+    </div>
+    <div class="span8 article-content">
+
+            <h1 id="_1">计算机图形学笔记——画直线算法<a class="headerlink" href="#_1" title="Permanent link">¶</a></h1>
+<p>@(计算机图形学)[学习笔记]</p>
+
+<p>画线算法主要用来解决如下问题：对于某个直线方程，已知起点重点，计算机如何绘制出这个线段。计算机绘制线段其实就是绘制一系列的像素点。</p>
+<h2 id="dda">DDA算法<a class="headerlink" href="#dda" title="Permanent link">¶</a></h2>
+<p><strong>思路:</strong> 对于直线方程<span class="math">\(y = kx + b\)</span>， 在一个坐标轴以单位长度步进，并计算得到另一坐标轴的步进，之后根据起点+步进得到一个点的坐标，这个点就是需要绘制的点。为了保证绘制的精度，选择步进较大的坐标轴为基础坐标轴，例如每次步进$\Delta x &gt; \Delta y  $, 那么以x轴为单位长度步进的坐标轴。</p>
+<p>实现代码：</p>
+<div class="highlight"><pre><span></span>//四舍五入 
+inline int round(float a) {return int(a+0.5f)}
+
+void lineDDA(int startX, int startY, int endX, int endY)
+{
+    float dx = endX - startX;
+    float dy = endY - startY;
+    float steps = fabs(dx) &gt; fabs(dy) ? fabs(dx) : fabs(dy);
+    float incX = dx / steps;
+    float incY = dy / steps;
+
+    for (int i = 0; i &lt;= steps; i++)
+    {
+        float newX = (float)startX + (float)(i) * incX;
+        float newY = (float)startY + (float)(i) * incY;
+        drawPixel(round(newX), round(newY)); //画像素点
+    }
+}
+</pre></div>
+<p>通过代码也可以看到，运算使用了浮点运算,取整，不利于用硬件实现。</p>
+<h2 id="bresenham">Bresenham算法<a class="headerlink" href="#bresenham" title="Permanent link">¶</a></h2>
+<p>同DDA算法一样选择步进坐标轴，我们假设步进坐标轴为<span class="math">\(x\)</span>轴，即斜率 <span class="math">\(|k| &lt; 1\)</span>,  因为绘制的像素点坐标必须是整数， 那么对于<span class="math">\((x_n,  y_n)\)</span>的下一个点<span class="math">\((x_{n+1}, y_{n+1})\)</span>，有<span class="math">\(x_{n+1} = x_n + 1\)</span>, <span class="math">\(y_{n+1} &lt; 1\)</span> , 该点绘制的像素坐标会是<span class="math">\((x_n + 1, y_n)\)</span>， <span class="math">\((x_n + 1, y_n+1)\)</span>中的一个。</p>
+<p>每次绘制下一个点时，我们期望有这样一个变量<span class="math">\(p_n\)</span>,  如果<span class="math">\(p_n &gt; 0\)</span>下一个点的坐标为 <span class="math">\((x_n + 1, y_n+1)\)</span>，否则下一个点的坐标为<span class="math">\((x_n + 1, y_n)\)</span>。</p>
+<p>我们期望绘制的像素点离实际的坐标点距离越小越好，那么两个候选的像素坐标到实际坐标的距离分别为：
+<span class="math">\(d_{upper}\)</span> = <span class="math">\(y_n+1 - y_{n+1}\)</span> <br/>
+<span class="math">\(d_{lower}\)</span> = <span class="math">\(y_{n+1} - y_n\)</span> </p>
+<p>对于直线方程<span class="math">\(y = kx + b\)</span>：    <br/>
+<span class="math">\(\Delta d = d_{lower} - d_{upper} = 2y_{n+1} - 2y_n -1 = 2(kx_{n+1} + b) - 2y_n -1\)</span></p>
+<p>其中<span class="math">\(x_{n+1} = x_n + 1\)</span>, 推导可得：
+<span class="math">\(\Delta d = 2(kx_n - y_n) + 2k + 2b - 1\)</span>
+<strong>注意：</strong>不能再继续用<span class="math">\(y_n = kx_n + b\)</span>代如上式推导下去了，因为点<span class="math">\((x_n, y_n)\)</span>不一定<strong>精确地</strong>在直线上。</p>
+<p>如果<span class="math">\(\Delta d &gt; 0\)</span>, 那么下个点取<span class="math">\((x_n + 1, y_n+1)\)</span>会准确一些，反之亦然，但<span class="math">\(\Delta d\)</span>还不能作为变量<span class="math">\(p_n\)</span>使用，因为计算还存在浮点运算和除法。</p>
+<p>到这一步的式子中，为了消除<span class="math">\(k\)</span>这个存在除法运算的变量，我们可以用<span class="math">\(k = \frac{X_{end} - X_{start}}{ Y_{end} - Y_{start}} = \frac{\Delta y}{\Delta x}\)</span> 代如上式, 然后等式两边同时乘以<span class="math">\(\Delta x\)</span>可得：</p>
+<p><span class="math">\(\Delta x \Delta  d = 2(\Delta y x_n - \Delta x y_n) + 2\Delta y + 2b\Delta x - \Delta x = 2(\Delta y x_n - \Delta x y_n) + c\)</span></p>
+<p>因为<span class="math">\(\Delta x\)</span>在我们的设定中始终大于0， 这样我们就得到了需要的变量<span class="math">\(p_n = \Delta x \Delta  d\)</span>，计算该变量无需浮点运算和除法。</p>
+<p>进一步，我们可以通过<span class="math">\(p_n\)</span> 和<span class="math">\(p_{n+1}\)</span>的关系来继续简化运算：</p>
+<p><span class="math">\(p_{n+1} - p_n = 2(\Delta y(x_{n+1} - x_n) - \Delta x(y_{n+1} - y_n)) = 2(\Delta y - \Delta x(y_{n+1} - y_n))\)</span> </p>
+<p><span class="math">\(p_{n+1} = <div class="math">\begin{cases} p_n +  2\Delta y &amp;\mbox{$p_n \leq 0$} \\  p_n +  2(\Delta y - \Delta x) &amp;\mbox{$p_n &gt; 0$}  \end{cases}</div>\)</span></p>
+<p>其中：
+<span class="math">\(p_0 = 2(\Delta y x_n - \Delta x y_n) + c = 2(\Delta y x_n - \Delta x (\frac{\Delta y}{\Delta x} x_0 + b)) + c = 2\Delta y - \Delta x\)</span></p>
+<p>下面给出斜率<span class="math">\(|k| &lt; 1\)</span>的代码：    </p>
+<div class="highlight"><pre><span></span>void lineBresenham(int startX, int startY, int endX, int endY)
+{
+    int x = startX;
+    int y = startY;
+    if (x &gt; endX) //保证dx &gt; 0
+    {
+        x = endX;
+        endX = startX;
+        y = endY;
+        endY = startY;
+    }
+
+    int dx = endX - x;
+    int dy = endY - y;
+    int p = 2*dy - dx;
+
+    drawPixel(x, y);
+
+    while(x &lt; endX)
+    {
+        x++;
+        if (p &gt; 0)
+        {
+            y++;
+            p += 2 * (dy - dx);
+        }
+        else
+        {
+            p += 2 * dy;
+        }
+        drawPixel(x, y);
+    }
+}
+</pre></div>
+<p>当<span class="math">\(|k|&gt;1\)</span>时，选择y方向的步进即可，对于一些特殊斜率，如0， 1， 无穷大，直接使用特殊处理会更简单。</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2"
+                href="http://www.vmetu.com/blog/ji-suan-ji-tu-xing-xue-bi-ji-hua-zhi-xian-suan-fa.html#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'vmetu';
+        var disqus_identifier = 'http://www.vmetu.com/blog/ji-suan-ji-tu-xing-xue-bi-ji-hua-zhi-xian-suan-fa.html';
+    var disqus_url = 'http://www.vmetu.com/blog/ji-suan-ji-tu-xing-xue-bi-ji-hua-zhi-xian-suan-fa.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+            <aside>
+            <hr/>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://www.vmetu.com/blog/ji-suan-ji-tu-xing-xue-bi-ji-ju-zhen.html" title="Previous: 计算机图形学笔记——矩阵">计算机图形学笔记——矩阵</a></li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2016-11-02T00:00:00+08:00">十一月 2, 2016</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#计算机图形学-ref">计算机图形学</a> 
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article"> 
+                <li><a href="/tags.html#学习笔记-ref">学习笔记
+                    <span>2</span>
+</a></li>
+            </ul>
+
+        </div>
+        </section>
+</div>
+</article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'vmetu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+        <script  language="javascript" type="text/javascript">
+            function uncollapse() {
+                var hash_str = window.location.hash;
+                if (window.location.hash.match(/^#comment-\d+$/))
+                {
+                    var hash_str = '#disqus_thread';
+                }
+                $(hash_str).collapse({
+                    toggle: true
+                    })
+            }
+        </script>
+
+        <script type="text/javascript" language="JavaScript">
+            uncollapse(); 
+        </script>
+    </body>
+</html>
