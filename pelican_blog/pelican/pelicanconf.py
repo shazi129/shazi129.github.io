@@ -18,7 +18,7 @@ MD_EXTENSIONS = ['codehilite(css_class=highlight)', 'extra', 'headerid',
                 'toc(permalink=true)']
 PLUGIN_PATHS = ['../plugins/']
 PLUGINS = ['sitemap', 'extract_toc', 'tipue_search', 'liquid_tags',
-           'neighbors', 'render_math', 'assets', 'share_post']
+           'neighbors', 'render_math', 'share_post']
 
 #SiteMap配置，允许搜索引擎搜索
 SITEMAP = {

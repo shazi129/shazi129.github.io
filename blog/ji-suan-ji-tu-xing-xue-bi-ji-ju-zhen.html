@@ -106,8 +106,8 @@
 <p>在二维笛卡尔坐标系下来看一下实例：</p>
 <p>对于<strong>物体坐标系</strong>，它的坐标轴的单位向量在<strong>世界坐标系</strong>中分别为：p=[2, 1], q=[-1, 2]：
 <img alt="Alt text" src="./1459156022980.png"/></p>
-<p>那么对于物体坐标系中的某个点[1, 1]，变换到世界坐标系中为：</p>
-<p><span class="math">\(\left[ <div class="math">\begin{matrix}   1 &amp; 1  \end{matrix}</div>  \right] \left[<div class="math">\begin{matrix}   2 &amp; 1  \\ -1 &amp; 2 \end{matrix}</div>\right] = \left[ <div class="math">\begin{matrix}   1 &amp; 3  \end{matrix}</div>  \right]\)</span></p>
+<p>那么对于物体坐标系中的某个点[1, 1]，变换到世界坐标系中为：    </p>
+<div class="math">$$\begin{bmatrix}   1 &amp; 1  \end{bmatrix}  \begin{bmatrix}   2 &amp; 1  \\ -1 &amp; 2 \end{bmatrix} = \begin{bmatrix}   1 &amp; 3  \end{bmatrix}$$</div>
 <p>我们发现，从<strong>物体坐标系</strong>到<strong>世界坐标系</strong>的变换，是<strong>物体坐标系</strong>进行了<strong>缩小</strong>，和<strong>顺时针旋转</strong>， 但对于绘制出来的图像对于<strong>世界坐标系</strong>却是<strong>放大</strong>和<strong>逆时针旋转</strong>。在计算机绘制图形的时候，就是通过变换坐标系来进行图像的<strong>缩放</strong>和<strong>旋转</strong>的。</p>
 <h2 id="_3">矩阵变换的应用<a class="headerlink" href="#_3" title="Permanent link">¶</a></h2>
 <p>计算时，可以通过预先得出的变换矩阵来使流程简化。下面列一下各种变换矩阵。</p>
@@ -126,8 +126,8 @@
 <p>从上面的内容可知，将某一个向量平移，可以加上一个矩阵；将一个物体缩放或旋转，可以右乘一个矩阵： </p>
 <p><span class="math">\(p_1 = pM_1 + M_2\)</span></p>
 <p>其中M1是缩放旋转矩阵，M2是位移矩阵。如果经过多次这样的变换的话，会产生很多的代数项，齐次坐标就是用来解决这个问题的。</p>
-<p>所谓齐次坐标就是用n+1个分量来表示n维坐标。例如：二维平面上的点<span class="math">\(A(x , y)\)</span>用齐次坐标表示为<span class="math">\((h_x , h_y , h)\)</span>；三维空间中的点<span class="math">\(B(x , y , z)\)</span>用齐次坐标表示为<span class="math">\((h_x , h_y , h_z , h)\)</span>。一个向量的齐次表示并不是唯一的，齐次坐标中的h取不同值表示的都是同一个点，比如<span class="math">\((8 , 4 , 2)\)</span>、<span class="math">\((4 , 2 , 1)\)</span>表示的都是二维平面上的点<span class="math">\((4 , 2)\)</span>。下面来看一个等式：</p>
-<p><span class="math">\([<div class="math">\begin{matrix}   x &amp; y &amp; z &amp; 1 \end{matrix}</div>]\left[<div class="math">\begin{matrix}   1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 \\ a &amp; b &amp; c &amp; 1\end{matrix}</div>\right] = [<div class="math">\begin{matrix}   x+a &amp; y+b &amp; z+c &amp; 1 \end{matrix}</div>]\)</span></p>
+<p>所谓齐次坐标就是用n+1个分量来表示n维坐标。例如：二维平面上的点<span class="math">\(A(x , y)\)</span>用齐次坐标表示为<span class="math">\((h_x , h_y , h)\)</span>；三维空间中的点<span class="math">\(B(x , y , z)\)</span>用齐次坐标表示为<span class="math">\((h_x , h_y , h_z , h)\)</span>。一个向量的齐次表示并不是唯一的，齐次坐标中的h取不同值表示的都是同一个点，比如<span class="math">\((8 , 4 , 2)\)</span>、<span class="math">\((4 , 2 , 1)\)</span>表示的都是二维平面上的点<span class="math">\((4 , 2)\)</span>。下面来看一个等式：    </p>
+<div class="math">$$\begin{bmatrix}   x &amp; y &amp; z &amp; 1 \end{bmatrix} \begin{bmatrix}   1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 \\ a &amp; b &amp; c &amp; 1\end{bmatrix} = \begin{bmatrix}   x+a &amp; y+b &amp; z+c &amp; 1 \end{bmatrix}$$</div>
 <p>可以看出，一个点的位移，可以用齐次坐标的右乘来表示。</p>
 <h2 id="_9">矩阵的缺点<a class="headerlink" href="#_9" title="Permanent link">¶</a></h2>
 <ul>
