@@ -58,11 +58,13 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
 
-            <p><strong>环境搭建</strong>
-1. 下载phtreads库： ftp://sourceware.org/pub/pthreads-win32/pthreads-w32-2-9-1-release.zip
-2. 使用<code>Pre-built.2/include</code>作为头文件引用
-3. 使用<code>Pre-built.2/lib/x86/pthreadVC2.lib</code>做为库文件引用
-4. 将<code>Pre-built.2/dll/x86/pthreadVC2.dll</code>考到生成exe的目录</p>
+            <p><strong>环境搭建</strong></p>
+<ol>
+<li>下载phtreads库： ftp://sourceware.org/pub/pthreads-win32/pthreads-w32-2-9-1-release.zip</li>
+<li>使用<code>Pre-built.2/include</code>作为头文件引用</li>
+<li>使用<code>Pre-built.2/lib/x86/pthreadVC2.lib</code>做为库文件引用</li>
+<li>将<code>Pre-built.2/dll/x86/pthreadVC2.dll</code>考到生成exe的目录</li>
+</ol>
 <p><strong>测试代码：</strong></p>
 <div class="highlight"><pre><span class="cp">#include &quot;pthread.h&quot;</span>
 <span class="cp">#include &lt;iostream&gt;</span>

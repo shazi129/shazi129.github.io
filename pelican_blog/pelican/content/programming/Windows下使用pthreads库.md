@@ -5,12 +5,14 @@ Tags: 学习笔记
 
 
 **环境搭建**
+
 1. 下载phtreads库： ftp://sourceware.org/pub/pthreads-win32/pthreads-w32-2-9-1-release.zip
 2. 使用`Pre-built.2/include`作为头文件引用
 3. 使用`Pre-built.2/lib/x86/pthreadVC2.lib`做为库文件引用
 4. 将`Pre-built.2/dll/x86/pthreadVC2.dll`考到生成exe的目录
 
 **测试代码：**
+
 ```cpp
 #include "pthread.h"
 #include <iostream>
