@@ -17,7 +17,7 @@ DEFAULT_LANG = u'zh'
 MD_EXTENSIONS = ['codehilite(css_class=highlight)', 'extra', 'headerid',
                 'toc(permalink=true)']
 PLUGIN_PATHS = ['../plugins/']
-PLUGINS = ['sitemap', 'extract_toc', 'tipue_search', 'liquid_tags',
+PLUGINS = ['sitemap', 'extract_toc', 'tipue_search', 
            'neighbors', 'render_math', 'share_post']
 
 #SiteMap配置，允许搜索引擎搜索
