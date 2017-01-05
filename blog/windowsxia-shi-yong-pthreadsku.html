@@ -64,21 +64,21 @@
 3. 使用<code>Pre-built.2/lib/x86/pthreadVC2.lib</code>做为库文件引用
 4. 将<code>Pre-built.2/dll/x86/pthreadVC2.dll</code>考到生成exe的目录</p>
 <p><strong>测试代码：</strong></p>
-<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;pthread.h&quot;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<div class="highlight"><pre><span class="cp">#include &quot;pthread.h&quot;</span>
+<span class="cp">#include &lt;iostream&gt;</span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
 
 <span class="kt">void</span><span class="o">*</span> <span class="nf">Function_t</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">Param</span><span class="p">)</span>  
 <span class="p">{</span>  
-    <span class="n">pthread_t</span> <span class="n">myid</span> <span class="o">=</span> <span class="n">pthread_self</span><span class="p">();</span>  
+    <span class="kt">pthread_t</span> <span class="n">myid</span> <span class="o">=</span> <span class="n">pthread_self</span><span class="p">();</span>  
     <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;线程ID:&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">myid</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>  
     <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>  
 <span class="p">}</span> 
 
 <span class="kt">int</span> <span class="nf">test_interface</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="n">pthread_t</span> <span class="n">pid</span><span class="p">;</span>  
-    <span class="n">pthread_attr_t</span> <span class="n">attr</span><span class="p">;</span>  
+    <span class="kt">pthread_t</span> <span class="n">pid</span><span class="p">;</span>  
+    <span class="kt">pthread_attr_t</span> <span class="n">attr</span><span class="p">;</span>  
     <span class="n">pthread_attr_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">attr</span><span class="p">);</span>  
     <span class="n">pthread_attr_setscope</span><span class="p">(</span><span class="o">&amp;</span><span class="n">attr</span><span class="p">,</span> <span class="n">PTHREAD_SCOPE_PROCESS</span><span class="p">);</span>  
     <span class="n">pthread_attr_setdetachstate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">attr</span><span class="p">,</span> <span class="n">PTHREAD_CREATE_DETACHED</span><span class="p">);</span> 
@@ -136,7 +136,7 @@
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2017-01-04T00:00:00+08:00">一月 4, 2017</time>
+            <time pubdate="pubdate" datetime="2017-01-04T00:00:00+08:00"> 1 4, 2017</time>
             <h4>Category</h4>
             <a class="category-link" href="/categories.html#编程语言-ref">编程语言</a> 
             <h4>Tags</h4>

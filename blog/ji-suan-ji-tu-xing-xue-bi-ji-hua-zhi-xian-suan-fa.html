@@ -79,7 +79,7 @@
 <h2 id="dda">DDA算法<a class="headerlink" href="#dda" title="Permanent link">¶</a></h2>
 <p><strong>思路:</strong> 对于直线方程<span class="math">\(y = kx + b\)</span>， 在一个坐标轴以单位长度步进，并计算得到另一坐标轴的步进，之后根据起点+步进得到一个点的坐标，这个点就是需要绘制的点。为了保证绘制的精度，选择步进较大的坐标轴为基础坐标轴，例如每次步进$\Delta x &gt; \Delta y  $, 那么以x轴为单位长度步进的坐标轴。</p>
 <p>实现代码：</p>
-<div class="highlight"><pre><span></span>    <span class="c1">//四舍五入 </span>
+<div class="highlight"><pre>    <span class="c1">//四舍五入 </span>
     <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">round</span><span class="p">(</span><span class="kt">float</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span><span class="k">return</span> <span class="kt">int</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="mf">0.5f</span><span class="p">)}</span>  
 
     <span class="kt">void</span> <span class="nf">lineDDA</span><span class="p">(</span><span class="kt">int</span> <span class="n">startX</span><span class="p">,</span> <span class="kt">int</span> <span class="n">startY</span><span class="p">,</span> <span class="kt">int</span> <span class="n">endX</span><span class="p">,</span> <span class="kt">int</span> <span class="n">endY</span><span class="p">)</span>
@@ -121,7 +121,7 @@
 <p>其中：
 <span class="math">\(p_0 = 2(\Delta y x_n - \Delta x y_n) + c = 2(\Delta y x_n - \Delta x (\frac{\Delta y}{\Delta x} x_0 + b)) + c = 2\Delta y - \Delta x\)</span></p>
 <p>下面给出斜率<span class="math">\(|k| &lt; 1\)</span>的代码：    </p>
-<div class="highlight"><pre><span></span>    <span class="kt">void</span> <span class="nf">lineBresenham</span><span class="p">(</span><span class="kt">int</span> <span class="n">startX</span><span class="p">,</span> <span class="kt">int</span> <span class="n">startY</span><span class="p">,</span> <span class="kt">int</span> <span class="n">endX</span><span class="p">,</span> <span class="kt">int</span> <span class="n">endY</span><span class="p">)</span>
+<div class="highlight"><pre>    <span class="kt">void</span> <span class="nf">lineBresenham</span><span class="p">(</span><span class="kt">int</span> <span class="n">startX</span><span class="p">,</span> <span class="kt">int</span> <span class="n">startY</span><span class="p">,</span> <span class="kt">int</span> <span class="n">endX</span><span class="p">,</span> <span class="kt">int</span> <span class="n">endY</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">startX</span><span class="p">;</span>
         <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">startY</span><span class="p">;</span>
@@ -260,7 +260,7 @@
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2016-11-02T00:00:00+08:00">十一月 2, 2016</time>
+            <time pubdate="pubdate" datetime="2016-11-02T00:00:00+08:00">11 2, 2016</time>
             <h4>Category</h4>
             <a class="category-link" href="/categories.html#计算机图形学-ref">计算机图形学</a> 
             <h4>Tags</h4>
