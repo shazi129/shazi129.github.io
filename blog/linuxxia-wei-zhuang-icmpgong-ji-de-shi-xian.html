@@ -60,13 +60,13 @@
 
             <h1 id="linuxicmp">linux下伪装ICMP攻击的实现<a class="headerlink" href="#linuxicmp" title="Permanent link">&para;</a></h1>
 <p>@(编程语言)[信息安全, C]</p>
-<div class="highlight"><pre><span class="cp">#include &lt;sys/socket.h&gt;</span>
-<span class="cp">#include &lt;sys/types.h&gt;</span>
-<span class="cp">#include &lt;netinet/ip.h&gt;</span>
-<span class="cp">#include &lt;netinet/ip_icmp.h&gt;</span>
-<span class="cp">#include &lt;string.h&gt;</span>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;netinet/ip.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;netinet/ip_icmp.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
 
-<span class="cp">#include &quot;exam.h&quot;</span>
+<span class="cp">#include</span> <span class="cpf">&quot;exam.h&quot;</span><span class="cp"></span>
 <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
 
 <span class="cm">/*校验码的计算*/</span>
@@ -133,11 +133,11 @@
 
 
 <p>PS: exam.h是我为了些程序方便而定义的一些错误处理的宏，文件内容如下：</p>
-<div class="highlight"><pre><span class="cp">#ifndef EXAM_H</span>
+<div class="highlight"><pre><span></span><span class="cp">#ifndef EXAM_H</span>
 <span class="cp">#define EXAM_H</span>
 
-<span class="cp">#include &lt;stdio.h&gt;</span>
-<span class="cp">#include &lt;stdlib.h&gt;</span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
 
 <span class="cp">#define failure(msg, ret, error_code) \</span>
 <span class="cp">{              \</span>
@@ -206,7 +206,7 @@
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2010-04-24T00:00:00+08:00"> 4 24, 2010</time>
+            <time pubdate="pubdate" datetime="2010-04-24T00:00:00+08:00">四月 24, 2010</time>
             <h4>Category</h4>
             <a class="category-link" href="/categories.html#编程语言-ref">编程语言</a> 
             <h4>Tags</h4>

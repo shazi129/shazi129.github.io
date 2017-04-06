@@ -67,7 +67,7 @@
 <h2 id="mathfapproximately">Mathf.Approximately近似<a class="headerlink" href="#mathfapproximately" title="Permanent link">&para;</a></h2>
 <p><code>static function Approximately (a : float, b: float) : bool</code>  <br />
 比较两个浮点数值，看它们是否非常接近, 由于浮点数值不精确，不建议使用等于来比较它们。例如，1.0==10.0/10.0也许不会返回true。 </p>
-<div class="highlight"><pre>public class example : MonoBehaviour { 
+<div class="highlight"><pre><span></span>public class example : MonoBehaviour { 
     publicvoid Awake() { 
         if(Mathf.Approximately(1.0F, 10.0F / 10.0F)) 
             print(&quot;same&quot;); 
@@ -83,7 +83,7 @@
 <p><code>static function Atan2 (y : float, x :float) : float</code>  <br />
 以弧度为单位计算并返回 y/x 的反正切值。返回值表示相对直角三角形对角的角，其中 x 是临边边长，而 y 是对边边长。    <br />
 返回值是在x轴和一个二维向量开始于0个结束在(x,y)处之间的角。 </p>
-<div class="highlight"><pre>public class example : MonoBehaviour { 
+<div class="highlight"><pre><span></span>public class example : MonoBehaviour { 
     publicTransform target; 
     voidUpdate() { 
         Vector3relative = transform.InverseTransformPoint(target.position); 
@@ -128,7 +128,7 @@
 <h2 id="mathfdeltaangle">Mathf.DeltaAngle增量角<a class="headerlink" href="#mathfdeltaangle" title="Permanent link">&para;</a></h2>
 <p><code>static function DeltaAngle (current :float, target : float) : float</code>  <br />
 计算给定的两个角之间最短的差异。 </p>
-<div class="highlight"><pre>// Prints 90 
+<div class="highlight"><pre><span></span>// Prints 90 
 Debug.Log(Mathf.DeltaAngle(1080,90));
 </pre></div>
 
@@ -165,7 +165,7 @@ public class example : MonoBehaviour {
 表示正无穷，也就是无穷大，∞ （只读） </p>
 <h2 id="mathfinverselerp">Mathf.InverseLerp反插值<a class="headerlink" href="#mathfinverselerp" title="Permanent link">&para;</a></h2>
 <p>计算两个值之间的Lerp参数。也就是value在from和to之间的比例值。     </p>
-<div class="highlight"><pre>//现在参数是3/5 
+<div class="highlight"><pre><span></span>//现在参数是3/5 
 float parameter =Mathf.InverseLerp(walkSpeed, runSpeed, speed);
 </pre></div>
 
@@ -173,7 +173,7 @@ float parameter =Mathf.InverseLerp(walkSpeed, runSpeed, speed);
 <h2 id="mathfispoweroftwo2">Mathf.IsPowerOfTwo是否2的幂<a class="headerlink" href="#mathfispoweroftwo2" title="Permanent link">&para;</a></h2>
 <p><code>static function IsPowerOfTwo (value : int): bool</code>  <br />
 如果该值是2的幂，返回true。 </p>
-<div class="highlight"><pre>// prints false 
+<div class="highlight"><pre><span></span>// prints false 
 Debug.Log(Mathf.IsPowerOfTwo(7)); 
 // prints true 
 Debug.Log(Mathf.IsPowerOfTwo(32));
@@ -184,7 +184,7 @@ Debug.Log(Mathf.IsPowerOfTwo(32));
 <p><code>static function LerpAngle (a : float, b :float, t : float) : float</code>   <br />
 和Lerp的原理一样，当他们环绕360度确保插值正确。   <br />
 a和b是代表度数。 </p>
-<div class="highlight"><pre>public class example : MonoBehaviour { 
+<div class="highlight"><pre><span></span>public class example : MonoBehaviour { 
     publicfloat minAngle = 0.0F; 
     publicfloat maxAngle = 90.0F; 
     voidUpdate() { 
@@ -205,7 +205,7 @@ a和b是代表度数。 </p>
 <h2 id="mathflog">Mathf.Log对数<a class="headerlink" href="#mathflog" title="Permanent link">&para;</a></h2>
 <p><code>static function Log (f : float, p : float): float</code>   <br />
 返回参数 f 的对数。 </p>
-<div class="highlight"><pre>// logarithm of 6 in base 2 
+<div class="highlight"><pre><span></span>// logarithm of 6 in base 2 
 //以2为底6的对数 
 // prints 2.584963 
 print(Mathf.Log(6, 2));
@@ -247,7 +247,7 @@ PI（读pai）的值，也就是圆周率（π）的值3.14159265358979323846...
 <p><code>static function Repeat (t : float, length :float) : float</code>   <br />
 循环数值t，0到length之间。t值永远不会大于length的值，也永远不会小于0。    <br />
 这是类似于模运算符，但可以使用浮点数。</p>
-<div class="highlight"><pre>public class example : MonoBehaviour { 
+<div class="highlight"><pre><span></span>public class example : MonoBehaviour { 
     voidUpdate() { 
         transform.position= new Vector3(Mathf.Repeat(Time.time, 3),             transform.position.y,transform.position.z); 
     } 
@@ -281,7 +281,7 @@ PI（读pai）的值，也就是圆周率（π）的值3.14159265358979323846...
 <strong>deltaTime</strong>: 上次调用该函数到现在的时间。缺省为Time.deltaTime。    <br />
 随着时间的推移逐渐改变一个给定的角度到期望的角度。 
 这个值通过一些弹簧减震器类似的功能被平滑。这个函数可以用来平滑任何一种值，位置，颜色，标量。最常见的是平滑一个跟随摄像机。 </p>
-<div class="highlight"><pre>//一个简单的平滑跟随摄像机 
+<div class="highlight"><pre><span></span>//一个简单的平滑跟随摄像机 
 //跟随目标的朝向 
 public class example : MonoBehaviour { 
     publicTransform target; 
@@ -316,7 +316,7 @@ public class example : MonoBehaviour {
 描述 
 随着时间的推移逐渐改变一个值到期望值。 
 这个值就像被一个不会崩溃的弹簧减振器一样被平滑。这个函数可以用来平滑任何类型的值，位置，颜色，标量。</p>
-<div class="highlight"><pre>public class example : MonoBehaviour { 
+<div class="highlight"><pre><span></span>public class example : MonoBehaviour { 
         publicTransform target; 
         publicfloat smoothTime = 0.3F; 
         privatefloat yVelocity = 0.0F; 
@@ -331,7 +331,7 @@ public class example : MonoBehaviour {
 <h2 id="mathfsmoothstep">Mathf.SmoothStep平滑插值<a class="headerlink" href="#mathfsmoothstep" title="Permanent link">&para;</a></h2>
 <p><code>static function SmoothStep (from : float,to : float, t : float) : float</code>   <br />
 和lerp类似，在最小和最大值之间的插值，并在限制处渐入渐出。 </p>
-<div class="highlight"><pre>public class example : MonoBehaviour { 
+<div class="highlight"><pre><span></span>public class example : MonoBehaviour { 
         publicfloat minimum = 10.0F; 
         publicfloat maximum = 20.0F; 
         voidUpdate() { 
@@ -394,7 +394,7 @@ public class example : MonoBehaviour {
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2015-10-05T00:00:00+08:00">10 5, 2015</time>
+            <time pubdate="pubdate" datetime="2015-10-05T00:00:00+08:00">十月 5, 2015</time>
             <h4>Category</h4>
             <a class="category-link" href="/categories.html#Unity-ref">Unity</a> 
             <h4>Tags</h4>

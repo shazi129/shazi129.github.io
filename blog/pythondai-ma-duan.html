@@ -89,12 +89,12 @@
  8
  9
 10
-11</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="k">def</span> <span class="nf">getAllFile</span><span class="p">(</span><span class="n">dirPath</span><span class="p">):</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">allsub</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">dirPath</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">allsub</span><span class="p">:</span>
-        <span class="n">subPath</span> <span class="o">=</span> <span class="s">"</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">dirPath</span><span class="p">,</span> <span class="n">sub</span><span class="p">)</span>
+        <span class="n">subPath</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">dirPath</span><span class="p">,</span> <span class="n">sub</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">subPath</span><span class="p">):</span>
             <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subPath</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">subPath</span><span class="p">):</span>
@@ -108,9 +108,9 @@
 3
 4
 5
-6</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">zipfile</span><span class="o">,</span> <span class="nn">os</span>
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">zipfile</span><span class="o">,</span> <span class="nn">os</span>
 
-<span class="n">zipPakFile</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">zipflieName</span><span class="p">,</span> <span class="s">'w'</span> <span class="p">,</span><span class="n">zipfile</span><span class="o">.</span><span class="n">ZIP_DEFLATED</span><span class="p">)</span>
+<span class="n">zipPakFile</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">zipflieName</span><span class="p">,</span> <span class="s1">'w'</span> <span class="p">,</span><span class="n">zipfile</span><span class="o">.</span><span class="n">ZIP_DEFLATED</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">fileList</span><span class="p">:</span>
     <span class="n">zipPakFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> 
 <span class="n">zipPakFile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -119,16 +119,16 @@
 <h2 id="_2">删除文件夹<a class="headerlink" href="#_2" title="Permanent link">¶</a></h2>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">shutil</span>
-<span class="c">#True表示即使为空也强制删除，如果不加True, 只能删除空文件夹</span>
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">shutil</span>
+<span class="c1">#True表示即使为空也强制删除，如果不加True, 只能删除空文件夹</span>
 <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">dirPath</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </td></tr></table>
 <h2 id="_3">创建文件夹<a class="headerlink" href="#_3" title="Permanent link">¶</a></h2>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="nb">dir</span><span class="p">):</span> 
-    <span class="c">#makedirs和mkdir的区别是，如果父目录不存在，makedirs会创建父目录，而mkdir不会</span>
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="nb">dir</span><span class="p">):</span> 
+    <span class="c1">#makedirs和mkdir的区别是，如果父目录不存在，makedirs会创建父目录，而mkdir不会</span>
     <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span>
 </pre></div>
 </td></tr></table>
@@ -136,10 +136,10 @@
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
-4</pre></div></td><td class="code"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="n">imageName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
-<span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s">"</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">pelicanconf</span><span class="o">.</span><span class="n">OUTPUT_PATH</span><span class="p">,</span> <span class="n">imageName</span><span class="p">))</span>
+<span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">"</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">pelicanconf</span><span class="o">.</span><span class="n">OUTPUT_PATH</span><span class="p">,</span> <span class="n">imageName</span><span class="p">))</span>
 </pre></div>
 </td></tr></table>
 <p>geName))</p>
@@ -190,7 +190,7 @@
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2015-11-10T00:00:00+08:00">11 10, 2015</time>
+            <time pubdate="pubdate" datetime="2015-11-10T00:00:00+08:00">十一月 10, 2015</time>
             <h4>Category</h4>
             <a class="category-link" href="/categories.html#编程语言-ref">编程语言</a> 
             <h4>Tags</h4>
