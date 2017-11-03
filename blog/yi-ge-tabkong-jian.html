@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="张文" />
+        <meta name="copyright" content="张文" />
+
+<meta name="keywords" content="Unity, C#, Unity, " />
+        <title>一个tab控件  · 观心苑
+</title>
+        <link href="http://www.vmetu.com/blog/../external/css/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://www.vmetu.com/blog/../external/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://www.vmetu.com/blog/"><span class=site-name>观心苑</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://www.vmetu.com/blog">Home</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/categories.html">Categories</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/tags.html">Tags</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/archives.html">Archives</a></li>
+                            <li><form class="navbar-search" action="http://www.vmetu.com/blog/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://www.vmetu.com/blog/yi-ge-tabkong-jian.html"> 一个tab控件  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p>@(编程语言)[Unity, C#]</p>
+<div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Generic</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">UnityEngine</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">UnityEngine</span><span class="p">.</span><span class="n">UI</span><span class="p">;</span>
+
+<span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// 使用方式：</span>
+<span class="c1">/// 1. 挂在一个gameObject下面</span>
+<span class="c1">/// 2. 设置tabLayout， tabNameList（!标志着tab个数）, selectTabPrefab和unselectTabPrefab（选中状态和非选中状态）</span>
+<span class="c1">/// 3. 打开canEdit, 右击Component, 选择createTabTitles</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+
+<span class="k">namespace</span> <span class="n">TKFrame</span><span class="p">.</span><span class="n">Item</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">TabTitles</span> <span class="o">:</span> <span class="n">MonoBehaviour</span>
+    <span class="p">{</span>
+
+        <span class="k">public</span> <span class="k">enum</span> <span class="n">TAB_LAYOUT</span>
+        <span class="p">{</span>
+            <span class="n">Vertical</span><span class="p">,</span> <span class="n">Horizontal</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="kt">bool</span> <span class="n">canEdit</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+
+        <span class="c1">//布局</span>
+        <span class="k">public</span> <span class="n">TAB_LAYOUT</span> <span class="n">tabLayout</span> <span class="o">=</span> <span class="n">TAB_LAYOUT</span><span class="p">.</span><span class="n">Horizontal</span><span class="p">;</span>
+        <span class="k">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">tabNameList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">();</span>
+
+        <span class="c1">//tab样式</span>
+        <span class="k">public</span> <span class="n">GameObject</span> <span class="n">selectTabPrefab</span><span class="p">;</span>
+        <span class="k">public</span> <span class="n">GameObject</span> <span class="n">unselectTabPrefab</span><span class="p">;</span>
+
+        <span class="k">public</span> <span class="kt">int</span> <span class="n">focusTabIndex</span> <span class="p">{</span> <span class="n">set</span><span class="p">;</span> <span class="n">get</span><span class="p">;</span> <span class="p">}</span>
+        <span class="k">public</span> <span class="n">Action</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">tabSelectedAction</span> <span class="p">{</span> <span class="n">get</span><span class="p">;</span> <span class="n">set</span><span class="p">;</span> <span class="p">}</span>
+        <span class="k">public</span> <span class="n">Action</span> <span class="n">initAction</span> <span class="p">{</span> <span class="n">get</span><span class="p">;</span> <span class="n">set</span><span class="p">;</span> <span class="p">}</span>
+
+        <span class="p">[</span><span class="n">SerializeField</span><span class="p">]</span>
+        <span class="k">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">GameObject</span><span class="o">&gt;</span> <span class="n">_tabGroups</span><span class="p">;</span>
+
+        <span class="p">[</span><span class="n">SerializeField</span><span class="p">]</span>
+        <span class="k">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Button</span><span class="o">&gt;</span> <span class="n">_selectTabs</span><span class="p">;</span>
+
+        <span class="p">[</span><span class="n">SerializeField</span><span class="p">]</span>
+        <span class="k">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Button</span><span class="o">&gt;</span> <span class="n">_unselectTabs</span><span class="p">;</span>
+
+        <span class="cp">#region create Tab Titles</span>
+        <span class="p">[</span><span class="n">ContextMenu</span><span class="p">(</span><span class="s">&quot;CreateTabTitles&quot;</span><span class="p">)]</span>
+        <span class="k">public</span> <span class="kt">void</span> <span class="n">createTabTitles</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">canCreateTabTitles</span><span class="p">())</span>
+            <span class="p">{</span>
+                <span class="n">createTabGroup</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">unselectTabPrefab</span><span class="p">);</span>
+                <span class="n">createTabGroup</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">selectTabPrefab</span><span class="p">);</span>
+                <span class="n">refreshSize</span><span class="p">();</span>
+                <span class="n">initTabs</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="p">[</span><span class="n">ContextMenu</span><span class="p">(</span><span class="s">&quot;RemoveTabTitles&quot;</span><span class="p">)]</span>
+        <span class="k">public</span> <span class="kt">void</span> <span class="n">removeTabTitles</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">canRemoveTabTitles</span><span class="p">())</span>
+            <span class="p">{</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">_tabGroups</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+                <span class="p">{</span>
+<span class="cp">#if UNITY_EDITOR</span>
+                    <span class="n">DestroyImmediate</span><span class="p">(</span><span class="n">_tabGroups</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="cp">#else</span>
+                    <span class="n">Destroy</span><span class="p">(</span><span class="n">_tabGroups</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="cp">#endif</span>
+                <span class="p">}</span>
+                <span class="n">_tabGroups</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+                <span class="n">_selectTabs</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+                <span class="n">_unselectTabs</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="c1">//[ContextMenu(&quot;CreateTabTitles&quot;, true)] //unity 5.5.0以后才支持</span>
+        <span class="k">private</span> <span class="kt">bool</span> <span class="n">canCreateTabTitles</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="n">canEdit</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="c1">//[ContextMenu(&quot;RemoveTabTitles&quot;, true)] //unity 5.5.0以后才支持</span>
+        <span class="k">private</span> <span class="kt">bool</span> <span class="n">canRemoveTabTitles</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="n">canEdit</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">private</span> <span class="n">RectTransform</span> <span class="n">create2DGameObject</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="n">GameObject</span> <span class="n">go</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GameObject</span><span class="p">();</span>
+            <span class="n">RectTransform</span> <span class="n">rectTransform</span> <span class="o">=</span> <span class="n">go</span><span class="p">.</span><span class="n">AddComponent</span><span class="o">&lt;</span><span class="n">RectTransform</span><span class="o">&gt;</span><span class="p">();</span>
+            <span class="k">return</span> <span class="n">rectTransform</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">private</span> <span class="kt">void</span> <span class="n">createTabGroup</span><span class="p">(</span><span class="kt">int</span> <span class="n">tabType</span><span class="p">,</span> <span class="n">GameObject</span> <span class="n">tabPrefab</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">//创建</span>
+            <span class="n">RectTransform</span> <span class="n">rectTransform</span> <span class="o">=</span> <span class="n">create2DGameObject</span><span class="p">();</span>
+            <span class="n">rectTransform</span><span class="p">.</span><span class="n">anchorMin</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Vector2</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+            <span class="n">rectTransform</span><span class="p">.</span><span class="n">anchorMax</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Vector2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="n">rectTransform</span><span class="p">.</span><span class="n">offsetMin</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Vector2</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+            <span class="n">rectTransform</span><span class="p">.</span><span class="n">offsetMax</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Vector2</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+            <span class="n">GameObject</span> <span class="n">tabGroup</span> <span class="o">=</span> <span class="n">rectTransform</span><span class="p">.</span><span class="n">gameObject</span><span class="p">;</span>
+            <span class="n">tabGroup</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">tabType</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="s">&quot;UnselectedTabGroup&quot;</span> <span class="o">:</span> <span class="s">&quot;SelectedTabGroup&quot;</span><span class="p">;</span>
+            <span class="n">tabGroup</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">transform</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
+
+            <span class="c1">//标签布局</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">tabLayout</span> <span class="o">==</span> <span class="n">TAB_LAYOUT</span><span class="p">.</span><span class="n">Horizontal</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">HorizontalLayoutGroup</span> <span class="n">hLayout</span> <span class="o">=</span> <span class="n">tabGroup</span><span class="p">.</span><span class="n">AddComponent</span><span class="o">&lt;</span><span class="n">HorizontalLayoutGroup</span><span class="o">&gt;</span><span class="p">();</span>
+                <span class="n">hLayout</span><span class="p">.</span><span class="n">childAlignment</span> <span class="o">=</span> <span class="n">TextAnchor</span><span class="p">.</span><span class="n">MiddleLeft</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="n">VerticalLayoutGroup</span> <span class="n">vLayout</span> <span class="o">=</span> <span class="n">tabGroup</span><span class="p">.</span><span class="n">AddComponent</span><span class="o">&lt;</span><span class="n">VerticalLayoutGroup</span><span class="o">&gt;</span><span class="p">();</span>
+                <span class="n">vLayout</span><span class="p">.</span><span class="n">childAlignment</span> <span class="o">=</span> <span class="n">TextAnchor</span><span class="p">.</span><span class="n">UpperCenter</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="c1">//创建tab标签</span>
+            <span class="n">createTabs</span><span class="p">(</span><span class="n">tabPrefab</span><span class="p">,</span> <span class="n">tabGroup</span><span class="p">,</span> <span class="n">tabType</span><span class="p">);</span>
+
+            <span class="c1">//保存引用</span>
+            <span class="n">_tabGroups</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">tabGroup</span><span class="p">);</span>
+
+        <span class="p">}</span>
+
+        <span class="k">private</span> <span class="kt">void</span> <span class="n">createTabs</span><span class="p">(</span><span class="n">GameObject</span> <span class="n">tabPrefab</span><span class="p">,</span> <span class="n">GameObject</span> <span class="n">tabGroup</span><span class="p">,</span> <span class="kt">int</span> <span class="n">tabType</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">tabNameList</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="c1">//创建一个tab容器,方便布局</span>
+                <span class="n">RectTransform</span> <span class="n">tabContainer</span> <span class="o">=</span> <span class="n">create2DGameObject</span><span class="p">();</span>
+                <span class="n">tabContainer</span><span class="p">.</span><span class="n">gameObject</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Tab_Container&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+                <span class="n">tabContainer</span><span class="p">.</span><span class="n">sizeDelta</span> <span class="o">=</span> <span class="p">(</span><span class="n">tabPrefab</span><span class="p">.</span><span class="n">transform</span> <span class="n">as</span> <span class="n">RectTransform</span><span class="p">).</span><span class="n">sizeDelta</span><span class="p">;</span>
+                <span class="n">tabContainer</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">tabGroup</span><span class="p">.</span><span class="n">transform</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
+
+                <span class="c1">//创建</span>
+                <span class="n">GameObject</span> <span class="n">tabGO</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">.</span><span class="n">Instantiate</span><span class="p">(</span><span class="n">tabPrefab</span><span class="p">);</span>
+                <span class="n">tabGO</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Tab_&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+                <span class="n">tabGO</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+                <span class="n">tabGO</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">tabContainer</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
+
+                <span class="n">List</span><span class="o">&lt;</span><span class="n">Button</span><span class="o">&gt;</span> <span class="n">tabRefList</span> <span class="o">=</span> <span class="n">tabType</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="nl">_unselectTabs</span> <span class="p">:</span> <span class="n">_selectTabs</span><span class="p">;</span>
+                <span class="n">tabRefList</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">tabGO</span><span class="p">.</span><span class="n">GetComponent</span><span class="o">&lt;</span><span class="n">Button</span><span class="o">&gt;</span><span class="p">());</span>
+
+                <span class="c1">//tab名称</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">string</span><span class="p">.</span><span class="n">IsNullOrEmpty</span><span class="p">(</span><span class="n">tabNameList</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+                <span class="p">{</span>
+                    <span class="n">Transform</span> <span class="n">tabNameTrans</span> <span class="o">=</span> <span class="n">tabGO</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">Find</span><span class="p">(</span><span class="s">&quot;TabName&quot;</span><span class="p">);</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">tabNameTrans</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span>
+                    <span class="p">{</span>
+                        <span class="n">Text</span> <span class="n">tabNameText</span> <span class="o">=</span> <span class="n">tabNameTrans</span><span class="p">.</span><span class="n">GetComponent</span><span class="o">&lt;</span><span class="n">Text</span><span class="o">&gt;</span><span class="p">();</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">tabNameText</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span>
+                        <span class="p">{</span>
+                            <span class="n">tabNameText</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">tabNameList</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+
+        <span class="k">private</span> <span class="kt">void</span> <span class="n">refreshSize</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">_selectTabs</span> <span class="o">!=</span> <span class="n">null</span> <span class="o">&amp;&amp;</span> <span class="n">_selectTabs</span><span class="p">.</span><span class="n">Count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">Vector2</span> <span class="n">itemSize</span> <span class="o">=</span> <span class="p">(</span><span class="n">_selectTabs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">transform</span> <span class="n">as</span> <span class="n">RectTransform</span><span class="p">).</span><span class="n">sizeDelta</span><span class="p">;</span>
+
+                <span class="n">RectTransform</span> <span class="n">selfTransform</span> <span class="o">=</span> <span class="n">transform</span> <span class="n">as</span> <span class="n">RectTransform</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">tabLayout</span> <span class="o">==</span> <span class="n">TAB_LAYOUT</span><span class="p">.</span><span class="n">Horizontal</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">selfTransform</span><span class="p">.</span><span class="n">sizeDelta</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Vector2</span><span class="p">(</span><span class="n">_selectTabs</span><span class="p">.</span><span class="n">Count</span> <span class="o">*</span> <span class="n">itemSize</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">itemSize</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="k">else</span>
+                <span class="p">{</span>
+                    <span class="n">selfTransform</span><span class="p">.</span><span class="n">sizeDelta</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Vector2</span><span class="p">(</span><span class="n">itemSize</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">_selectTabs</span><span class="p">.</span><span class="n">Count</span> <span class="o">*</span> <span class="n">itemSize</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="cp">#endregion</span>
+
+        <span class="kt">void</span> <span class="n">Start</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="n">initTabs</span><span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="kt">void</span> <span class="n">initTabs</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="c1">//未选中的按钮是可以点的</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">_unselectTabs</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">_unselectTabs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">GameObject</span> <span class="n">tabGO</span> <span class="o">=</span> <span class="n">_unselectTabs</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">gameObject</span><span class="p">;</span>
+                    <span class="n">_unselectTabs</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">onClick</span><span class="p">.</span><span class="n">AddListener</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="n">onTabBtnClick</span><span class="p">(</span><span class="n">tabGO</span><span class="p">);</span> <span class="p">});</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">initAction</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">initAction</span><span class="p">();</span>
+            <span class="p">}</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="n">setTabFocus</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">private</span> <span class="kt">void</span> <span class="n">onTabBtnClick</span><span class="p">(</span><span class="n">GameObject</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">_unselectTabs</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">obj</span> <span class="o">==</span> <span class="n">_unselectTabs</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">gameObject</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">setTabFocus</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="kt">void</span> <span class="n">setTabFocus</span><span class="p">(</span><span class="kt">int</span> <span class="n">tabIndex</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">focusTabIndex</span> <span class="o">=</span> <span class="n">tabIndex</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">_selectTabs</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">_selectTabs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">_selectTabs</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">gameObject</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">tabIndex</span><span class="p">);</span>
+                <span class="p">}</span>
+
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">tabSelectedAction</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">tabSelectedAction</span><span class="p">(</span><span class="n">tabIndex</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="c1">/// &lt;summary&gt;</span>
+        <span class="c1">/// 根据tab名获取tab索引</span>
+        <span class="c1">/// &lt;/summary&gt;</span>
+        <span class="c1">/// &lt;param name=&quot;tabName&quot;&gt;&lt;/param&gt;</span>
+        <span class="k">public</span> <span class="kt">int</span> <span class="n">getTabIndex</span><span class="p">(</span><span class="n">string</span> <span class="n">tabName</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">tabNameList</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">tabName</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Equals</span><span class="p">(</span><span class="n">tabName</span><span class="p">))</span>
+                <span class="p">{</span>
+                    <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="cp">#region 针对lua的一些接口</span>
+        <span class="k">public</span> <span class="kt">void</span> <span class="n">setTabNameList</span><span class="p">(</span><span class="n">ArrayList</span> <span class="n">nameList</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">tabNameList</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nameList</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">tabNameList</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">nameList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="n">as</span> <span class="n">string</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="cp">#endregion</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2"
+                href="http://www.vmetu.com/blog/yi-ge-tabkong-jian.html#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'vmetu';
+        var disqus_identifier = 'http://www.vmetu.com/blog/yi-ge-tabkong-jian.html';
+    var disqus_url = 'http://www.vmetu.com/blog/yi-ge-tabkong-jian.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+            <aside>
+            <hr/>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://www.vmetu.com/blog/unityxia-cyu-javade-jiao-hu-yi.html" title="Previous: Unity下C#与Java的交互(一)">Unity下C#与Java的交互(一)</a></li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2017-11-03T00:00:00+08:00">十一月 3, 2017</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#Unity-ref">Unity</a> 
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article"> 
+                <li><a href="/tags.html#C#-ref">C#
+                    <span>3</span>
+</a></li>
+                <li><a href="/tags.html#Unity-ref">Unity
+                    <span>4</span>
+</a></li>
+            </ul>
+
+        </div>
+        </section>
+</div>
+</article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'vmetu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+        <script  language="javascript" type="text/javascript">
+            function uncollapse() {
+                var hash_str = window.location.hash;
+                if (window.location.hash.match(/^#comment-\d+$/))
+                {
+                    var hash_str = '#disqus_thread';
+                }
+                $(hash_str).collapse({
+                    toggle: true
+                    })
+            }
+        </script>
+
+        <script type="text/javascript" language="JavaScript">
+            uncollapse(); 
+        </script>
+    </body>
+</html>
