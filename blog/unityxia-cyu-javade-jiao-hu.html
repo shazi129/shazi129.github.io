@@ -6,8 +6,8 @@
         <meta name="author" content="张文" />
         <meta name="copyright" content="张文" />
 
-<meta name="keywords" content="Unity, Unity, " />
-        <title>Unity2D帧动画实现的两种方式  · 观心苑
+<meta name="keywords" content="Unity, 编程语言, " />
+        <title>Unity下C#与Java的交互  · 观心苑
 </title>
         <link href="http://www.vmetu.com/blog/../external/css/slim-081711.css" rel="stylesheet" type="text/css">
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
@@ -51,79 +51,81 @@
 <article>
 <div class="row-fluid">
     <header class="page_header span10 offset2">
-    <h1><a href="http://www.vmetu.com/blog/unity2dzheng-dong-hua-shi-xian-de-liang-chong-fang-shi.html"> Unity2D帧动画实现的两种方式  </a></h1>
+    <h1><a href="http://www.vmetu.com/blog/unityxia-cyu-javade-jiao-hu.html"> Unity下C#与Java的交互  </a></h1>
     </header>
 </div>
 
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
 
-            <p>在游戏制作过程中，经常用到帧动画，这里介绍两种实现帧动画的方式</p>
-<h2 id="_1">源材料准备<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>序列帧所用到的图片：</p>
-<p><img alt="image" src="http://i11.tietuku.com/c42269cb3abd49bf.png" /></p>
-<p>生成这些序列帧所用到的资源可以参考： <a href="http://www.raywenderlich.com/61532/unity-2d-tutorial-getting-started">http://www.raywenderlich.com/61532/unity-2d-tutorial-getting-started</a></p>
-<h2 id="1">1. 脚本方式实现<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
-<p>脚本实现的方式在上面的链接中有介绍，这里把列出源码：</p>
-<div class="highlight"><pre><span></span>using UnityEngine;
-using System.Collections;
-
-public class Zombie : MonoBehaviour {
-
-    public Sprite[] m_sprits;
-    public int m_frameRate;
-
-    ／／帧率
-    float m_frameTime;
-    SpriteRenderer m_spriteRenderer;
-
-    // Use this for initialization
-    void Start () {
-
-        m_frameTime = 1.0f / (float)m_frameRate;
-        m_spriteRenderer = GetComponent&lt;SpriteRenderer&gt; ();
-    }
-
-    // Update is called once per frame
-    void Update () {
-
-        m_frameTime -= Time.deltaTime;
-        if (m_frameTime &lt; 0.0f) {
-
-            int index = 0;
-            for (; index &lt; m_sprits.Length; index ++ ) {
-
-                if (m_sprits[index] == m_spriteRenderer.sprite) {
-                    break;
-                }
-            }
-            index = (index + 1) % m_sprits.Length;
-            m_spriteRenderer.sprite = m_sprits[index];
-
-            m_frameTime = 1.0f / (float)m_frameRate;
-        }
-    }
-}
+            <h1 id="unitycjava">Unity下C#与Java的交互(一)<a class="headerlink" href="#unitycjava" title="Permanent link">&para;</a></h1>
+<p>@(编程语言)[Unity]
+[TOC]</p>
+<p>这种情况主要发生在Unity要使用Android代码的情况下。Unity提供的方式是将用到的Android代码打成jar文件，放到Unity的plugins文件中，然后使用
+<img alt="Alt text" src="./1509070611569.png" />
+示例用到的是utils.jar</p>
+<h2 id="1-android">1. 创建Android工程<a class="headerlink" href="#1-android" title="Permanent link">&para;</a></h2>
+<p>创建一个Android工程，并导入Unity提供的jar，下面是我的示例：
+<img alt="Alt text" src="./1509070478123.png" /></p>
+<p>其中，<code>com.zw.utils</code>是要导出的包，<code>com.zw.unity_test</code>是我用来测试jar包的代码，class.jar是导入的unity提供的jar包。</p>
+<h2 id="2-java">2. 编写java代码并导出<a class="headerlink" href="#2-java" title="Permanent link">&para;</a></h2>
+<p>这里先实现一个小功能：</p>
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Utils</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">addOne</span><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">){</span>
+        <span class="k">return</span> <span class="n">a</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 </pre></div>
 
 
-<h2 id="2">2.编辑器实现<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
-<p>帧动画也可以由Unity的动画编辑器来实现，实现方式如下。</p>
-<h3 id="_2">打开动画编辑器<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
-<p>先在场景中以序列帧的第一帧创建一个精灵，选中它，然后通过快捷键Ctrl + 6 或者菜单中的 Window -&gt; Animation打开动画编辑器。在弹出窗口的左上角点击<strong>Add Property</strong>, 会弹出一个让你保存动画的界面，如图：</p>
-<p><img alt="image" src="http://i11.tietuku.com/f2685707fa981717.png" />  <br />
-输入一个名字将其保存起来。</p>
-<p>根据上面程序实现的方法，我们知道绘制精灵是通过SpriteRender来实现的, 所以在动画编辑器中可以增加一个SpriteRender属性：</p>
-<p><img alt="image" src="http://i11.tietuku.com/5d483c4cddef2115.png" /></p>
-<p>之后就可以将序列帧拖入动画编辑器中：</p>
-<p><img alt="image" src="http://i11.tietuku.com/3797c8d911c3aa84.png" /></p>
-<p>加好之后，点击左上角的三角符号，就可以发现Unity编辑器中的僵尸动起来了。</p>
+<p>右击<code>com.zw.utils</code>导出jar：
+<img alt="Alt text" src="./1509071051400.png" /></p>
+<p>并将utils.jar放到Unity的 <strong>Asset/Plugins/Android/bin</strong> 目录下</p>
+<h2 id="3-c">3. 编写C#代码<a class="headerlink" href="#3-c" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestAndroid</span> <span class="o">:</span> <span class="n">MonoBehaviour</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">Button</span> <span class="n">selfBtn</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="n">Text</span> <span class="n">selfText</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="n">Text</span> <span class="n">outText</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+    <span class="c1">// Use this for initialization</span>
+    <span class="kt">void</span> <span class="nf">Start</span> <span class="o">()</span>
+    <span class="o">{</span>
+        <span class="n">selfBtn</span> <span class="o">=</span> <span class="n">gameObject</span><span class="o">.</span><span class="na">GetComponent</span><span class="o">&lt;</span><span class="n">Button</span><span class="o">&gt;();</span>
+        <span class="n">selfBtn</span><span class="o">.</span><span class="na">onClick</span><span class="o">.</span><span class="na">AddListener</span><span class="o">(</span><span class="n">onSelfBtnClick</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">onSelfBtnClick</span><span class="o">()</span>
+    <span class="o">{</span>
+        <span class="k">try</span>
+        <span class="o">{</span>
+<span class="err">#</span><span class="k">if</span> <span class="n">UNITY_ANDROID</span>
+            <span class="n">AndroidJavaClass</span> <span class="n">jClass</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AndroidJavaClass</span><span class="o">(</span><span class="s">&quot;com.zw.utils.Utils&quot;</span><span class="o">);</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">jClass</span><span class="o">.</span><span class="na">CallStatic</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;(</span><span class="s">&quot;addOne&quot;</span><span class="o">,</span> <span class="n">a</span><span class="o">);</span>
+<span class="err">#</span><span class="n">endif</span>
+            <span class="n">selfText</span><span class="o">.</span><span class="na">text</span> <span class="o">=</span> <span class="s">&quot;&quot;</span> <span class="o">+</span> <span class="n">a</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span>
+        <span class="o">{</span>
+            <span class="n">outText</span><span class="o">.</span><span class="na">text</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">ToString</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>Unity界面
+<img alt="Alt text" src="./1509071407810.png" />
+button上的text显示java代码返回的结果，另一个text显示错误信息。</p>
+<h2 id="android">打Android包运行<a class="headerlink" href="#android" title="Permanent link">&para;</a></h2>
+<p>略</p>
 <section>
 <div class="accordion" id="accordion2">
     <div class="accordion-group">
         <div class="accordion-heading">
             <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2"
-                href="http://www.vmetu.com/blog/unity2dzheng-dong-hua-shi-xian-de-liang-chong-fang-shi.html#disqus_thread">
+                href="http://www.vmetu.com/blog/unityxia-cyu-javade-jiao-hu.html#disqus_thread">
                 Comments
             </a>
         </div>
@@ -133,8 +135,8 @@ public class Zombie : MonoBehaviour {
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'vmetu';
-        var disqus_identifier = 'http://www.vmetu.com/blog/unity2dzheng-dong-hua-shi-xian-de-liang-chong-fang-shi.html';
-    var disqus_url = 'http://www.vmetu.com/blog/unity2dzheng-dong-hua-shi-xian-de-liang-chong-fang-shi.html';
+        var disqus_identifier = 'http://www.vmetu.com/blog/unityxia-cyu-javade-jiao-hu.html';
+    var disqus_url = 'http://www.vmetu.com/blog/unityxia-cyu-javade-jiao-hu.html';
 
     (function() {
          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -154,9 +156,7 @@ public class Zombie : MonoBehaviour {
             <nav>
             <ul class="articles_timeline">
  
-                <li class="previous_article">« <a href="http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html" title="Previous: Pelican安装过程">Pelican安装过程</a></li>
- 
-                <li class="next_article"><a href="http://www.vmetu.com/blog/mathfxiang-guan-han-shu.html" title="Next: Mathf相关函数">Mathf相关函数</a> »</li>
+                <li class="previous_article">« <a href="http://www.vmetu.com/blog/yi-ge-cshi-xian-lei-si-fan-she-de-gong-han-mo-shi.html" title="Previous: 一个C++实现类似反射的工厂模式">一个C++实现类似反射的工厂模式</a></li>
             </ul>
             </nav>
             </aside>
@@ -165,9 +165,9 @@ public class Zombie : MonoBehaviour {
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2015-09-20T00:00:00+08:00">九月 20, 2015</time>
+            <time pubdate="pubdate" datetime="2017-10-27T00:00:00+08:00">十月 27, 2017</time>
             <h4>Category</h4>
-            <a class="category-link" href="/categories.html#Unity-ref">Unity</a> 
+            <a class="category-link" href="/categories.html#编程语言-ref">编程语言</a> 
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article"> 
                 <li><a href="/tags.html#Unity-ref">Unity
