@@ -6,8 +6,6 @@ Tags: Unity
 
 #Unity下C#与Java的交互(一)
 
-@(编程语言)[Unity]
-[TOC]
 
 这种情况主要发生在Unity要使用Android代码的情况下。Unity提供的方式是将用到的Android代码打成jar文件，放到Unity的plugins文件中，然后使用
 ![Alt text](./1509070611569.png)
