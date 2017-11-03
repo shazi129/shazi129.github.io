@@ -64,7 +64,10 @@
 <li><a href="#1-android">1. 创建Android工程</a></li>
 <li><a href="#2-java">2. 编写java代码并导出</a></li>
 <li><a href="#3-c">3. 编写C#代码</a></li>
-<li><a href="#android">打Android包运行</a></li>
+<li><a href="#android">打Android包运行</a><ul>
+<li><a href="#androidmanifest">更改AndroidManifest</a></li>
+</ul>
+</li>
 </ul>
 </div>
         </nav>
@@ -126,7 +129,14 @@
 <p><img alt="Alt text" src="./1509071407810.png"/></p>
 <p>button上的text显示java代码返回的结果，另一个text显示错误信息。</p>
 <h2 id="android">打Android包运行<a class="headerlink" href="#android" title="Permanent link">¶</a></h2>
-<p>略</p>
+<h3 id="androidmanifest">更改AndroidManifest<a class="headerlink" href="#androidmanifest" title="Permanent link">¶</a></h3>
+<p>当我们在android中加入了一些需要权限的代码，例如读取sd卡数据。有两种方法，一是在Unity的Player Setting中设置这个：</p>
+<p><img alt="Alt text" src="./1509701336890.png"/></p>
+<p>二是更改AndroidManifest.xml</p>
+<p>Unity在打apk包时，会以：</p>
+<p><img alt="Alt text" src="./1509701445692.png"/></p>
+<p>为模版来修改，那我们要做的，就是将这个xml复制到<strong>Asset/Plugins/Android/</strong>下，然后加入权限申明就可以了。</p>
+<p>其他略</p>
 <section>
 <div class="accordion" id="accordion2">
     <div class="accordion-group">

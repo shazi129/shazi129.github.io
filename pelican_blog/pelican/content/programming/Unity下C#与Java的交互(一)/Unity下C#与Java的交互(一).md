@@ -81,7 +81,21 @@ button上的text显示java代码返回的结果，另一个text显示错误信�
 
 ##打Android包运行
 
-略
+###更改AndroidManifest
+
+当我们在android中加入了一些需要权限的代码，例如读取sd卡数据。有两种方法，一是在Unity的Player Setting中设置这个：
+
+![Alt text](./1509701336890.png)
+
+二是更改AndroidManifest.xml
+
+Unity在打apk包时，会以：
+
+![Alt text](./1509701445692.png)
+
+为模版来修改，那我们要做的，就是将这个xml复制到**Asset/Plugins/Android/**下，然后加入权限申明就可以了。
+
+其他略
 
 
 
