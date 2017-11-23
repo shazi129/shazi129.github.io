@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="张文" />
+        <meta name="copyright" content="张文" />
+
+<meta name="keywords" content="学习笔记, Unity, shader, 计算机图形学, " />
+        <title>Unity Editor 自定义窗口  · 观心苑
+</title>
+        <link href="http://www.vmetu.com/blog/../external/css/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://www.vmetu.com/blog/../external/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://www.vmetu.com/blog/"><span class=site-name>观心苑</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://www.vmetu.com/blog">Home</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/categories.html">Categories</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/tags.html">Tags</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/archives.html">Archives</a></li>
+                            <li><form class="navbar-search" action="http://www.vmetu.com/blog/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://www.vmetu.com/blog/unity-editor-zi-ding-yi-chuang-kou.html"> Unity Editor 自定义窗口  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+    <div class="span2 table-of-content">
+        <nav>
+        <h4>Contents</h4>
+        <div class="toc">
+<ul>
+<li><a href="#unity-editor">Unity Editor 自定义窗口</a><ul>
+<li><a href="#_1">示例代码</a></li>
+<li><a href="#api">API解析</a><ul>
+<li><a href="#getwindow">GetWindow</a></li>
+<li><a href="#ongui">OnGUI()</a></li>
+<li><a href="#focusedwindowmouseoverwindow">focusedWindow和mouseOverWindow</a></li>
+<li><a href="#oninspectorupdate">OnInspectorUpdate()</a></li>
+<li><a href="#repaint">Repaint</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </nav>
+    </div>
+    <div class="span8 article-content">
+
+            <h1 id="unity-editor">Unity Editor 自定义窗口<a class="headerlink" href="#unity-editor" title="Permanent link">¶</a></h1>
+<p>@(编程语言)[学习笔记, Unity]</p>
+
+<p>Unity 提供<code>EditorWindow</code>给开发者使得开发者可以创建自定义的编辑器界面，像这样的：</p>
+<p><img alt="Alt text" src="./1511317912545.png"/></p>
+<p>下面来深入了解一下。</p>
+<h2 id="_1">示例代码<a class="headerlink" href="#_1" title="Permanent link">¶</a></h2>
+<div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">MyWindow</span> <span class="o">:</span> <span class="n">EditorWindow</span> <span class="p">{</span>
+
+    <span class="p">[</span><span class="n">MenuItem</span><span class="p">(</span><span class="s">"Window/MyWindow"</span><span class="p">)]</span>
+    <span class="k">static</span> <span class="kt">void</span> <span class="n">myWindow</span><span class="p">()</span> <span class="c1">//创建自定义窗口</span>
+    <span class="p">{</span>
+        <span class="n">MyWindow</span> <span class="n">window</span> <span class="o">=</span> <span class="p">(</span><span class="n">MyWindow</span><span class="p">)</span><span class="n">EditorWindow</span><span class="p">.</span><span class="n">GetWindow</span><span class="p">(</span><span class="n">typeof</span><span class="p">(</span><span class="n">MyWindow</span><span class="p">));</span>
+        <span class="n">window</span><span class="p">.</span><span class="n">Show</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="kt">void</span> <span class="n">OnGUI</span><span class="p">()</span> <span class="c1">//构建界面</span>
+    <span class="p">{</span>
+        <span class="n">string</span> <span class="n">focuseName</span> <span class="o">=</span> <span class="n">focusedWindow</span> <span class="o">==</span> <span class="n">null</span> <span class="o">?</span> <span class="s">"Nothing"</span> <span class="o">:</span> <span class="n">focusedWindow</span><span class="p">.</span><span class="n">ToString</span><span class="p">();</span>
+        <span class="n">string</span> <span class="n">overName</span> <span class="o">=</span> <span class="n">mouseOverWindow</span> <span class="o">==</span> <span class="n">null</span> <span class="o">?</span> <span class="s">"Nothing"</span> <span class="o">:</span> <span class="n">mouseOverWindow</span><span class="p">.</span><span class="n">ToString</span><span class="p">();</span>
+        <span class="n">GUILayout</span><span class="p">.</span><span class="n">Label</span><span class="p">(</span><span class="s">"Focus Win:"</span> <span class="o">+</span> <span class="n">focuseName</span> <span class="o">+</span> <span class="s">", Mouse over:"</span> <span class="o">+</span> <span class="n">overName</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="n">OnInspectorUpdate</span><span class="p">()</span> <span class="c1">//实时更新</span>
+    <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">Repaint</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<h2 id="api">API解析<a class="headerlink" href="#api" title="Permanent link">¶</a></h2>
+<h3 id="getwindow"><a href="https://docs.unity3d.com/ScriptReference/EditorWindow.GetWindow.html">GetWindow</a><a class="headerlink" href="#getwindow" title="Permanent link">¶</a></h3>
+<p>函数原型：</p>
+<div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">static</span> <span class="n">EditorWindow</span> <span class="nf">GetWindow</span><span class="p">(</span><span class="n">Type</span> <span class="n">t</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">utility</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="n">string</span> <span class="n">title</span> <span class="o">=</span> <span class="n">null</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">focus</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
+</pre></div>
+<p>这个函数的作用是返回当前Uinty界面上的第一个类型为<code>t</code>的窗口，如果没有，创建并返回。</p>
+<p>参数utility如果为true，那么这个窗口始终是一个浮动窗口，不会和其他窗口组合。</p>
+<h3 id="ongui"><a href="https://docs.unity3d.com/ScriptReference/EditorWindow.OnGUI.html">OnGUI()</a><a class="headerlink" href="#ongui" title="Permanent link">¶</a></h3>
+<p>自定义窗口的UI实现</p>
+<h3 id="focusedwindowmouseoverwindow"><a href="https://docs.unity3d.com/ScriptReference/EditorWindow-focusedWindow.html">focusedWindow</a>和<a href="https://docs.unity3d.com/ScriptReference/EditorWindow-mouseOverWindow.html">mouseOverWindow</a><a class="headerlink" href="#focusedwindowmouseoverwindow" title="Permanent link">¶</a></h3>
+<p>这是EditorWindow中的两个自定义变量：</p>
+<div class="highlight"><pre><span></span>public static EditorWindow mouseOverWindow;
+public static EditorWindow focusedWindow;
+</pre></div>
+<p>表示当前Unity界面中，焦点窗口和鼠标Over窗口，可为Null。</p>
+<h3 id="oninspectorupdate"><a href="https://docs.unity3d.com/ScriptReference/EditorWindow.OnInspectorUpdate.html">OnInspectorUpdate()</a><a class="headerlink" href="#oninspectorupdate" title="Permanent link">¶</a></h3>
+<p>这个函数每秒会被调用10次，用来实时更新自定义窗口的信息。</p>
+<p>在我们的示例程序中，因为要实时监听鼠标的Over事件和窗口的focus事件，所以需要这个函数。</p>
+<h3 id="repaint"><a href="https://docs.unity3d.com/ScriptReference/EditorWindow.Repaint.html">Repaint</a><a class="headerlink" href="#repaint" title="Permanent link">¶</a></h3>
+<p>重新绘制窗口</p>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2"
+                href="http://www.vmetu.com/blog/unity-editor-zi-ding-yi-chuang-kou.html#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'vmetu';
+        var disqus_identifier = 'http://www.vmetu.com/blog/unity-editor-zi-ding-yi-chuang-kou.html';
+    var disqus_url = 'http://www.vmetu.com/blog/unity-editor-zi-ding-yi-chuang-kou.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+            <aside>
+            <hr/>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://www.vmetu.com/blog/yi-xie-unitykong-jian.html" title="Previous: 一些Unity控件">一些Unity控件</a></li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2017-11-22T00:00:00+08:00">十一月 22, 2017</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#计算机图形学-ref">计算机图形学</a> 
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article"> 
+                <li><a href="/tags.html#shader-ref">shader
+                    <span>1</span>
+</a></li>
+                <li><a href="/tags.html#Unity-ref">Unity
+                    <span>5</span>
+</a></li>
+                <li><a href="/tags.html#学习笔记-ref">学习笔记
+                    <span>4</span>
+</a></li>
+            </ul>
+
+        </div>
+        </section>
+</div>
+</article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'vmetu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+        <script  language="javascript" type="text/javascript">
+            function uncollapse() {
+                var hash_str = window.location.hash;
+                if (window.location.hash.match(/^#comment-\d+$/))
+                {
+                    var hash_str = '#disqus_thread';
+                }
+                $(hash_str).collapse({
+                    toggle: true
+                    })
+            }
+        </script>
+
+        <script type="text/javascript" language="JavaScript">
+            uncollapse(); 
+        </script>
+    </body>
+</html>
