@@ -3,9 +3,6 @@ Date: 2017-11-22
 Category: 计算机图形学
 Tags: 学习笔记, Unity, shader
 
-#Unity Editor 自定义窗口
-@(编程语言)[学习笔记, Unity]
-
 [TOC]
 
 Unity 提供`EditorWindow`给开发者使得开发者可以创建自定义的编辑器界面，像这样的：
