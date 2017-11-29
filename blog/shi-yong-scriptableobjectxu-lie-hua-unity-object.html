@@ -6,8 +6,8 @@
         <meta name="author" content="张文" />
         <meta name="copyright" content="张文" />
 
-<meta name="keywords" content="Unity, C#, Unity, " />
-        <title>一些Unity控件  · 观心苑
+<meta name="keywords" content="学习笔记, Unity, shader, Unity, " />
+        <title>使用ScriptableObject序列化Unity Object  · 观心苑
 </title>
         <link href="http://www.vmetu.com/blog/../external/css/slim-081711.css" rel="stylesheet" type="text/css">
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
@@ -51,29 +51,78 @@
 <article>
 <div class="row-fluid">
     <header class="page_header span10 offset2">
-    <h1><a href="http://www.vmetu.com/blog/yi-xie-unitykong-jian.html"> 一些Unity控件  </a></h1>
+    <h1><a href="http://www.vmetu.com/blog/shi-yong-scriptableobjectxu-lie-hua-unity-object.html"> 使用ScriptableObject序列化Unity Object  </a></h1>
     </header>
 </div>
 
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
 
-            <ol>
-<li>
-<p><a href="https://github.com/shazi129/tools/blob/master/Unity/TabTitles.cs"><strong>tab控件</strong></a> 
-用于快速生成有tab页的界面，可动态生成</p>
-</li>
-<li>
-<p><a href="https://github.com/shazi129/tools/blob/master/Unity/IdObjectMap.cs"><strong>id-object的map</strong></a>
-经常用于在程序中配置id和图片的对应关系</p>
-</li>
-</ol>
+            <p>在Unity中，Unity Object的序列化必须依赖GameObject。像这样是不行的：</p>
+<div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Serializable</span><span class="p">]</span>
+<span class="k">class</span> <span class="nc">ObjectSheetData</span> <span class="o">:</span> <span class="n">SheetData</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="n">Object</span> <span class="n">data</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">ObjectSheetData</span> <span class="n">objData</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ObjectSheetData</span><span class="p">();</span>
+<span class="n">objData</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="err">某个</span><span class="n">Sprite</span><span class="p">;</span>
+
+<span class="c1">//序列化到data.byte</span>
+<span class="n">BinaryFormatter</span> <span class="n">formatter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BinaryFormatter</span><span class="p">();</span>
+<span class="n">Stream</span> <span class="n">stream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileStream</span><span class="p">(</span><span class="s">&quot;data.byte&quot;</span><span class="p">,</span> <span class="n">FileMode</span><span class="p">.</span><span class="n">Create</span><span class="p">,</span> <span class="n">FileAccess</span><span class="p">.</span><span class="n">Write</span><span class="p">,</span> <span class="n">FileShare</span><span class="p">.</span><span class="n">None</span><span class="p">);</span>
+
+<span class="n">formatter</span><span class="p">.</span><span class="n">Serialize</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">objData</span><span class="p">);</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
+</pre></div>
+
+
+<p>Unity会提示</p>
+<blockquote>
+<p>SerializationException: Type UnityEngine.Sprite is not marked as Serializable.</p>
+</blockquote>
+<p>通常的做法是将要序列化的数据附加到一个GameObject上，然后将GameObject做成Prefab，在要使用数据的地方引用Prefab就可以了。这里提供一个算是比较通用的<a href="https://github.com/shazi129/tools/blob/master/Unity/IdObjectMap.cs">脚本</a>，用来实现类似表的功能。 但我们发现这是一种<font color=red><strong>数据附加到界面上来存储</strong></font>的方式，有违<strong>界面与数据分离</strong>的设计方式。</p>
+<p><a href="https://docs.unity3d.com/ScriptReference/ScriptableObject.html"><strong>ScriptableObject</strong></a>提供了一种不依赖<strong>GameObject</strong>的序列化数据的方式。</p>
+<p>我们可以将数据封装成这样：</p>
+<div class="highlight"><pre><span></span>public class ScriptableData : ScriptableObject
+{
+    public string myName = &quot;&quot;;
+    public int myLevel = 0;
+    public Sprite myIcon = null;
+}
+</pre></div>
+
+
+<p>提供一个创建数据文件的接口：</p>
+<div class="highlight"><pre><span></span><span class="k">[MenuItem(&quot;ScriptableTest/CreateData&quot;)]</span>
+<span class="err">public</span> <span class="err">static</span> <span class="err">void</span> <span class="err">CallFunc()</span>
+<span class="err">{</span>
+    <span class="na">ScriptableData data</span> <span class="o">=</span> <span class="s">ScriptableObject.CreateInstance&lt;ScriptableData&gt;();</span>
+<span class="s">    data.myName = &quot;&quot;;</span>
+<span class="s">    data.myLevel = 0;</span>
+<span class="s">    data.myIcon = null;</span>
+
+    <span class="err">//ScriptableDataPaht是数据文件的路径</span>
+    <span class="err">AssetDatabase.CreateAsset(data,</span> <span class="err">GlobalValue.ScriptableDataPaht)</span><span class="c1">;</span>
+    <span class="err">AssetDatabase.SaveAssets()</span><span class="c1">;</span>
+<span class="err">}</span>
+</pre></div>
+
+
+<p>创建出来的文件是这样子的：</p>
+<p><img alt="Alt text" src="./1511945085211.png" /></p>
+<p>填上数据后，就可以在运行时读取了：</p>
+<div class="highlight"><pre><span></span>ScriptableData _data = AssetDatabase.LoadAssetAtPath&lt;ScriptableData&gt;(GlobalValue.ScriptableDataPaht);
+nameInput.text = _data.myName;
+levelInput.text = _data.myLevel.ToString();
+image.sprite = _data.myIcon;
+</pre></div>
 <section>
 <div class="accordion" id="accordion2">
     <div class="accordion-group">
         <div class="accordion-heading">
             <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2"
-                href="http://www.vmetu.com/blog/yi-xie-unitykong-jian.html#disqus_thread">
+                href="http://www.vmetu.com/blog/shi-yong-scriptableobjectxu-lie-hua-unity-object.html#disqus_thread">
                 Comments
             </a>
         </div>
@@ -83,8 +132,8 @@
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'vmetu';
-        var disqus_identifier = 'http://www.vmetu.com/blog/yi-xie-unitykong-jian.html';
-    var disqus_url = 'http://www.vmetu.com/blog/yi-xie-unitykong-jian.html';
+        var disqus_identifier = 'http://www.vmetu.com/blog/shi-yong-scriptableobjectxu-lie-hua-unity-object.html';
+    var disqus_url = 'http://www.vmetu.com/blog/shi-yong-scriptableobjectxu-lie-hua-unity-object.html';
 
     (function() {
          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -104,9 +153,7 @@
             <nav>
             <ul class="articles_timeline">
  
-                <li class="previous_article">« <a href="http://www.vmetu.com/blog/unityxia-cyu-javade-jiao-hu-yi.html" title="Previous: Unity下C#与Java的交互(一)">Unity下C#与Java的交互(一)</a></li>
- 
-                <li class="next_article"><a href="http://www.vmetu.com/blog/unity-editor-zi-ding-yi-chuang-kou.html" title="Next: Unity Editor 自定义窗口">Unity Editor 自定义窗口</a> »</li>
+                <li class="previous_article">« <a href="http://www.vmetu.com/blog/unity-editor-zi-ding-yi-chuang-kou.html" title="Previous: Unity Editor 自定义窗口">Unity Editor 自定义窗口</a></li>
             </ul>
             </nav>
             </aside>
@@ -115,16 +162,19 @@
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2017-11-03T00:00:00+08:00">十一月 3, 2017</time>
+            <time pubdate="pubdate" datetime="2017-11-29T00:00:00+08:00">十一月 29, 2017</time>
             <h4>Category</h4>
             <a class="category-link" href="/categories.html#Unity-ref">Unity</a> 
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article"> 
-                <li><a href="/tags.html#C#-ref">C#
-                    <span>3</span>
+                <li><a href="/tags.html#shader-ref">shader
+                    <span>2</span>
 </a></li>
                 <li><a href="/tags.html#Unity-ref">Unity
                     <span>6</span>
+</a></li>
+                <li><a href="/tags.html#学习笔记-ref">学习笔记
+                    <span>5</span>
 </a></li>
             </ul>
 
