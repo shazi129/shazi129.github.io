@@ -38,7 +38,7 @@ SITEMAP = {
 
 LANDING_PAGE_ABOUT = {
 	"title": "I have a dream",
-	"details": u"一个游戏开发者",
+	"details": u"一个游戏开发者, <a href=\"mailto:apply_count@sina.com\">mail</a>",
 }
 
 PROJECTS = [
