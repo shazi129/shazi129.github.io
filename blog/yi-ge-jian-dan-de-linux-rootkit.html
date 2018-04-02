@@ -58,7 +58,7 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
 
-            <h1 id="linux-rootkit">一个简单的linux rootkit<a class="headerlink" href="#linux-rootkit" title="Permanent link">&para;</a></h1>
+            <h1>一个简单的linux rootkit</h1>
 <p>@(编程语言)[信息安全, Linux, rootkit]</p>
 <p>下面提供一个相对完整的rootkit，在Fedora 12上编译运行成功。</p>
 <div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;linux/module.h&gt;</span><span class="cp"></span>
@@ -87,7 +87,7 @@
 
 
 <p>但我们可以通过该cr0寄存器的第16位来取消写保护，cr0寄存器如下：</p>
-<p><img alt="Alt text" src="./register.png" /></p>
+<p><img alt="Alt text" src="./register.png"></p>
 <p>第16位WP位，它控制是否允许处理器向标志为只读属性的内存页写入数据，如果WP=0, 禁用写保护功能。</p>
 <div class="highlight"><pre><span></span>unsigned int clear_cr0(void) // 将WP清0，并返回清0前的值
 {

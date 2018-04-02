@@ -6,8 +6,8 @@
         <meta name="author" content="张文" />
         <meta name="copyright" content="张文" />
 
-<meta name="keywords" content="Pelican, Pelican, " />
-        <title>Pelican安装过程  · 观心苑
+<meta name="keywords" content="Unity, 编程语言, " />
+        <title>USheet API说明  · 观心苑
 </title>
         <link href="http://www.vmetu.com/blog/../external/css/slim-081711.css" rel="stylesheet" type="text/css">
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
@@ -51,56 +51,72 @@
 <article>
 <div class="row-fluid">
     <header class="page_header span10 offset2">
-    <h1><a href="http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html"> Pelican安装过程  </a></h1>
+    <h1><a href="http://www.vmetu.com/blog/usheet-apishuo-ming.html"> USheet API说明  </a></h1>
     </header>
 </div>
 
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
 
-            <p>今天安装了Pelican，下面来说下过程和遇到的问题</p>
-<ul>
-<li>
-<p>安装Python，因为在Mac下，省掉这一步</p>
-</li>
-<li>
-<p>安装pip(<a href="https://pypi.python.org/packages/source/p/pip/pip-7.1.2.tar.gz#md5=3823d2343d9f3aaab21cf9c917710196">下载地址</a>), 解压后运行： <code>python setup.py install</code> 安装</p>
-</li>
-<li>
-<p>安装pelican， 运行 <code>pip install pelican</code></p>
-</li>
-<li>
-<p>安装markdown， 运行 <code>pip install markdown</code></p>
-</li>
-<li>
-<p>启动pelican创建工程，pelican－quickstart, 此时有可能出现如下错误：</p>
-<div class="highlight"><pre><span></span><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>  
-<span class="n">File</span> <span class="s2">&quot;/usr/local/bin/pelican-quickstart&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">7</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.tools.pelican_quickstart</span> <span class="kn">import</span> <span class="n">main</span>  
-<span class="n">File</span> <span class="s2">&quot;/Library/Python/2.7/site-packages/pelican/__init__.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">20</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.generators</span> <span class="kn">import</span> <span class="p">(</span><span class="n">ArticlesGenerator</span><span class="p">,</span> <span class="n">PagesGenerator</span><span class="p">,</span>  
-<span class="n">File</span> <span class="s2">&quot;/Library/Python/2.7/site-packages/pelican/generators.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">22</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.readers</span> <span class="kn">import</span> <span class="n">Readers</span>  
-<span class="n">File</span> <span class="s2">&quot;/Library/Python/2.7/site-packages/pelican/readers.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">24</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">six.moves.html_parser</span> <span class="kn">import</span> <span class="n">HTMLParser</span>  
-<span class="ne">ImportError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="n">html_parser</span>
-</pre></div>
-
-
-<p>这时只需要更改一下源文件即可：<code>vim /Library/Python/2.7/site-packages/pelican/readers.py</code>。<br>
-将24行的：<br>
-<code>from six.moves.html_parser import HTMLParser</code><br>
- 换成：<br>
-<code>from HTMLParser import HTMLParser</code><br>
-即可</p>
-</li>
-</ul>
+            <h1>USheet API 说明</h1>
+<p>[TOC]</p>
+<p><strong>最新源码：</strong> https://github.com/shazi129/USheet.git</p>
+<p><strong>名字空间：USheet</strong></p>
+<p><strong>注意：</strong>如果需要使修改后的数据落地，需要调用<code>EditorUtility.SetDirty(sheetData);</code></p>
+<h2>查询相关</h2>
+<h3>根据表的内容查找行号</h3>
+<p><code>int indexOf&lt;T&gt;(string title, T value, int startIndex = 0)</code></p>
+<p><strong>参数：</strong>
+<strong>title: </strong> 索引列的表头
+<strong>Value:</strong> 索引列的值
+<strong>startIndex:</strong>查找的起始行号</p>
+<p><strong>返回：</strong> 从0开始的行号</p>
+<h3>查找某个单元格的内容</h3>
+<p><code>IGridData getValue&lt;T&gt;(string keyName, T keyValue, string title, int index = 0)</code></p>
+<p><strong>参数：</strong>
+<strong>keyName: </strong> 索引列的表头
+<strong>keyValue:</strong> 索引列的值
+<strong>title:</strong>单元格所在的列表头
+<strong>index :</strong>查找的起始行号</p>
+<p><strong>返回：</strong> 单元格内容结构体，没查到返回null</p>
+<h3>查找所有符合条件的行</h3>
+<p><code>List&lt;Dictionary&lt;string, IGridData&gt;&gt; getRows&lt;T&gt;(string keyName, T keyValue)</code>
+<strong>参数：</strong>
+<strong>keyName: </strong> 索引列的表头
+<strong>keyValue:</strong> 索引列的值</p>
+<p><strong>返回：</strong> 所有的行内容，没查到返回null。其中<code>Dictionary&lt;string, IGridData&gt;</code>代表一行的内容，key为列名， IGridData为数据</p>
+<h3>根据行号获取行内容</h3>
+<p><code>Dictionary&lt;string, IGridData&gt; getRow(int index)</code>
+<strong>参数：</strong>
+<strong>index: </strong> 行号
+<strong>返回：</strong> 所有的行内容，没查到返回null。在返回的Dictionary中，key为列名， IGridData为数据</p>
+<h2>删除相关</h2>
+<h3>删除一列</h3>
+<p><code>void deleteColumn(string columnName)</code>
+<strong>参数：</strong>
+<strong>columnName: </strong> 列名</p>
+<h3>删除一行</h3>
+<p><code>void deleteRow(int index = -1)</code>
+<strong>参数：</strong>
+<strong>index : </strong>行号，小于0时删除最后一行</p>
+<h2>修改相关</h2>
+<h3>修改单元格数据</h3>
+<p><code>void modify(string title, int rowIndex, IGridData iData)</code>
+<strong>参数：</strong>
+<strong>title: </strong> 列名
+<strong>rowIndex: </strong> 行号
+<strong>iData:</strong>需要修改成的数据</p>
+<h3>修改列名</h3>
+<p><code>void modifyColumnName(string oldName, string newName)</code>
+<strong>参数：</strong>
+<strong>oldName: </strong> 要修改的列名
+<strong>newName: </strong> 新的列名</p>
 <section>
 <div class="accordion" id="accordion2">
     <div class="accordion-group">
         <div class="accordion-heading">
             <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2"
-                href="http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html#disqus_thread">
+                href="http://www.vmetu.com/blog/usheet-apishuo-ming.html#disqus_thread">
                 Comments
             </a>
         </div>
@@ -110,8 +126,8 @@
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'vmetu';
-        var disqus_identifier = 'http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html';
-    var disqus_url = 'http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html';
+        var disqus_identifier = 'http://www.vmetu.com/blog/usheet-apishuo-ming.html';
+    var disqus_url = 'http://www.vmetu.com/blog/usheet-apishuo-ming.html';
 
     (function() {
          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -131,9 +147,7 @@
             <nav>
             <ul class="articles_timeline">
  
-                <li class="previous_article">« <a href="http://www.vmetu.com/blog/yi-ge-neng-chu-li-jsonde-fieldstorage.html" title="Previous: 一个能处理json的FieldStorage">一个能处理json的FieldStorage</a></li>
- 
-                <li class="next_article"><a href="http://www.vmetu.com/blog/unity2dzheng-dong-hua-shi-xian-de-liang-chong-fang-shi.html" title="Next: Unity2D帧动画实现的两种方式">Unity2D帧动画实现的两种方式</a> »</li>
+                <li class="previous_article">« <a href="http://www.vmetu.com/blog/shi-yong-scriptableobjectxu-lie-hua-unity-object.html" title="Previous: 使用ScriptableObject序列化Unity Object">使用ScriptableObject序列化Unity Object</a></li>
             </ul>
             </nav>
             </aside>
@@ -142,13 +156,13 @@
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2015-09-16T00:00:00+08:00">九月 16, 2015</time>
+            <time pubdate="pubdate" datetime="2018-04-02T00:00:00+08:00">四月 2, 2018</time>
             <h4>Category</h4>
-            <a class="category-link" href="/categories.html#Pelican-ref">Pelican</a> 
+            <a class="category-link" href="/categories.html#编程语言-ref">编程语言</a> 
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article"> 
-                <li><a href="/tags.html#Pelican-ref">Pelican
-                    <span>1</span>
+                <li><a href="/tags.html#Unity-ref">Unity
+                    <span>7</span>
 </a></li>
             </ul>
 

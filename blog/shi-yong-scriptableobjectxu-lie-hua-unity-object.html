@@ -95,22 +95,22 @@
 
 <p>提供一个创建数据文件的接口：</p>
 <div class="highlight"><pre><span></span><span class="k">[MenuItem(&quot;ScriptableTest/CreateData&quot;)]</span>
-<span class="err">public</span> <span class="err">static</span> <span class="err">void</span> <span class="err">CallFunc()</span>
-<span class="err">{</span>
+<span class="na">public static void CallFunc()</span>
+<span class="na">{</span>
     <span class="na">ScriptableData data</span> <span class="o">=</span> <span class="s">ScriptableObject.CreateInstance&lt;ScriptableData&gt;();</span>
 <span class="s">    data.myName = &quot;&quot;;</span>
 <span class="s">    data.myLevel = 0;</span>
 <span class="s">    data.myIcon = null;</span>
 
-    <span class="err">//ScriptableDataPaht是数据文件的路径</span>
-    <span class="err">AssetDatabase.CreateAsset(data,</span> <span class="err">GlobalValue.ScriptableDataPaht)</span><span class="c1">;</span>
-    <span class="err">AssetDatabase.SaveAssets()</span><span class="c1">;</span>
-<span class="err">}</span>
+    <span class="na">//ScriptableDataPaht是数据文件的路径</span>
+    <span class="na">AssetDatabase.CreateAsset(data, GlobalValue.ScriptableDataPaht);</span>
+    <span class="na">AssetDatabase.SaveAssets();</span>
+<span class="na">}</span>
 </pre></div>
 
 
 <p>创建出来的文件是这样子的：</p>
-<p><img alt="Alt text" src="./1511945085211.png" /></p>
+<p><img alt="Alt text" src="./1511945085211.png"></p>
 <p>填上数据后，就可以在运行时读取了：</p>
 <div class="highlight"><pre><span></span>ScriptableData _data = AssetDatabase.LoadAssetAtPath&lt;ScriptableData&gt;(GlobalValue.ScriptableDataPaht);
 nameInput.text = _data.myName;
@@ -154,6 +154,8 @@ image.sprite = _data.myIcon;
             <ul class="articles_timeline">
  
                 <li class="previous_article">« <a href="http://www.vmetu.com/blog/unity-editor-zi-ding-yi-chuang-kou.html" title="Previous: Unity Editor 自定义窗口">Unity Editor 自定义窗口</a></li>
+ 
+                <li class="next_article"><a href="http://www.vmetu.com/blog/usheet-apishuo-ming.html" title="Next: USheet API说明">USheet API说明</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -171,7 +173,7 @@ image.sprite = _data.myIcon;
                     <span>2</span>
 </a></li>
                 <li><a href="/tags.html#Unity-ref">Unity
-                    <span>6</span>
+                    <span>7</span>
 </a></li>
                 <li><a href="/tags.html#学习笔记-ref">学习笔记
                     <span>5</span>
