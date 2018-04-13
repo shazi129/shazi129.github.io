@@ -56,4 +56,37 @@ Tags: Python
 	import shutil
 	imageName = os.path.basename(image)
 	shutil.copy(image, "%s/%s" % (pelicanconf.OUTPUT_PATH, imageName))
-geName))
+
+##按编码转换字符串
+
+```python
+    def decode_bytes(byte_str, encoding):
+        if len(encoding) > 0:
+            return byte_str.decode(encoding)
+        else:
+            return byte_str
+```
+
+##运行命令
+
+```python
+    #encoding 为输出格式
+    def execute_cmd(cmd, encoding=""):
+
+        print(cmd)
+        
+        pipe = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        #实时读出一些数据
+        while pipe.poll() == None:
+            line_byte = pipe.stdout.readline()
+            print(decode_bytes(line_byte, encoding), end="");
+
+        out = pipe.stdout.read()
+        if len(out) > 0:
+            print(decode_bytes(out, encoding), end="");
+                
+        err = pipe.stderr.read()
+        if len(err) > 0:
+            raise Exception("execute cmd error:", decode_bytes(err, encoding))
+```
