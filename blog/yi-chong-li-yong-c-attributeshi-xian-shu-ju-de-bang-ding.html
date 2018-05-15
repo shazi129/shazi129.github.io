@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="张文" />
+        <meta name="copyright" content="张文" />
+
+<meta name="keywords" content="学习笔记, 编程语言, " />
+        <title>一种利用C# Attribute实现数据的绑定  · 观心苑
+</title>
+        <link href="http://www.vmetu.com/blog/../external/css/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://www.vmetu.com/blog/../external/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://www.vmetu.com/blog/"><span class=site-name>观心苑</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://www.vmetu.com/blog">Home</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/categories.html">Categories</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/tags.html">Tags</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/archives.html">Archives</a></li>
+                            <li><form class="navbar-search" action="http://www.vmetu.com/blog/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://www.vmetu.com/blog/yi-chong-li-yong-c-attributeshi-xian-shu-ju-de-bang-ding.html"> 一种利用C# Attribute实现数据的绑定  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <h1>一种利用C# Attribute实现数据的绑定</h1>
+<p>在日常开发中，经常会有数据和UI绑定的需求，即数据发生改变时，UI要随之改变。这里提供一个简单的思路，目的是尽量减少代码的编写。</p>
+<p>ModelBase 数据存储基类</p>
+<div class="highlight"><pre><span></span>using System.Collections;
+using System;
+using System.Reflection;
+using System.Collections.Generic;
+
+[AttributeUsage(AttributeTargets.Property, Inherited = false)]
+public class ObservableName : Attribute
+{
+    public string name = String.Empty;
+
+    public ObservableName(string bindName)
+    {
+        name = bindName;
+    }
+}
+
+public class ModelBase
+{
+    public class ModelBindingInfo
+    {
+        public PropertyInfo propertyInfo = null;
+        public ArrayList callbacks = new ArrayList();
+    }
+
+    private Dictionary&lt;string, ModelBase.ModelBindingInfo&gt; _bindingTable = new Dictionary&lt;string, ModelBase.ModelBindingInfo&gt;();
+
+    public ModelBase()
+    {
+        collectObservableProperty();
+    }
+
+    private void collectObservableProperty()
+    {
+        _bindingTable.Clear();
+
+        Type type = this.GetType();
+        PropertyInfo[] propertyInfos = type.GetProperties();
+        for (int i = 0; i &lt; propertyInfos.Length; i++)
+        {
+            object[] obs = propertyInfos[i].GetCustomAttributes(false);
+            for (int j = 0; j &lt; obs.Length; j++)
+            {
+                ObservableName obName = obs[j] as ObservableName;
+                if (obName != null &amp;&amp; !_bindingTable.ContainsKey(obName.name))
+                {
+                    ModelBase.ModelBindingInfo bindingInfo = new ModelBase.ModelBindingInfo();
+                    bindingInfo.propertyInfo = propertyInfos[i];
+                    _bindingTable[obName.name] = bindingInfo;
+                }
+            }
+        }
+    }
+
+    public void addObserverBinding&lt;T&gt;(string obName, Action&lt;T&gt; cb)
+    {
+        if (_bindingTable.ContainsKey(obName))
+        {
+            _bindingTable[obName].callbacks.Add(cb);
+        }
+    }
+
+    public void removeObserverBinding&lt;T&gt;(string obName, Action&lt;T&gt; cb)
+    {
+        if (_bindingTable.ContainsKey(obName))
+        {
+            ArrayList callbacks = _bindingTable[obName].callbacks;
+            callbacks.Remove(cb);
+        }
+    }
+
+    public void setObservableData&lt;T&gt;(string obName, T data)
+    {
+        if (!_bindingTable.ContainsKey(obName))
+        {
+            return;
+        }
+
+        ModelBindingInfo bindingInfo = _bindingTable[obName];
+        bindingInfo.propertyInfo.SetValue(this, data, null);
+
+        T newData = (T)bindingInfo.propertyInfo.GetValue(this, null);
+
+        //通知
+        ArrayList callbacks = _bindingTable[obName].callbacks;
+        for (int j = 0; j &lt; callbacks.Count; j++)
+        {
+            Action&lt;T&gt; cb = (Action&lt;T&gt;)callbacks[j];
+            cb(newData);
+        }
+    }
+}
+</pre></div>
+
+
+<p>使用：
+如果model中的某个property要被绑定，那么就加上<code>ObservableName</code>的属性，指定绑定的key， 然后就可以通过<code>addObserverBinding</code>来绑定行为了。</p>
+<div class="highlight"><pre><span></span>    <span class="nt">class</span> <span class="nt">Person</span><span class="o">:</span> <span class="nt">ModelBase</span>
+    <span class="p">{</span>
+        <span class="cp">[</span><span class="nx">ObservableName</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">)</span><span class="cp">]</span>
+        <span class="err">public</span> <span class="err">string</span> <span class="err">address</span> <span class="err">{</span> <span class="err">get</span><span class="p">;</span> <span class="err">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="err">}</span>
+
+    <span class="nt">class</span> <span class="nt">Test</span>
+    <span class="p">{</span>
+        <span class="err">public</span> <span class="err">void</span> <span class="err">testAttribute()</span>
+        <span class="err">{</span>
+            <span class="err">Person</span> <span class="err">zhangwen</span> <span class="err">=</span> <span class="err">new</span> <span class="err">Person()</span><span class="p">;</span>
+            <span class="err">zhangwen.addObserverBinding&lt;string&gt;(&quot;address&quot;,</span> <span class="err">onZhangwenAddrChange)</span><span class="p">;</span>
+
+            <span class="err">Person</span> <span class="err">shazi</span> <span class="err">=</span> <span class="err">new</span> <span class="err">Person()</span><span class="p">;</span>
+            <span class="err">shazi.addObserverBinding&lt;string&gt;(&quot;address&quot;,</span> <span class="err">onShaziAddrChange)</span><span class="p">;</span>
+
+            <span class="err">zhangwen.setObservableData(&quot;address&quot;,</span> <span class="err">&quot;caifugang&quot;)</span><span class="p">;</span>
+            <span class="err">shazi.setObservableData(&quot;address&quot;,</span> <span class="err">&quot;baijin&quot;)</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="nt">private</span> <span class="nt">void</span> <span class="nt">onShaziAddrChange</span><span class="o">(</span><span class="nt">string</span> <span class="nt">obj</span><span class="o">)</span>
+        <span class="p">{</span>
+            <span class="err">Console.WriteLine(&quot;shazi&#39;s</span> <span class="err">addr</span> <span class="err">changed,</span> <span class="err">new</span> <span class="n">addr</span><span class="p">:</span> <span class="s2">&quot; + obj);</span>
+<span class="s2">        }</span>
+
+<span class="s2">        private void onZhangwenAddrChange(string obj)</span>
+<span class="s2">        {</span>
+<span class="s2">            Console.WriteLine(&quot;</span><span class="n">zhangwen</span><span class="err">&#39;</span><span class="n">s</span> <span class="n">addr</span> <span class="n">changed</span><span class="p">,</span> <span class="n">new</span> <span class="n">addr</span><span class="o">:</span> <span class="err">&quot;</span> <span class="o">+</span> <span class="n">obj</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="nt">static</span> <span class="nt">void</span> <span class="nt">Main</span><span class="o">(</span><span class="nt">string</span><span class="cp">[]</span> <span class="nt">args</span><span class="o">)</span>
+        <span class="p">{</span>
+            <span class="err">TestAttribute</span> <span class="err">test</span> <span class="err">=</span> <span class="err">new</span> <span class="err">TestAttribute()</span><span class="p">;</span>
+            <span class="err">test.testAttribute()</span><span class="p">;</span>
+            <span class="err">Console.ReadKey()</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="err">}</span>
+</pre></div>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2"
+                href="http://www.vmetu.com/blog/yi-chong-li-yong-c-attributeshi-xian-shu-ju-de-bang-ding.html#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'vmetu';
+        var disqus_identifier = 'http://www.vmetu.com/blog/yi-chong-li-yong-c-attributeshi-xian-shu-ju-de-bang-ding.html';
+    var disqus_url = 'http://www.vmetu.com/blog/yi-chong-li-yong-c-attributeshi-xian-shu-ju-de-bang-ding.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+            <aside>
+            <hr/>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://www.vmetu.com/blog/usheet-apishuo-ming.html" title="Previous: USheet API说明">USheet API说明</a></li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2018-05-15T00:00:00+08:00">五月 15, 2018</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#编程语言-ref">编程语言</a> 
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article"> 
+                <li><a href="/tags.html#学习笔记-ref">学习笔记
+                    <span>6</span>
+</a></li>
+            </ul>
+
+        </div>
+        </section>
+</div>
+</article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'vmetu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+        <script  language="javascript" type="text/javascript">
+            function uncollapse() {
+                var hash_str = window.location.hash;
+                if (window.location.hash.match(/^#comment-\d+$/))
+                {
+                    var hash_str = '#disqus_thread';
+                }
+                $(hash_str).collapse({
+                    toggle: true
+                    })
+            }
+        </script>
+
+        <script type="text/javascript" language="JavaScript">
+            uncollapse(); 
+        </script>
+    </body>
+</html>
