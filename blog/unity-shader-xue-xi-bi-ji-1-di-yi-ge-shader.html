@@ -6,8 +6,8 @@
         <meta name="author" content="张文" />
         <meta name="copyright" content="张文" />
 
-<meta name="keywords" content="Unity, C#, Unity, " />
-        <title>一些Unity控件  · 观心苑
+<meta name="keywords" content="学习笔记, Unity, shader, 计算机图形学, " />
+        <title>Unity Shader 学习笔记1 —— 第一个Shader  · 观心苑
 </title>
         <link href="http://www.vmetu.com/blog/../external/css/slim-081711.css" rel="stylesheet" type="text/css">
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
@@ -51,25 +51,83 @@
 <article>
 <div class="row-fluid">
     <header class="page_header span10 offset2">
-    <h1><a href="http://www.vmetu.com/blog/yi-xie-unitykong-jian.html"> 一些Unity控件  </a></h1>
+    <h1><a href="http://www.vmetu.com/blog/unity-shader-xue-xi-bi-ji-1-di-yi-ge-shader.html"> Unity Shader 学习笔记1 —— 第一个Shader  </a></h1>
     </header>
 </div>
 
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
 
-            <ol>
+            <h1>Unity Shader 学习笔记1—— 第一个Shader</h1>
+<p>@(计算机图形学)[学习笔记, Unity, shader]</p>
+<p>[TOC]</p>
+<h2>Shader结构</h2>
+<p><img alt="Alt text" src="./1508917517324.png"></p>
+<h3>Properties</h3>
+<p><img alt="Alt text" src="./1508917908028.png"></p>
+<p>示例：</p>
+<div class="highlight"><pre><span></span>Properties{
+    _Color(&quot;Color Tint&quot;, Color) = (1.0, 1.0, 1.0, 1.0)
+    _Offset(&quot;Offset&quot;, Vector) = (0, 0, 0, 0)
+}
+</pre></div>
+
+
+<p>类似于定义变量。例如_Color一行的含义为：Shader中有个<code>_Color</code>的变量，它的类型是<code>Color</code>, 值由编辑器中的<strong>Color Tint</strong>来编辑。效果：
+<img alt="Alt text" src="./1508918262889.png"></p>
+<h3>SubShader 和 Fallback</h3>
+<p>SubShader是Unity Shader用来支持不同显卡的方式。当Unity加载一个Shader时，会从这个Shader中选取第一个可以支持的SubShader加载，如果都不支持，使用FallBack指定的Shader</p>
+<p>SubShader中每个渲染流程可以用Pass包起来，一个SubShader中可以有多个渲染流程</p>
+<h3>一个示例</h3>
+<div class="highlight"><pre><span></span>Shader &quot;Custom/1_shader&quot; {
+
+    Properties{
+        _Color(&quot;Color Tint&quot;, Color) = (1.0, 1.0, 1.0, 1.0)
+        _Offset(&quot;Offset&quot;, Vector) = (0, 0, 0, 0)
+    }
+
+    SubShader{
+        Pass {
+            CGPROGRAM
+
+            //定义顶点着色器和片元着色器的代码
+            #pragma vertex vert
+            #pragma fragment frag
+
+            fixed4 _Color;
+            fixed4 _Offset;
+
+            float4 vert(float4 v : POSITION) : SV_POSITION {
+                //意思是将模型空间中的点转换为剪裁空间（屏幕）中的点，然后加上offset
+                return UnityObjectToClipPos(v) + _Offset;
+            }
+
+            fixed4 frag() : SV_Target {
+                return _Color;
+            }
+
+            ENDCG
+        }
+    }
+}
+</pre></div>
+
+
+<h3>使用</h3>
+<ol>
 <li>
-<p><a href="https://github.com/shazi129/UnityUtils/blob/master/TabTitles.cs"><strong>tab控件</strong></a>  <br>
-用于快速生成有tab页的界面，可动态生成</p>
+<p><strong>创建shader文件</strong>
+在Unity Project中右击，选择<code>Create-&gt;Shader-&gt;Standard Surface Shader</code>，创建完成后改名，然后将自己的代码替换掉原来的代码。</p>
 </li>
 <li>
-<p><a href="https://github.com/shazi129/UnityUtils/blob/master/IdObjectMap.cs"><strong>id-object的map</strong></a>  <br>
-经常用于在程序中配置id和图片的对应关系</p>
+<p><strong>创建Meterial</strong>
+创建后，将Shader设为自己的Shader
+<img alt="Alt text" src="./1510731314629.png"></p>
 </li>
 <li>
-<p><a href="https://github.com/shazi129/UnityUtils/blob/master/MoveForSpecialDev.cs"><strong>MoveForSpecialDev</strong></a>  <br>
-用于不同设备的界面元素位置的微调，目前仅用于iPhoneX的适配</p>
+<p><strong>MeshRender使用</strong>
+创建一个GameObject, 增加MeshRender组件，将材质设为刚才创建的材质，就可以看到效果了
+<img alt="Alt text" src="./1510731430279.png"></p>
 </li>
 </ol>
 <section>
@@ -77,7 +135,7 @@
     <div class="accordion-group">
         <div class="accordion-heading">
             <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2"
-                href="http://www.vmetu.com/blog/yi-xie-unitykong-jian.html#disqus_thread">
+                href="http://www.vmetu.com/blog/unity-shader-xue-xi-bi-ji-1-di-yi-ge-shader.html#disqus_thread">
                 Comments
             </a>
         </div>
@@ -87,8 +145,8 @@
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'vmetu';
-        var disqus_identifier = 'http://www.vmetu.com/blog/yi-xie-unitykong-jian.html';
-    var disqus_url = 'http://www.vmetu.com/blog/yi-xie-unitykong-jian.html';
+        var disqus_identifier = 'http://www.vmetu.com/blog/unity-shader-xue-xi-bi-ji-1-di-yi-ge-shader.html';
+    var disqus_url = 'http://www.vmetu.com/blog/unity-shader-xue-xi-bi-ji-1-di-yi-ge-shader.html';
 
     (function() {
          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -108,9 +166,9 @@
             <nav>
             <ul class="articles_timeline">
  
-                <li class="previous_article">« <a href="http://www.vmetu.com/blog/unityxia-cyu-javade-jiao-hu-yi.html" title="Previous: Unity下C#与Java的交互(一)">Unity下C#与Java的交互(一)</a></li>
+                <li class="previous_article">« <a href="http://www.vmetu.com/blog/yi-ge-cshi-xian-lei-si-fan-she-de-gong-han-mo-shi.html" title="Previous: 一个C++实现类似反射的工厂模式">一个C++实现类似反射的工厂模式</a></li>
  
-                <li class="next_article"><a href="http://www.vmetu.com/blog/unity-editor-zi-ding-yi-chuang-kou.html" title="Next: Unity Editor 自定义窗口">Unity Editor 自定义窗口</a> »</li>
+                <li class="next_article"><a href="http://www.vmetu.com/blog/unityxia-cyu-javade-jiao-hu-yi.html" title="Next: Unity下C#与Java的交互(一)">Unity下C#与Java的交互(一)</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -119,16 +177,19 @@
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2017-11-03T00:00:00+08:00">十一月 3, 2017</time>
+            <time pubdate="pubdate" datetime="2017-10-25T00:00:00+08:00">十月 25, 2017</time>
             <h4>Category</h4>
-            <a class="category-link" href="/categories.html#Unity-ref">Unity</a> 
+            <a class="category-link" href="/categories.html#计算机图形学-ref">计算机图形学</a> 
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article"> 
-                <li><a href="/tags.html#C#-ref">C#
+                <li><a href="/tags.html#shader-ref">shader
                     <span>3</span>
 </a></li>
                 <li><a href="/tags.html#Unity-ref">Unity
                     <span>8</span>
+</a></li>
+                <li><a href="/tags.html#学习笔记-ref">学习笔记
+                    <span>7</span>
 </a></li>
             </ul>
 
