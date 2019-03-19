@@ -1,8 +1,6 @@
-Title: lua源码阅读2——string  
-
+Title:lua源码阅读2——string  
 Date: 2019-03-13  
-
-Category: lua源码阅读
+Category: lua源码阅读     
 
 [TOC]
 

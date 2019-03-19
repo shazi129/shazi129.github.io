@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="张文" />
+        <meta name="copyright" content="张文" />
+
+<meta name="keywords" content=", lua源码阅读, " />
+        <title>lua源码阅读2——string  · 观心苑
+</title>
+        <link href="http://www.vmetu.com/blog/../external/css/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://www.vmetu.com/blog/../external/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://www.vmetu.com/blog/"><span class=site-name>观心苑</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://www.vmetu.com/blog">Home</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/categories.html">Categories</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/tags.html">Tags</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/archives.html">Archives</a></li>
+                            <li><form class="navbar-search" action="http://www.vmetu.com/blog/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://www.vmetu.com/blog/luayuan-ma-yue-du-2-string.html"> lua源码阅读2——string  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p>[TOC]</p>
+<h2>字符串部分对外接口</h2>
+<div class="highlight"><pre><span></span><span class="c1">//计算一段buff的哈希值</span>
+<span class="n">LUAI_FUNC</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">luaS_hash</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">seed</span><span class="p">);</span>
+<span class="c1">//计算长字符串的哈希值</span>
+<span class="n">LUAI_FUNC</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">luaS_hashlongstr</span> <span class="p">(</span><span class="n">TString</span> <span class="o">*</span><span class="n">ts</span><span class="p">);</span>
+<span class="c1">//比较字长符串</span>
+<span class="n">LUAI_FUNC</span> <span class="kt">int</span> <span class="nf">luaS_eqlngstr</span> <span class="p">(</span><span class="n">TString</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="n">TString</span> <span class="o">*</span><span class="n">b</span><span class="p">);</span>
+<span class="c1">//重新分配散列桶的大小</span>
+<span class="n">LUAI_FUNC</span> <span class="kt">void</span> <span class="nf">luaS_resize</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="kt">int</span> <span class="n">newsize</span><span class="p">);</span>
+<span class="c1">//清理字符串的cache</span>
+<span class="n">LUAI_FUNC</span> <span class="kt">void</span> <span class="nf">luaS_clearcache</span> <span class="p">(</span><span class="n">global_State</span> <span class="o">*</span><span class="n">g</span><span class="p">);</span>
+<span class="c1">//初始化短字符散列表和长字符cache</span>
+<span class="n">LUAI_FUNC</span> <span class="kt">void</span> <span class="nf">luaS_init</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">);</span>
+<span class="c1">//删除一个短字符串</span>
+<span class="n">LUAI_FUNC</span> <span class="kt">void</span> <span class="nf">luaS_remove</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="n">TString</span> <span class="o">*</span><span class="n">ts</span><span class="p">);</span>
+<span class="c1">//创建字符串</span>
+<span class="n">LUAI_FUNC</span> <span class="n">TString</span> <span class="o">*</span><span class="nf">luaS_newlstr</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">);</span>
+<span class="c1">//创建字符串，先从所以中找，然后luaS_newlstr创建</span>
+<span class="n">LUAI_FUNC</span> <span class="n">TString</span> <span class="o">*</span><span class="nf">luaS_new</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">);</span>
+<span class="c1">//创建长字符串</span>
+<span class="n">LUAI_FUNC</span> <span class="n">TString</span> <span class="o">*</span><span class="nf">luaS_createlngstrobj</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">);</span>
+</pre></div>
+
+
+<h2>字符串的结构体</h2>
+<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Header for string value; string bytes follow the end of this structure</span>
+<span class="cm">** (aligned according to &#39;UTString&#39;; see next).</span>
+<span class="cm">*/</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">TString</span> <span class="p">{</span>
+  <span class="n">CommonHeader</span><span class="p">;</span>
+  <span class="c1">//标识是否是lua关键字，长字符串是否哈希等信息</span>
+  <span class="n">lu_byte</span> <span class="n">extra</span><span class="p">;</span>  <span class="cm">/* reserved words for short strings; &quot;has hash&quot; for longs */</span>
+  <span class="c1">//短字符串的长度</span>
+  <span class="n">lu_byte</span> <span class="n">shrlen</span><span class="p">;</span>  <span class="cm">/* length for short strings */</span>
+  <span class="c1">//字符串哈希值</span>
+  <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">hash</span><span class="p">;</span>
+  <span class="c1">//短字符串才有链表，所以用可以用union表示两种信息</span>
+  <span class="k">union</span> <span class="p">{</span>
+    <span class="c1">//长字符串的长度</span>
+    <span class="kt">size_t</span> <span class="n">lnglen</span><span class="p">;</span>  <span class="cm">/* length for long strings */</span>
+    <span class="c1">//短字符串的链表(一个链表的字符串哈希值都相同)</span>
+    <span class="k">struct</span> <span class="n">TString</span> <span class="o">*</span><span class="n">hnext</span><span class="p">;</span>  <span class="cm">/* linked list for hash table */</span>
+  <span class="p">}</span> <span class="n">u</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">TString</span><span class="p">;</span>
+</pre></div>
+
+
+<p>在创建字符串时，会申请<code>sizeof(TString) + 字符串实际长度 + 1</code>的内存空间，头部存<code>TString</code>,后面跟着字符串内容。 </p>
+<h3>长字符串和短字符串</h3>
+<p>Lua 5.3引入了长字符串和短字符串的概念，它们按长度区分，定义在：</p>
+<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Maximum length for short strings, that is, strings that are</span>
+<span class="cm">** internalized. (Cannot be smaller than reserved words or tags for</span>
+<span class="cm">** metamethods, as these strings must be internalized;</span>
+<span class="cm">** #(&quot;function&quot;) = 8, #(&quot;__newindex&quot;) = 10.)</span>
+<span class="cm">*/</span>
+<span class="cp">#if !defined(LUAI_MAXSHORTLEN)</span>
+<span class="cp">#define LUAI_MAXSHORTLEN    40</span>
+<span class="cp">#endif</span>
+</pre></div>
+
+
+<p>Lua中所有关键词都被认为是短字符串，最长的应该是"__newindex"，所以<code>LUAI_MAXSHORTLEN</code>不应小于10。</p>
+<p>Lua中所有的短字符串均被存放在全局状态表（global_State）的<strong>strt</strong>域中，<strong>strt</strong>是<strong>stringtable</strong>的简写，它是一个哈希表。</p>
+<h3>短字符串的组织方式</h3>
+<p>Lua中所有的短字符串均被存放在全局状态表（global_State）的<code>strt</code>域中，<code>strt</code>是<code>stringtable</code>的简写，它是一个哈希表。<code>strt</code>的定义：</p>
+<div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">stringtable</span> <span class="p">{</span>
+  <span class="n">TString</span> <span class="o">**</span><span class="n">hash</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">nuse</span><span class="p">;</span>  <span class="c1">//表里的字符串的个数</span>
+  <span class="kt">int</span> <span class="n">size</span><span class="p">;</span> <span class="c1">//size是这个表的散列桶的个数</span>
+<span class="p">}</span> <span class="n">stringtable</span><span class="p">;</span>
+</pre></div>
+
+
+<p>表的结构如下图(参考：https://www.cnblogs.com/heartchord/p/4561308.html)：</p>
+<p><img alt="img" src="https://images0.cnblogs.com/blog2015/526315/201506/181821271542574.png"></p>
+<p>在Lua初始化的时候会调用<code>luaS_init</code>来初始化短字符串的哈希表。</p>
+<h2>字符串索引初始化</h2>
+<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Initialize the string table and the string cache</span>
+<span class="cm">*/</span>
+<span class="kt">void</span> <span class="nf">luaS_init</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">global_State</span> <span class="o">*</span><span class="n">g</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">;</span>
+  <span class="c1">//创建短字符串的散列表</span>
+  <span class="n">luaS_resize</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">MINSTRTABSIZE</span><span class="p">);</span>  <span class="cm">/* initial size of string table */</span>
+
+  <span class="cm">/* pre-create memory-error message */</span>
+  <span class="n">g</span><span class="o">-&gt;</span><span class="n">memerrmsg</span> <span class="o">=</span> <span class="n">luaS_newliteral</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">MEMERRMSG</span><span class="p">);</span>
+  <span class="n">luaC_fix</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">obj2gco</span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">memerrmsg</span><span class="p">));</span>  <span class="cm">/* it should never be collected */</span>
+
+  <span class="c1">//字符串缓冲，用于提高字符串的访问。STRCACHE_N为索引的个数,STRCACHE_M为有相同索引元素的个数</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">STRCACHE_N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>  <span class="cm">/* fill cache with valid strings */</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">STRCACHE_M</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+      <span class="n">g</span><span class="o">-&gt;</span><span class="n">strcache</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">memerrmsg</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>短字符串散列表的建立</h3>
+<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** resizes the string table</span>
+<span class="cm">*/</span>
+<span class="kt">void</span> <span class="nf">luaS_resize</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="kt">int</span> <span class="n">newsize</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+  <span class="n">stringtable</span> <span class="o">*</span><span class="n">tb</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">G</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">strt</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">newsize</span> <span class="o">&gt;</span> <span class="n">tb</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">)</span> <span class="p">{</span>  <span class="cm">/* grow table if needed */</span>
+
+    <span class="c1">//将tb-&gt;hash的数量从tb-&gt;size增加到newsize</span>
+    <span class="n">luaM_reallocvector</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">tb</span><span class="o">-&gt;</span><span class="n">hash</span><span class="p">,</span> <span class="n">tb</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">,</span> <span class="n">newsize</span><span class="p">,</span> <span class="n">TString</span> <span class="o">*</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="n">tb</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">newsize</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+      <span class="c1">//新创建的初始值为NULL</span>
+      <span class="n">tb</span><span class="o">-&gt;</span><span class="n">hash</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">tb</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>  <span class="cm">/* rehash */</span>
+    <span class="n">TString</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">tb</span><span class="o">-&gt;</span><span class="n">hash</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">tb</span><span class="o">-&gt;</span><span class="n">hash</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="p">{</span>  <span class="cm">/* for each node in the list */</span>
+      <span class="cm">/*</span>
+<span class="cm">       * 这段是这样处理的</span>
+<span class="cm">       * 初始：</span>
+<span class="cm">       * p -&gt; [1] -&gt;[2] -&gt; [3]</span>
+<span class="cm">       * h -&gt; [5] -&gt;[6] -&gt; [7]</span>
+<span class="cm">       * 处理后</span>
+<span class="cm">       * p -&gt;[2] -&gt; [3]</span>
+<span class="cm">       * h -&gt;[1] -&gt; [5] -&gt;[6] -&gt; [7]</span>
+<span class="cm">       */</span>
+      <span class="n">TString</span> <span class="o">*</span><span class="n">hnext</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">u</span><span class="p">.</span><span class="n">hnext</span><span class="p">;</span>  <span class="cm">/* save next */</span>
+      <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">h</span> <span class="o">=</span> <span class="n">lmod</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">hash</span><span class="p">,</span> <span class="n">newsize</span><span class="p">);</span>  <span class="cm">/* new position */</span>
+      <span class="n">p</span><span class="o">-&gt;</span><span class="n">u</span><span class="p">.</span><span class="n">hnext</span> <span class="o">=</span> <span class="n">tb</span><span class="o">-&gt;</span><span class="n">hash</span><span class="p">[</span><span class="n">h</span><span class="p">];</span>  <span class="cm">/* chain it */</span>
+      <span class="n">tb</span><span class="o">-&gt;</span><span class="n">hash</span><span class="p">[</span><span class="n">h</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>
+      <span class="n">p</span> <span class="o">=</span> <span class="n">hnext</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="c1">//假如是缩表, 因为经过上面的处理，后面的桶肯定是空了</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">newsize</span> <span class="o">&lt;</span> <span class="n">tb</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">)</span> <span class="p">{</span>  <span class="cm">/* shrink table if needed */</span>
+    <span class="cm">/* vanishing slice should be empty */</span>
+    <span class="n">lua_assert</span><span class="p">(</span><span class="n">tb</span><span class="o">-&gt;</span><span class="n">hash</span><span class="p">[</span><span class="n">newsize</span><span class="p">]</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">tb</span><span class="o">-&gt;</span><span class="n">hash</span><span class="p">[</span><span class="n">tb</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">);</span>
+    <span class="n">luaM_reallocvector</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">tb</span><span class="o">-&gt;</span><span class="n">hash</span><span class="p">,</span> <span class="n">tb</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">,</span> <span class="n">newsize</span><span class="p">,</span> <span class="n">TString</span> <span class="o">*</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">tb</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">=</span> <span class="n">newsize</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>字符串哈希算法</h3>
+<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Lua will use at most ~(2^LUAI_HASHLIMIT) bytes from a string to</span>
+<span class="cm">** compute its hash</span>
+<span class="cm">*/</span>
+<span class="cp">#if !defined(LUAI_HASHLIMIT)</span>
+<span class="cp">#define LUAI_HASHLIMIT      5</span>
+<span class="cp">#endif</span>
+
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">luaS_hash</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">seed</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">h</span> <span class="o">=</span> <span class="n">seed</span> <span class="o">^</span> <span class="n">cast</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="p">,</span> <span class="n">l</span><span class="p">);</span>
+  <span class="kt">size_t</span> <span class="n">step</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span> <span class="o">&gt;&gt;</span> <span class="n">LUAI_HASHLIMIT</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(;</span> <span class="n">l</span> <span class="o">&gt;=</span> <span class="n">step</span><span class="p">;</span> <span class="n">l</span> <span class="o">-=</span> <span class="n">step</span><span class="p">)</span>
+    <span class="n">h</span> <span class="o">^=</span> <span class="p">((</span><span class="n">h</span><span class="o">&lt;&lt;</span><span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">h</span><span class="o">&gt;&gt;</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">cast_byte</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]));</span>
+  <span class="k">return</span> <span class="n">h</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<ul>
+<li><code>LUAI_HASHLIMIT</code>算哈希值的最多的字节数，5表示32，主要用来获得计算步长<code>step</code>。c语言中常用位移来代替乘除用以提高效率(参考二进制的位移和乘除运算)。实际就是:<code>step = 字符串长度 / 32 + 1</code></li>
+<li>一些常见的哈希算法https://blog.csdn.net/chenguolinblog/article/details/7833794</li>
+<li>Lua中使用了随机生成的<code>seed</code>来保证哈希值不被猜测</li>
+</ul>
+<h3>长字符串的哈希算法</h3>
+<div class="highlight"><pre><span></span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">luaS_hashlongstr</span> <span class="p">(</span><span class="n">TString</span> <span class="o">*</span><span class="n">ts</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">lua_assert</span><span class="p">(</span><span class="n">ts</span><span class="o">-&gt;</span><span class="n">tt</span> <span class="o">==</span> <span class="n">LUA_TLNGSTR</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ts</span><span class="o">-&gt;</span><span class="n">extra</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>  <span class="cm">/* no hash? */</span>
+    <span class="c1">//作为参数传进去的ts-&gt;hash就是随机种子</span>
+    <span class="n">ts</span><span class="o">-&gt;</span><span class="n">hash</span> <span class="o">=</span> <span class="n">luaS_hash</span><span class="p">(</span><span class="n">getstr</span><span class="p">(</span><span class="n">ts</span><span class="p">),</span> <span class="n">ts</span><span class="o">-&gt;</span><span class="n">u</span><span class="p">.</span><span class="n">lnglen</span><span class="p">,</span> <span class="n">ts</span><span class="o">-&gt;</span><span class="n">hash</span><span class="p">);</span>
+    <span class="n">ts</span><span class="o">-&gt;</span><span class="n">extra</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>  <span class="cm">/* now it has its hash */</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">ts</span><span class="o">-&gt;</span><span class="n">hash</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>随机数种子seed</h3>
+<p>Lua中生成随机数种子的逻辑：</p>
+<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** a macro to help the creation of a unique random seed when a state is</span>
+<span class="cm">** created; the seed is used to randomize hashes.</span>
+<span class="cm">*/</span>
+<span class="cp">#if !defined(luai_makeseed)</span>
+<span class="cp">#include</span> <span class="cpf">&lt;time.h&gt;</span><span class="cp"></span>
+<span class="cp">#define luai_makeseed()     cast(unsigned int, time(NULL))</span>
+<span class="cp">#endif</span>
+
+<span class="cm">/*</span>
+<span class="cm">** Compute an initial seed as random as possible. Rely on Address Space</span>
+<span class="cm">** Layout Randomization (if present) to increase randomness..</span>
+<span class="cm">*/</span>
+<span class="cp">#define addbuff(b,p,e) \</span>
+<span class="cp">  { size_t t = cast(size_t, e); \</span>
+<span class="cp">    memcpy(b + p, &amp;t, sizeof(t)); p += sizeof(t); }</span>
+
+<span class="k">static</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">makeseed</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">char</span> <span class="n">buff</span><span class="p">[</span><span class="mi">4</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">size_t</span><span class="p">)];</span>
+  <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">h</span> <span class="o">=</span> <span class="n">luai_makeseed</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="n">p</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="c1">//在这buff中写入各种变量的地址</span>
+  <span class="n">addbuff</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">L</span><span class="p">);</span>  <span class="cm">/* heap variable */</span>
+  <span class="n">addbuff</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">h</span><span class="p">);</span>  <span class="cm">/* local variable */</span>
+  <span class="n">addbuff</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">luaO_nilobject</span><span class="p">);</span>  <span class="cm">/* global variable */</span>
+  <span class="n">addbuff</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">lua_newstate</span><span class="p">);</span>  <span class="cm">/* public function */</span>
+  <span class="n">lua_assert</span><span class="p">(</span><span class="n">p</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buff</span><span class="p">));</span>
+  <span class="k">return</span> <span class="n">luaS_hash</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">h</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<ul>
+<li><code>luai_makeseed</code> 返回当前时间戳</li>
+<li>算法以当前时间戳为种子，哈希一段存了各种地址的buff，以得到的哈希值为随机数种子。如果在调试的时候想得到固定一致的哈希值，可以自定义<code>luai_makeseed</code>函数</li>
+</ul>
+<h2>字符串的创建</h2>
+<h3>创建入口</h3>
+<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Create or reuse a zero-terminated string, first checking in the</span>
+<span class="cm">** cache (using the string address as a key). The cache can contain</span>
+<span class="cm">** only zero-terminated strings, so it is safe to use &#39;strcmp&#39; to</span>
+<span class="cm">** check hits.</span>
+<span class="cm">*/</span>
+<span class="n">TString</span> <span class="o">*</span><span class="nf">luaS_new</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">//先在缓冲中找，缓冲以字符串地址为索引，最多有STRCACHE_N(53)个索引</span>
+  <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">point2uint</span><span class="p">(</span><span class="n">str</span><span class="p">)</span> <span class="o">%</span> <span class="n">STRCACHE_N</span><span class="p">;</span>  <span class="cm">/* hash */</span>
+  <span class="kt">int</span> <span class="n">j</span><span class="p">;</span>
+  <span class="n">TString</span> <span class="o">**</span><span class="n">p</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">strcache</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+  <span class="c1">//每个索引下可以有STRCACHE_M(2)个字符串，命中后直接返回</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">STRCACHE_M</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="n">getstr</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>  <span class="cm">/* hit? */</span>
+      <span class="k">return</span> <span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>  <span class="cm">/* that is it */</span>
+  <span class="p">}</span>
+
+  <span class="c1">//没在缓冲中找到的话，在使用常规的方法查找或是创建字符串，得到字符串后，放到缓冲中</span>
+  <span class="cm">/* normal route */</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="n">STRCACHE_M</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">--</span><span class="p">)</span>
+    <span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>  <span class="cm">/* move out last element */</span>
+  <span class="cm">/* new element is first in the list */</span>
+  <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">luaS_newlstr</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">str</span><span class="p">));</span>
+  <span class="k">return</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>创建字符串时，先通过缓冲查找，可以避免一些重复字符串的创建。</p>
+<h3>创建字符串。</h3>
+<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** new string (with explicit length)</span>
+<span class="cm">*/</span>
+<span class="n">TString</span> <span class="o">*</span><span class="nf">luaS_newlstr</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">//根据字符串长度来创建</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">&lt;=</span> <span class="n">LUAI_MAXSHORTLEN</span><span class="p">)</span>  <span class="cm">/* short string? */</span>
+    <span class="k">return</span> <span class="n">internshrstr</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">l</span><span class="p">);</span> <span class="c1">//创建短字符串</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="n">TString</span> <span class="o">*</span><span class="n">ts</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">MAX_SIZE</span> <span class="o">-</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">TString</span><span class="p">))</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">))</span>
+      <span class="n">luaM_toobig</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">luaS_createlngstrobj</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">l</span><span class="p">);</span> <span class="c1">//创建长字符串</span>
+    <span class="n">memcpy</span><span class="p">(</span><span class="n">getstr</span><span class="p">(</span><span class="n">ts</span><span class="p">),</span> <span class="n">str</span><span class="p">,</span> <span class="n">l</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">));</span>
+    <span class="k">return</span> <span class="n">ts</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>长字符串的创建</h3>
+<div class="highlight"><pre><span></span><span class="n">TString</span> <span class="o">*</span><span class="nf">luaS_createlngstrobj</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">//长字符串在创建时，并没有计算哈希值，要作为索引用的时候才哈希</span>
+  <span class="n">TString</span> <span class="o">*</span><span class="n">ts</span> <span class="o">=</span> <span class="n">createstrobj</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">LUA_TLNGSTR</span><span class="p">,</span> <span class="n">G</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">seed</span><span class="p">);</span>
+  <span class="n">ts</span><span class="o">-&gt;</span><span class="n">u</span><span class="p">.</span><span class="n">lnglen</span> <span class="o">=</span> <span class="n">l</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">ts</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>短字符串创建</h3>
+<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** checks whether short string exists and reuses it or creates a new one</span>
+<span class="cm">*/</span>
+<span class="k">static</span> <span class="n">TString</span> <span class="o">*</span><span class="nf">internshrstr</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">TString</span> <span class="o">*</span><span class="n">ts</span><span class="p">;</span>
+  <span class="n">global_State</span> <span class="o">*</span><span class="n">g</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+  <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">h</span> <span class="o">=</span> <span class="n">luaS_hash</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">seed</span><span class="p">);</span>
+  <span class="n">TString</span> <span class="o">**</span><span class="n">list</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">strt</span><span class="p">.</span><span class="n">hash</span><span class="p">[</span><span class="n">lmod</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">strt</span><span class="p">.</span><span class="n">size</span><span class="p">)];</span>
+  <span class="n">lua_assert</span><span class="p">(</span><span class="n">str</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>  <span class="cm">/* otherwise &#39;memcmp&#39;/&#39;memcpy&#39; are undefined */</span>
+
+  <span class="c1">//先从列表中找，找到后直接返回</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">ts</span> <span class="o">=</span> <span class="o">*</span><span class="n">list</span><span class="p">;</span> <span class="n">ts</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="n">ts</span> <span class="o">=</span> <span class="n">ts</span><span class="o">-&gt;</span><span class="n">u</span><span class="p">.</span><span class="n">hnext</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">==</span> <span class="n">ts</span><span class="o">-&gt;</span><span class="n">shrlen</span> <span class="o">&amp;&amp;</span>
+        <span class="p">(</span><span class="n">memcmp</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="n">getstr</span><span class="p">(</span><span class="n">ts</span><span class="p">),</span> <span class="n">l</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
+      <span class="cm">/* found! */</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">isdead</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">ts</span><span class="p">))</span>  <span class="cm">/* dead (but not collected yet)? */</span>
+        <span class="n">changewhite</span><span class="p">(</span><span class="n">ts</span><span class="p">);</span>  <span class="cm">/* resurrect it */</span>
+      <span class="k">return</span> <span class="n">ts</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="c1">//如果元素的个数太多了，就要重新生成散列桶</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">strt</span><span class="p">.</span><span class="n">nuse</span> <span class="o">&gt;=</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">strt</span><span class="p">.</span><span class="n">size</span> <span class="o">&amp;&amp;</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">strt</span><span class="p">.</span><span class="n">size</span> <span class="o">&lt;=</span> <span class="n">MAX_INT</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">luaS_resize</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">strt</span><span class="p">.</span><span class="n">size</span> <span class="o">*</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="n">list</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">strt</span><span class="p">.</span><span class="n">hash</span><span class="p">[</span><span class="n">lmod</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">strt</span><span class="p">.</span><span class="n">size</span><span class="p">)];</span>  <span class="cm">/* recompute with new size */</span>
+  <span class="p">}</span>
+
+  <span class="c1">//申请内存并创建结构体，组织方式： |TString结构体|l+1长的buff|</span>
+  <span class="n">ts</span> <span class="o">=</span> <span class="n">createstrobj</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">LUA_TSHRSTR</span><span class="p">,</span> <span class="n">h</span><span class="p">);</span>
+  <span class="n">memcpy</span><span class="p">(</span><span class="n">getstr</span><span class="p">(</span><span class="n">ts</span><span class="p">),</span> <span class="n">str</span><span class="p">,</span> <span class="n">l</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">));</span>
+  <span class="n">ts</span><span class="o">-&gt;</span><span class="n">shrlen</span> <span class="o">=</span> <span class="n">cast_byte</span><span class="p">(</span><span class="n">l</span><span class="p">);</span>
+  <span class="n">ts</span><span class="o">-&gt;</span><span class="n">u</span><span class="p">.</span><span class="n">hnext</span> <span class="o">=</span> <span class="o">*</span><span class="n">list</span><span class="p">;</span>
+  <span class="o">*</span><span class="n">list</span> <span class="o">=</span> <span class="n">ts</span><span class="p">;</span>
+  <span class="n">g</span><span class="o">-&gt;</span><span class="n">strt</span><span class="p">.</span><span class="n">nuse</span><span class="o">++</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">ts</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>通用创建过程：</h3>
+<p>可以发现，长字符串和短字符串都是通过<code>createstrobj</code>函数来创建的。</p>
+<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** creates a new string object</span>
+<span class="cm">*/</span>
+<span class="k">static</span> <span class="n">TString</span> <span class="o">*</span><span class="nf">createstrobj</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">tag</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">h</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">TString</span> <span class="o">*</span><span class="n">ts</span><span class="p">;</span>
+  <span class="n">GCObject</span> <span class="o">*</span><span class="n">o</span><span class="p">;</span>
+  <span class="kt">size_t</span> <span class="n">totalsize</span><span class="p">;</span>  <span class="cm">/* total size of TString object */</span>
+  <span class="c1">////totalsize = sizeof(TString) + l + 1, 多加的1为了存储\0</span>
+  <span class="n">totalsize</span> <span class="o">=</span> <span class="n">sizelstring</span><span class="p">(</span><span class="n">l</span><span class="p">);</span>
+  <span class="n">o</span> <span class="o">=</span> <span class="n">luaC_newobj</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">totalsize</span><span class="p">);</span>
+  <span class="n">ts</span> <span class="o">=</span> <span class="n">gco2ts</span><span class="p">(</span><span class="n">o</span><span class="p">);</span>
+  <span class="n">ts</span><span class="o">-&gt;</span><span class="n">hash</span> <span class="o">=</span> <span class="n">h</span><span class="p">;</span>
+  <span class="n">ts</span><span class="o">-&gt;</span><span class="n">extra</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="n">getstr</span><span class="p">(</span><span class="n">ts</span><span class="p">)[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span>  <span class="cm">/* ending 0 */</span>
+  <span class="k">return</span> <span class="n">ts</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2>短字符串的删除</h2>
+<div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">luaS_remove</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="n">TString</span> <span class="o">*</span><span class="n">ts</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">stringtable</span> <span class="o">*</span><span class="n">tb</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">G</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">strt</span><span class="p">;</span>
+  <span class="n">TString</span> <span class="o">**</span><span class="n">p</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">tb</span><span class="o">-&gt;</span><span class="n">hash</span><span class="p">[</span><span class="n">lmod</span><span class="p">(</span><span class="n">ts</span><span class="o">-&gt;</span><span class="n">hash</span><span class="p">,</span> <span class="n">tb</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">)];</span>
+  <span class="k">while</span> <span class="p">(</span><span class="o">*</span><span class="n">p</span> <span class="o">!=</span> <span class="n">ts</span><span class="p">)</span>  <span class="cm">/* find previous element */</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="o">&amp;</span><span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">u</span><span class="p">.</span><span class="n">hnext</span><span class="p">;</span>
+  <span class="c1">//直接从列表里摘出来，并不释放</span>
+  <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">u</span><span class="p">.</span><span class="n">hnext</span><span class="p">;</span>  <span class="cm">/* remove element from its list */</span>
+  <span class="n">tb</span><span class="o">-&gt;</span><span class="n">nuse</span><span class="o">--</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2>字符串比较</h2>
+<p>Lua中使用<code>luaV_equalobj</code>来比较两个对象：</p>
+<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** Main operation for equality of Lua values; return &#39;t1 == t2&#39;.</span>
+<span class="cm">** L == NULL means raw equality (no metamethods)</span>
+<span class="cm">*/</span>
+<span class="kt">int</span> <span class="nf">luaV_equalobj</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="k">const</span> <span class="n">TValue</span> <span class="o">*</span><span class="n">t1</span><span class="p">,</span> <span class="k">const</span> <span class="n">TValue</span> <span class="o">*</span><span class="n">t2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">...</span>
+  <span class="cm">/* values have same type and same variant */</span>
+  <span class="k">switch</span> <span class="p">(</span><span class="n">ttype</span><span class="p">(</span><span class="n">t1</span><span class="p">))</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="k">case</span> <span class="nl">LUA_TSHRSTR</span><span class="p">:</span> <span class="k">return</span> <span class="n">eqshrstr</span><span class="p">(</span><span class="n">tsvalue</span><span class="p">(</span><span class="n">t1</span><span class="p">),</span> <span class="n">tsvalue</span><span class="p">(</span><span class="n">t2</span><span class="p">));</span>
+    <span class="k">case</span> <span class="nl">LUA_TLNGSTR</span><span class="p">:</span> <span class="k">return</span> <span class="n">luaS_eqlngstr</span><span class="p">(</span><span class="n">tsvalue</span><span class="p">(</span><span class="n">t1</span><span class="p">),</span> <span class="n">tsvalue</span><span class="p">(</span><span class="n">t2</span><span class="p">));</span>
+    <span class="p">...</span>
+  <span class="p">}</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>对于短字符串：</p>
+<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** equality for short strings, which are always internalized</span>
+<span class="cm">*/</span>
+<span class="cp">#define eqshrstr(a,b)   check_exp((a)-&gt;tt == LUA_TSHRSTR, (a) == (b))</span>
+</pre></div>
+
+
+<p>直接判断他们的地址是否相同。</p>
+<p>对于长字符串</p>
+<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">** equality for long strings</span>
+<span class="cm">*/</span>
+<span class="kt">int</span> <span class="nf">luaS_eqlngstr</span> <span class="p">(</span><span class="n">TString</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="n">TString</span> <span class="o">*</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">size_t</span> <span class="n">len</span> <span class="o">=</span> <span class="n">a</span><span class="o">-&gt;</span><span class="n">u</span><span class="p">.</span><span class="n">lnglen</span><span class="p">;</span>
+  <span class="n">lua_assert</span><span class="p">(</span><span class="n">a</span><span class="o">-&gt;</span><span class="n">tt</span> <span class="o">==</span> <span class="n">LUA_TLNGSTR</span> <span class="o">&amp;&amp;</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">tt</span> <span class="o">==</span> <span class="n">LUA_TLNGSTR</span><span class="p">);</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">)</span> <span class="o">||</span>  <span class="cm">/* same instance or... */</span>
+    <span class="p">((</span><span class="n">len</span> <span class="o">==</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">u</span><span class="p">.</span><span class="n">lnglen</span><span class="p">)</span> <span class="o">&amp;&amp;</span>  <span class="cm">/* equal length and ... */</span> <span class="c1">//先比较长度可以加快判断</span>
+     <span class="p">(</span><span class="n">memcmp</span><span class="p">(</span><span class="n">getstr</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">getstr</span><span class="p">(</span><span class="n">b</span><span class="p">),</span> <span class="n">len</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">));</span>  <span class="cm">/* equal contents */</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>相等的条件是：地址相同或者内容相同。</p>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2"
+                href="http://www.vmetu.com/blog/luayuan-ma-yue-du-2-string.html#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'vmetu';
+        var disqus_identifier = 'http://www.vmetu.com/blog/luayuan-ma-yue-du-2-string.html';
+    var disqus_url = 'http://www.vmetu.com/blog/luayuan-ma-yue-du-2-string.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+            <aside>
+            <hr/>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://www.vmetu.com/blog/yi-chong-li-yong-c-attributeshi-xian-shu-ju-de-bang-ding.html" title="Previous: 一种利用C# Attribute实现数据的绑定">一种利用C# Attribute实现数据的绑定</a></li>
+ 
+                <li class="next_article"><a href="http://www.vmetu.com/blog/luayuan-ma-yue-du-1-yuan-ma-bian-yi.html" title="Next: lua源码阅读1——源码编译">lua源码阅读1——源码编译</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2019-03-13T00:00:00+08:00">三月 13, 2019</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#lua源码阅读-ref">lua源码阅读</a> 
+
+        </div>
+        </section>
+</div>
+</article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'vmetu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+        <script  language="javascript" type="text/javascript">
+            function uncollapse() {
+                var hash_str = window.location.hash;
+                if (window.location.hash.match(/^#comment-\d+$/))
+                {
+                    var hash_str = '#disqus_thread';
+                }
+                $(hash_str).collapse({
+                    toggle: true
+                    })
+            }
+        </script>
+
+        <script type="text/javascript" language="JavaScript">
+            uncollapse(); 
+        </script>
+    </body>
+</html>
