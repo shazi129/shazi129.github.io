@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>牌型</title>
+<style type="text/css">
+*{color:#2f394d;}
+a:link,a:visited,a b{color:#964822;text-decoration:none;}
+table{border-collapse:collapse;}
+.table_container {padding:0 6px;}
+.bordered_table td, .bordered_table th {border:1px solid #83889d;}
+.biaoti {background:url(biaoti.png) no-repeat center center;}
+</style>
+</head>
+<body>
+<a name="0" id="0"></a>
+&nbsp;&nbsp;&nbsp;&nbsp;在游戏中，扑克牌搭配26种牌型组成牌库。朱雀场额外增加14种牌型。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1">基础牌</a>：杀、闪、药。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3">锦囊牌</a>：决斗、无中生有、探囊取物、釜底抽薪、借刀杀人、五谷丰登、休养生息、烽火狼烟、万箭齐发、手捧雷、画地为牢、无懈可击。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2">装备牌</a>：虎符、龙鳞刀、鱼肠剑、盘龙棍、芦叶枪、博浪锤、狼牙棒、霸王弓、玉如意、进攻马、防御马。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4">朱雀扩展牌</a>：暗杀、血杀、鸩、符、绝粮莫兴、偷梁换柱、合纵连横、隔岸观火、舍我其谁、乾坤袋、金鳞甲、饮血剑、孔雀翎、护心镜。
+<br>
+<br>
+<a name="1" id="1"></a>
+<table width="480" height="34" border="0" align="center" cellpadding="5" cellspacing="0">
+	<td class="biaoti"><div align="center"><b>基础牌</b></td>
+</table><br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_jb_001.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>对其他英雄使用，该英雄使用【闪】或受到1点伤害。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>每回合限用一张。默认距离1。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_jb_002.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>抵消其他英雄对你使用的【杀】。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td> 
+			<td>【闪】不能主动打出。</td>			
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_jb_003.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>使用后回复英雄1点血量。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>濒死英雄需要多个【药】，可多个英雄对其使用。</td>			
+		</tr>
+	</table>
+</div>
+<br>
+<div align="right"><a href="#0">&nbsp;返回顶部&nbsp;</a></div><br>
+<a name="3" id="3"></a>
+<table width="480" height="34" border="0" align="center" cellpadding="5" cellspacing="0">
+	<td class="biaoti"><div align="center"><b>锦囊牌</b></td>
+</table><br>
+<a name="42" id="42"></a>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_jn_005.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>选择1名英雄使用。<br>该英雄和你轮流出使用【杀】，首先不出杀的英雄受到1点伤害。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>单体锦囊。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_jn_004.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>使用后你获得2张牌。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>单体锦囊。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_jn_001.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>选择1名英雄使用后获取对方1张牌。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>单体锦囊。默认距离为1。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_jn_002.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>选择1名英雄使用后弃掉对方1张牌。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>单体锦囊。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_jn_011.png"/></td>
+			<td width="70" align="center">作用</td>
+			<td>选择装备武器的1名英雄使用，并指定1名英雄为【杀】的目标。<br>如果英雄不出【杀】，你获得武器。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>单体锦囊。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_jn_003.png"/></td>
+			<td width="70" align="center">作用</td>
+			<td>使用后亮出X张牌，X为存活英雄数量。从出牌英雄开始选择1张牌。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>群体锦囊。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_jn_006.png"/></td>
+			<td width="70" align="center">作用</td>
+			<td>使用后其他英雄依次使用1张【杀】或受到1点伤害。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>群体锦囊。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_jn_007.png"/></td>
+			<td width="70" align="center">作用</td>
+			<td>使用后其他英雄依次使用1张【闪】或受到1点伤害。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>群体锦囊。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_jn_009.png"/></td>
+			<td width="70" align="center">作用</td>
+			<td>使用后存活英雄依次回复1点血量。</td>
+		</tr>
+		<tr>			
+			<td width="70" align="center">备注</td>
+			<td>群体锦囊。场上没有英雄掉血时不能使用。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" valign="middle" width="90" align="center"><img src="card_jn_008.png"/></td>
+			<td width="70" align="center">作用</td>
+			<td>使用后挂在判定区，英雄出牌前进行判定：判定牌为黑桃2-9，英雄受到3点伤害；否则手捧雷转移到下个英雄。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>延时锦囊。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_jn_012.png"/></td>
+			<td width="70" align="center">作用</td> 
+			<td>选择1名英雄使用，英雄出牌前进行判定。判定牌不为红桃，跳过出牌。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>延时锦囊。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_jn_010.png"/></td>
+			<td width="70" align="center">作用</td>
+			<td>任意锦囊发动时，使用【无懈可击】抵消对当前英雄的效果。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>被动锦囊。【无懈可击】不能主动打出。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div align="right"><a href="#0">&nbsp;返回顶部&nbsp;</a></div><br>
+<a name="2" id="2"></a>
+<table width="480" height="34" border="0" align="center" cellpadding="5" cellspacing="0">
+	<td class="biaoti"><div align="center"><b>装备牌</b></td>
+</table><br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zb_008.png"/></td>
+			<td width="70" align="center">作用</td>
+			<td>装备后杀的距离为1。<br>使用【杀】不限制数量。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>发动技能后，替换为别的武器后不能使用【杀】；</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zb_009.png"/></td>
+			<td width="70" align="center">作用</td>
+			<td>装备后杀的距离为2。<br>使用【杀】造成伤害后，可以弃掉英雄2张牌不扣除血量。</td> 
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>1.对方没有牌时，则不发动技能；<br>
+				2.若对方仅一张牌则弃掉一张牌；</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zb_010.png"/></td>
+			<td width="70" align="center">作用</td>
+				<td>装备后杀的距离为2。<br>使用【杀】时无视对方的防具。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td></td> 
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zb_011.png"/></td>
+			<td width="70" align="center">作用</td>
+			<td>装备后杀的距离为3。<br>使用【杀】被【闪】抵消，可以继续使用【杀】。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td></td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zb_012.png"/></td>
+			<td width="70" align="center">作用</td>
+			<td>装备后杀的距离为3。<br>可以使用2张手牌当作【杀】造成伤害。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>使用的2张手牌中有红色牌时，此杀视为红色杀。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zb_013.png"/></td>
+			<td width="70" align="center">作用</td>
+			<td>装备后杀的距离为3。<br>使用【杀】被【闪】抵消，可以弃掉2张牌或装备造成伤害。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>发动技能时，你不能弃掉【博浪锤】；</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zb_014.png"/></td>
+			<td width="70" align="center">作用</td>
+			<td>装备后杀的距离为4。<br>使用【杀】是最后1张手牌，可以选择最多3个英雄。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>发动技能时杀的目标可以被转移，视为2次被杀。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zb_015.png"/></td>
+			<td width="70" align="center">作用</td>
+			<td>装备后杀的距离为5。<br>使用【杀】造成伤害，可以弃掉该英雄1匹马。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>发动技能时，弃掉伤害对象的马（即使对方没有掉血）。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zb_001.png"/></td>
+			<td width="70" align="center">作用</td>
+			<td>装备后需要使用【闪】时，可以进行判定：<br>
+				1.判定牌为红色，认为你使用1张【闪】；<br>
+				2.判定牌为黑色，仍需使用【闪】。
+			</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td></td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zb_004.png"/></td>
+			<td width="70" align="center">作用</td>
+			<td>装备后进攻其他英雄，双方距离-1。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>装备后原本与你距离为2的玩家距离变为1，可以使用【探囊取物】。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<a name="23" id="23"></a>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zb_007.png"/></td>
+			<td width="70" align="center">马匹描述</td>
+			<td>装备防御其他英雄，双方距离+1。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">补充说明</td>
+			<td>装备后原本与你距离为1的玩家距离变为2，不能使用【探囊取物】。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<a name="24" id="24"></a>
+
+<div align="right"><a href="#0">&nbsp;返回顶部&nbsp;</a></div><br>
+
+<a name="4" id="4"></a>
+<table width="480" height="34" border="0" align="center" cellpadding="5" cellspacing="0">
+	<td class="biaoti"><div align="center"><b>朱雀扩展牌</b></td>
+</table><br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zq_003.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>等同于杀，使用时造成血量流失，并且阻止英雄发动技能。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td></td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zq_002.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>等同于杀，使用时造成伤害，并回复相同的血量。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td> 
+			<td>满血英雄使用时，不回复血量。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zq_001.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>1.出牌时使用后掉1点血，则【杀】的伤害+1；<br>
+				2.弃牌时弃入牌堆，则你掉1点血；<br>
+				3.濒死时使用回复1点血量。<br>
+			</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td></td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zq_004.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>可以将此牌当任意基本牌来使用。<br>
+				基本牌包括【杀】、【暗杀】、【血杀】、【鸩】、【药】、【闪】。<br>
+			</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>作为【杀】使用时，【杀】的花色与【符】的花色一致。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zq_010.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>选择1名距离为1的英雄使用，出牌前进行判定：不为梅花则跳过摸牌。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>延时锦囊</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zq_011.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>指定两名英雄交换手牌。<br>
+				1.先指定的英雄交出一张手牌；<br>
+				2.后指定英雄的交出两张手牌。<br>
+			</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td></td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zq_012.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>你可以选择连横或合纵。<br>
+				连横：选择1~2名英雄使用，任意1名英雄被杀掉血时，其他的连横英雄也等额掉血；<br>
+				合纵：你可以弃掉这张牌，然后摸一张牌。<br>
+			</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td></td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zq_013.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>选择两名英雄拼点，拼点的牌不用丢弃。<br>
+				1.点数小的掉1点血；<br>
+				2.点数相同，则你掉1点血。<br>
+			</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td></td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zq_014.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>选择1名英雄使用，出牌前进行判定：<br>
+				不为方片则本回合该英雄出的【杀】或【决斗】都视为对你使用。
+			</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>延时锦囊</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zq_005.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>你的手牌上限+1。当你失去该装备时，摸1张牌。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td></td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zq_006.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>【烽火狼烟】和【万箭齐发】对你无效。当你失去该装备时，回复1点血量。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td></td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zq_007.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>装备后杀的距离为2。<br>
+				你可以将你的任意一张普通【杀】作为【血杀】来使用。<br>
+			</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td></td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zq_008.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>装备后杀的距离为4。<br>
+			出牌阶段，你可以选择主动流失1点血，在本回合内你对其他角色使用的【杀】伤害+1。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td>不能与【鸩】效果叠加。</td>
+		</tr>
+	</table>
+</div>
+<br>
+<div class="table_container">
+	<table width="100%" align="center" cellpadding="5" cellspacing="0" class="bordered_table">
+		<tr>
+			<td rowspan="2" width="90" align="center"><img src="card_zq_009.png"/></td>
+			<td width="70" align="center">用途</td>
+			<td>抵消两点【杀】的伤害，当抵消第二点【杀】的伤害时，必须丢弃该装备并同时弃掉1张手牌。</td>
+		</tr>
+		<tr>
+			<td width="70" align="center">备注</td>
+			<td></td>
+		</tr>
+	</table>
+</div>
+<br>
+<div align="right"><a href="#0">&nbsp;返回顶部&nbsp;</a></div><br>
+
+</body>
+</html>
