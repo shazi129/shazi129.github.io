@@ -8,7 +8,7 @@ Tags: 学习笔记
 在日常开发中，经常会有数据和UI绑定的需求，即数据发生改变时，UI要随之改变。这里提供一个简单的思路，目的是尽量减少代码的编写。
 
 ModelBase 数据存储基类
-```
+```csharp
 using System.Collections;
 using System;
 using System.Reflection;
@@ -105,7 +105,7 @@ public class ModelBase
 使用：
 如果model中的某个property要被绑定，那么就加上`ObservableName`的属性，指定绑定的key， 然后就可以通过`addObserverBinding`来绑定行为了。
 
-```
+```csharp
 	class Person: ModelBase
     {
         [ObservableName("address")]
