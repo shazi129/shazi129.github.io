@@ -1,0 +1,19 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "9TV4ZYSS4J.com.tencent.qqgame.yxs",
+                "paths": [ "/app/*", "/qq_conn/100738178/* ]
+            },
+            {
+                "appID": "CFG5EWN5ME.com.tencent.qqgame.yxs",
+                "paths": [ "/app/*", "/qq_conn/100738178/* ]
+            },
+            {
+                "appID": "HKB8WPFBR9.com.tencent.qqgame.yxs.dailybuild",
+                "paths": [ "/app/*", "/qq_conn/100738178/* ]
+            }
+        ]
+    }
+}
