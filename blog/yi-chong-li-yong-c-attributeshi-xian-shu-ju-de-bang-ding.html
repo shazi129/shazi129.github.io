@@ -61,140 +61,140 @@
             <h1>一种利用C# Attribute实现数据的绑定</h1>
 <p>在日常开发中，经常会有数据和UI绑定的需求，即数据发生改变时，UI要随之改变。这里提供一个简单的思路，目的是尽量减少代码的编写。</p>
 <p>ModelBase 数据存储基类</p>
-<div class="highlight"><pre><span></span>using System.Collections;
-using System;
-using System.Reflection;
-using System.Collections.Generic;
+<div class="highlight"><pre><span></span><code><span class="k">using</span> <span class="nn">System.Collections</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Reflection</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Collections.Generic</span><span class="p">;</span>
 
-[AttributeUsage(AttributeTargets.Property, Inherited = false)]
-public class ObservableName : Attribute
-{
-    public string name = String.Empty;
+<span class="na">[AttributeUsage(AttributeTargets.Property, Inherited = false)]</span>
+<span class="k">public</span> <span class="k">class</span> <span class="nc">ObservableName</span> <span class="p">:</span> <span class="n">Attribute</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">name</span> <span class="p">=</span> <span class="n">String</span><span class="p">.</span><span class="n">Empty</span><span class="p">;</span>
 
-    public ObservableName(string bindName)
-    {
-        name = bindName;
-    }
-}
+    <span class="k">public</span> <span class="nf">ObservableName</span><span class="p">(</span><span class="kt">string</span> <span class="n">bindName</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">name</span> <span class="p">=</span> <span class="n">bindName</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-public class ModelBase
-{
-    public class ModelBindingInfo
-    {
-        public PropertyInfo propertyInfo = null;
-        public ArrayList callbacks = new ArrayList();
-    }
+<span class="k">public</span> <span class="k">class</span> <span class="nc">ModelBase</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">ModelBindingInfo</span>
+    <span class="p">{</span>
+        <span class="k">public</span> <span class="n">PropertyInfo</span> <span class="n">propertyInfo</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+        <span class="k">public</span> <span class="n">ArrayList</span> <span class="n">callbacks</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="p">();</span>
+    <span class="p">}</span>
 
-    private Dictionary&lt;string, ModelBase.ModelBindingInfo&gt; _bindingTable = new Dictionary&lt;string, ModelBase.ModelBindingInfo&gt;();
+    <span class="k">private</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">ModelBase</span><span class="p">.</span><span class="n">ModelBindingInfo</span><span class="p">&gt;</span> <span class="n">_bindingTable</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">ModelBase</span><span class="p">.</span><span class="n">ModelBindingInfo</span><span class="p">&gt;();</span>
 
-    public ModelBase()
-    {
-        collectObservableProperty();
-    }
+    <span class="k">public</span> <span class="nf">ModelBase</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">collectObservableProperty</span><span class="p">();</span>
+    <span class="p">}</span>
 
-    private void collectObservableProperty()
-    {
-        _bindingTable.Clear();
+    <span class="k">private</span> <span class="k">void</span> <span class="nf">collectObservableProperty</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">_bindingTable</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
 
-        Type type = this.GetType();
-        PropertyInfo[] propertyInfos = type.GetProperties();
-        for (int i = 0; i &lt; propertyInfos.Length; i++)
-        {
-            object[] obs = propertyInfos[i].GetCustomAttributes(false);
-            for (int j = 0; j &lt; obs.Length; j++)
-            {
-                ObservableName obName = obs[j] as ObservableName;
-                if (obName != null &amp;&amp; !_bindingTable.ContainsKey(obName.name))
-                {
-                    ModelBase.ModelBindingInfo bindingInfo = new ModelBase.ModelBindingInfo();
-                    bindingInfo.propertyInfo = propertyInfos[i];
-                    _bindingTable[obName.name] = bindingInfo;
-                }
-            }
-        }
-    }
+        <span class="n">Type</span> <span class="n">type</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">GetType</span><span class="p">();</span>
+        <span class="n">PropertyInfo</span><span class="p">[]</span> <span class="n">propertyInfos</span> <span class="p">=</span> <span class="n">type</span><span class="p">.</span><span class="n">GetProperties</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">propertyInfos</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+        <span class="p">{</span>
+            <span class="kt">object</span><span class="p">[]</span> <span class="n">obs</span> <span class="p">=</span> <span class="n">propertyInfos</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">GetCustomAttributes</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">j</span> <span class="p">&lt;</span> <span class="n">obs</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">j</span><span class="p">++)</span>
+            <span class="p">{</span>
+                <span class="n">ObservableName</span> <span class="n">obName</span> <span class="p">=</span> <span class="n">obs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">as</span> <span class="n">ObservableName</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">obName</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="p">!</span><span class="n">_bindingTable</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">obName</span><span class="p">.</span><span class="n">name</span><span class="p">))</span>
+                <span class="p">{</span>
+                    <span class="n">ModelBase</span><span class="p">.</span><span class="n">ModelBindingInfo</span> <span class="n">bindingInfo</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ModelBase</span><span class="p">.</span><span class="n">ModelBindingInfo</span><span class="p">();</span>
+                    <span class="n">bindingInfo</span><span class="p">.</span><span class="n">propertyInfo</span> <span class="p">=</span> <span class="n">propertyInfos</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+                    <span class="n">_bindingTable</span><span class="p">[</span><span class="n">obName</span><span class="p">.</span><span class="n">name</span><span class="p">]</span> <span class="p">=</span> <span class="n">bindingInfo</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 
-    public void addObserverBinding&lt;T&gt;(string obName, Action&lt;T&gt; cb)
-    {
-        if (_bindingTable.ContainsKey(obName))
-        {
-            _bindingTable[obName].callbacks.Add(cb);
-        }
-    }
+    <span class="k">public</span> <span class="k">void</span> <span class="n">addObserverBinding</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="kt">string</span> <span class="n">obName</span><span class="p">,</span> <span class="n">Action</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="n">cb</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">_bindingTable</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">obName</span><span class="p">))</span>
+        <span class="p">{</span>
+            <span class="n">_bindingTable</span><span class="p">[</span><span class="n">obName</span><span class="p">].</span><span class="n">callbacks</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">cb</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 
-    public void removeObserverBinding&lt;T&gt;(string obName, Action&lt;T&gt; cb)
-    {
-        if (_bindingTable.ContainsKey(obName))
-        {
-            ArrayList callbacks = _bindingTable[obName].callbacks;
-            callbacks.Remove(cb);
-        }
-    }
+    <span class="k">public</span> <span class="k">void</span> <span class="n">removeObserverBinding</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="kt">string</span> <span class="n">obName</span><span class="p">,</span> <span class="n">Action</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="n">cb</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">_bindingTable</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">obName</span><span class="p">))</span>
+        <span class="p">{</span>
+            <span class="n">ArrayList</span> <span class="n">callbacks</span> <span class="p">=</span> <span class="n">_bindingTable</span><span class="p">[</span><span class="n">obName</span><span class="p">].</span><span class="n">callbacks</span><span class="p">;</span>
+            <span class="n">callbacks</span><span class="p">.</span><span class="n">Remove</span><span class="p">(</span><span class="n">cb</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 
-    public void setObservableData&lt;T&gt;(string obName, T data)
-    {
-        if (!_bindingTable.ContainsKey(obName))
-        {
-            return;
-        }
+    <span class="k">public</span> <span class="k">void</span> <span class="n">setObservableData</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="kt">string</span> <span class="n">obName</span><span class="p">,</span> <span class="n">T</span> <span class="n">data</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(!</span><span class="n">_bindingTable</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">obName</span><span class="p">))</span>
+        <span class="p">{</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
 
-        ModelBindingInfo bindingInfo = _bindingTable[obName];
-        bindingInfo.propertyInfo.SetValue(this, data, null);
+        <span class="n">ModelBindingInfo</span> <span class="n">bindingInfo</span> <span class="p">=</span> <span class="n">_bindingTable</span><span class="p">[</span><span class="n">obName</span><span class="p">];</span>
+        <span class="n">bindingInfo</span><span class="p">.</span><span class="n">propertyInfo</span><span class="p">.</span><span class="n">SetValue</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
 
-        T newData = (T)bindingInfo.propertyInfo.GetValue(this, null);
+        <span class="n">T</span> <span class="n">newData</span> <span class="p">=</span> <span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="n">bindingInfo</span><span class="p">.</span><span class="n">propertyInfo</span><span class="p">.</span><span class="n">GetValue</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
 
-        //通知
-        ArrayList callbacks = _bindingTable[obName].callbacks;
-        for (int j = 0; j &lt; callbacks.Count; j++)
-        {
-            Action&lt;T&gt; cb = (Action&lt;T&gt;)callbacks[j];
-            cb(newData);
-        }
-    }
-}
-</pre></div>
+        <span class="c1">//通知</span>
+        <span class="n">ArrayList</span> <span class="n">callbacks</span> <span class="p">=</span> <span class="n">_bindingTable</span><span class="p">[</span><span class="n">obName</span><span class="p">].</span><span class="n">callbacks</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">j</span> <span class="p">&lt;</span> <span class="n">callbacks</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="n">j</span><span class="p">++)</span>
+        <span class="p">{</span>
+            <span class="n">Action</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="n">cb</span> <span class="p">=</span> <span class="p">(</span><span class="n">Action</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;)</span><span class="n">callbacks</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+            <span class="n">cb</span><span class="p">(</span><span class="n">newData</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 
 
 <p>使用：
 如果model中的某个property要被绑定，那么就加上<code>ObservableName</code>的属性，指定绑定的key， 然后就可以通过<code>addObserverBinding</code>来绑定行为了。</p>
-<div class="highlight"><pre><span></span>    <span class="nt">class</span> <span class="nt">Person</span><span class="o">:</span> <span class="nt">ModelBase</span>
+<div class="highlight"><pre><span></span><code>    <span class="k">class</span> <span class="nc">Person</span><span class="p">:</span> <span class="n">ModelBase</span>
     <span class="p">{</span>
-        <span class="cp">[</span><span class="nx">ObservableName</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">)</span><span class="cp">]</span>
-        <span class="err">public</span> <span class="err">string</span> <span class="err">address</span> <span class="err">{</span> <span class="err">get</span><span class="p">;</span> <span class="err">set</span><span class="p">;</span> <span class="p">}</span>
-    <span class="err">}</span>
+<span class="na">        [ObservableName(&quot;address&quot;)]</span>
+        <span class="k">public</span> <span class="kt">string</span> <span class="n">address</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="p">}</span>
 
-    <span class="nt">class</span> <span class="nt">Test</span>
+    <span class="k">class</span> <span class="nc">Test</span>
     <span class="p">{</span>
-        <span class="err">public</span> <span class="err">void</span> <span class="err">testAttribute()</span>
-        <span class="err">{</span>
-            <span class="err">Person</span> <span class="err">zhangwen</span> <span class="err">=</span> <span class="err">new</span> <span class="err">Person()</span><span class="p">;</span>
-            <span class="err">zhangwen.addObserverBinding&lt;string&gt;(&quot;address&quot;,</span> <span class="err">onZhangwenAddrChange)</span><span class="p">;</span>
-
-            <span class="err">Person</span> <span class="err">shazi</span> <span class="err">=</span> <span class="err">new</span> <span class="err">Person()</span><span class="p">;</span>
-            <span class="err">shazi.addObserverBinding&lt;string&gt;(&quot;address&quot;,</span> <span class="err">onShaziAddrChange)</span><span class="p">;</span>
-
-            <span class="err">zhangwen.setObservableData(&quot;address&quot;,</span> <span class="err">&quot;caifugang&quot;)</span><span class="p">;</span>
-            <span class="err">shazi.setObservableData(&quot;address&quot;,</span> <span class="err">&quot;baijin&quot;)</span><span class="p">;</span>
-        <span class="p">}</span>
-
-        <span class="nt">private</span> <span class="nt">void</span> <span class="nt">onShaziAddrChange</span><span class="o">(</span><span class="nt">string</span> <span class="nt">obj</span><span class="o">)</span>
+        <span class="k">public</span> <span class="k">void</span> <span class="nf">testAttribute</span><span class="p">()</span>
         <span class="p">{</span>
-            <span class="err">Console.WriteLine(&quot;shazi&#39;s</span> <span class="err">addr</span> <span class="err">changed,</span> <span class="err">new</span> <span class="n">addr</span><span class="p">:</span> <span class="s2">&quot; + obj);</span>
-<span class="s2">        }</span>
+            <span class="n">Person</span> <span class="n">zhangwen</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Person</span><span class="p">();</span>
+            <span class="n">zhangwen</span><span class="p">.</span><span class="n">addObserverBinding</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;(</span><span class="s">&quot;address&quot;</span><span class="p">,</span> <span class="n">onZhangwenAddrChange</span><span class="p">);</span>
 
-<span class="s2">        private void onZhangwenAddrChange(string obj)</span>
-<span class="s2">        {</span>
-<span class="s2">            Console.WriteLine(&quot;</span><span class="n">zhangwen</span><span class="err">&#39;</span><span class="n">s</span> <span class="n">addr</span> <span class="n">changed</span><span class="p">,</span> <span class="n">new</span> <span class="n">addr</span><span class="o">:</span> <span class="err">&quot;</span> <span class="o">+</span> <span class="n">obj</span><span class="p">);</span>
+            <span class="n">Person</span> <span class="n">shazi</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Person</span><span class="p">();</span>
+            <span class="n">shazi</span><span class="p">.</span><span class="n">addObserverBinding</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;(</span><span class="s">&quot;address&quot;</span><span class="p">,</span> <span class="n">onShaziAddrChange</span><span class="p">);</span>
+
+            <span class="n">zhangwen</span><span class="p">.</span><span class="n">setObservableData</span><span class="p">(</span><span class="s">&quot;address&quot;</span><span class="p">,</span> <span class="s">&quot;caifugang&quot;</span><span class="p">);</span>
+            <span class="n">shazi</span><span class="p">.</span><span class="n">setObservableData</span><span class="p">(</span><span class="s">&quot;address&quot;</span><span class="p">,</span> <span class="s">&quot;baijin&quot;</span><span class="p">);</span>
         <span class="p">}</span>
 
-        <span class="nt">static</span> <span class="nt">void</span> <span class="nt">Main</span><span class="o">(</span><span class="nt">string</span><span class="cp">[]</span> <span class="nt">args</span><span class="o">)</span>
+        <span class="k">private</span> <span class="k">void</span> <span class="nf">onShaziAddrChange</span><span class="p">(</span><span class="kt">string</span> <span class="n">obj</span><span class="p">)</span>
         <span class="p">{</span>
-            <span class="err">TestAttribute</span> <span class="err">test</span> <span class="err">=</span> <span class="err">new</span> <span class="err">TestAttribute()</span><span class="p">;</span>
-            <span class="err">test.testAttribute()</span><span class="p">;</span>
-            <span class="err">Console.ReadKey()</span><span class="p">;</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;shazi&#39;s addr changed, new addr: &quot;</span> <span class="p">+</span> <span class="n">obj</span><span class="p">);</span>
         <span class="p">}</span>
-    <span class="err">}</span>
-</pre></div>
+
+        <span class="k">private</span> <span class="k">void</span> <span class="nf">onZhangwenAddrChange</span><span class="p">(</span><span class="kt">string</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;zhangwen&#39;s addr changed, new addr: &quot;</span> <span class="p">+</span> <span class="n">obj</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">TestAttribute</span> <span class="n">test</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TestAttribute</span><span class="p">();</span>
+            <span class="n">test</span><span class="p">.</span><span class="n">testAttribute</span><span class="p">();</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">ReadKey</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div>
 <section>
 <div class="accordion" id="accordion2">
     <div class="accordion-group">
@@ -242,13 +242,13 @@ public class ModelBase
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2018-05-15T00:00:00+08:00">五月 15, 2018</time>
+            <time pubdate="pubdate" datetime="2018-05-15T00:00:00+08:00">5月 15, 2018</time>
             <h4>Category</h4>
             <a class="category-link" href="/categories.html#编程语言-ref">编程语言</a> 
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article"> 
                 <li><a href="/tags.html#学习笔记-ref">学习笔记
-                    <span>7</span>
+                    <span>11</span>
 </a></li>
             </ul>
 

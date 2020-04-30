@@ -59,7 +59,7 @@
         <div class="span8 offset2 article-content">
 
             <p>在Unity中，Unity Object的序列化必须依赖GameObject。像这样是不行的：</p>
-<div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Serializable</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><span class="p">[</span><span class="n">Serializable</span><span class="p">]</span>
 <span class="k">class</span> <span class="nc">ObjectSheetData</span> <span class="o">:</span> <span class="n">SheetData</span>
 <span class="p">{</span>
     <span class="k">public</span> <span class="n">Object</span> <span class="n">data</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
@@ -74,7 +74,7 @@
 
 <span class="n">formatter</span><span class="p">.</span><span class="n">Serialize</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">objData</span><span class="p">);</span>
 <span class="n">stream</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Unity会提示</p>
@@ -84,17 +84,17 @@
 <p>通常的做法是将要序列化的数据附加到一个GameObject上，然后将GameObject做成Prefab，在要使用数据的地方引用Prefab就可以了。这里提供一个算是比较通用的<a href="https://github.com/shazi129/tools/blob/master/Unity/IdObjectMap.cs">脚本</a>，用来实现类似表的功能。 但我们发现这是一种<font color=red><strong>数据附加到界面上来存储</strong></font>的方式，有违<strong>界面与数据分离</strong>的设计方式。</p>
 <p><a href="https://docs.unity3d.com/ScriptReference/ScriptableObject.html"><strong>ScriptableObject</strong></a>提供了一种不依赖<strong>GameObject</strong>的序列化数据的方式。</p>
 <p>我们可以将数据封装成这样：</p>
-<div class="highlight"><pre><span></span>public class ScriptableData : ScriptableObject
-{
-    public string myName = &quot;&quot;;
-    public int myLevel = 0;
-    public Sprite myIcon = null;
-}
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">public class ScriptableData : ScriptableObject</span>
+<span class="err">{</span>
+<span class="err">    public string myName = &quot;&quot;;</span>
+<span class="err">    public int myLevel = 0;</span>
+<span class="err">    public Sprite myIcon = null;</span>
+<span class="err">}</span>
+</code></pre></div>
 
 
 <p>提供一个创建数据文件的接口：</p>
-<div class="highlight"><pre><span></span><span class="k">[MenuItem(&quot;ScriptableTest/CreateData&quot;)]</span>
+<div class="highlight"><pre><span></span><code><span class="k">[MenuItem(&quot;ScriptableTest/CreateData&quot;)]</span>
 <span class="na">public static void CallFunc()</span>
 <span class="na">{</span>
     <span class="na">ScriptableData data</span> <span class="o">=</span> <span class="s">ScriptableObject.CreateInstance&lt;ScriptableData&gt;();</span>
@@ -106,17 +106,17 @@
     <span class="na">AssetDatabase.CreateAsset(data, GlobalValue.ScriptableDataPaht);</span>
     <span class="na">AssetDatabase.SaveAssets();</span>
 <span class="na">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>创建出来的文件是这样子的：</p>
 <p><img alt="Alt text" src="./1511945085211.png"></p>
 <p>填上数据后，就可以在运行时读取了：</p>
-<div class="highlight"><pre><span></span>ScriptableData _data = AssetDatabase.LoadAssetAtPath&lt;ScriptableData&gt;(GlobalValue.ScriptableDataPaht);
-nameInput.text = _data.myName;
-levelInput.text = _data.myLevel.ToString();
-image.sprite = _data.myIcon;
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">ScriptableData _data = AssetDatabase.LoadAssetAtPath&lt;ScriptableData&gt;(GlobalValue.ScriptableDataPaht);</span>
+<span class="err">nameInput.text = _data.myName;</span>
+<span class="err">levelInput.text = _data.myLevel.ToString();</span>
+<span class="err">image.sprite = _data.myIcon;</span>
+</code></pre></div>
 <section>
 <div class="accordion" id="accordion2">
     <div class="accordion-group">
@@ -164,19 +164,19 @@ image.sprite = _data.myIcon;
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2017-11-29T00:00:00+08:00">十一月 29, 2017</time>
+            <time pubdate="pubdate" datetime="2017-11-29T00:00:00+08:00">11月 29, 2017</time>
             <h4>Category</h4>
             <a class="category-link" href="/categories.html#Unity-ref">Unity</a> 
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article"> 
                 <li><a href="/tags.html#shader-ref">shader
-                    <span>3</span>
+                    <span>4</span>
 </a></li>
                 <li><a href="/tags.html#Unity-ref">Unity
-                    <span>8</span>
+                    <span>11</span>
 </a></li>
                 <li><a href="/tags.html#学习笔记-ref">学习笔记
-                    <span>7</span>
+                    <span>11</span>
 </a></li>
             </ul>
 

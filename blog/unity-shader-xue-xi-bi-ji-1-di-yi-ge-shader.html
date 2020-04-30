@@ -66,11 +66,11 @@
 <h3>Properties</h3>
 <p><img alt="Alt text" src="./1508917908028.png"></p>
 <p>示例：</p>
-<div class="highlight"><pre><span></span>Properties{
-    _Color(&quot;Color Tint&quot;, Color) = (1.0, 1.0, 1.0, 1.0)
-    _Offset(&quot;Offset&quot;, Vector) = (0, 0, 0, 0)
-}
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">Properties{</span>
+<span class="err">    _Color(&quot;Color Tint&quot;, Color) = (1.0, 1.0, 1.0, 1.0)</span>
+<span class="err">    _Offset(&quot;Offset&quot;, Vector) = (0, 0, 0, 0)</span>
+<span class="err">}</span>
+</code></pre></div>
 
 
 <p>类似于定义变量。例如_Color一行的含义为：Shader中有个<code>_Color</code>的变量，它的类型是<code>Color</code>, 值由编辑器中的<strong>Color Tint</strong>来编辑。效果：
@@ -79,38 +79,38 @@
 <p>SubShader是Unity Shader用来支持不同显卡的方式。当Unity加载一个Shader时，会从这个Shader中选取第一个可以支持的SubShader加载，如果都不支持，使用FallBack指定的Shader</p>
 <p>SubShader中每个渲染流程可以用Pass包起来，一个SubShader中可以有多个渲染流程</p>
 <h3>一个示例</h3>
-<div class="highlight"><pre><span></span>Shader &quot;Custom/1_shader&quot; {
+<div class="highlight"><pre><span></span><code><span class="n">Shader</span> <span class="ss">&quot;Custom/1_shader&quot;</span> <span class="err">{</span>
 
-    Properties{
-        _Color(&quot;Color Tint&quot;, Color) = (1.0, 1.0, 1.0, 1.0)
-        _Offset(&quot;Offset&quot;, Vector) = (0, 0, 0, 0)
-    }
+    <span class="n">Properties</span><span class="err">{</span>
+        <span class="n">_Color</span><span class="p">(</span><span class="ss">&quot;Color Tint&quot;</span><span class="p">,</span> <span class="n">Color</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">_Offset</span><span class="p">(</span><span class="ss">&quot;Offset&quot;</span><span class="p">,</span> <span class="n">Vector</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="err">}</span>
 
-    SubShader{
-        Pass {
-            CGPROGRAM
+    <span class="n">SubShader</span><span class="err">{</span>
+        <span class="n">Pass</span> <span class="err">{</span>
+            <span class="n">CGPROGRAM</span>
 
-            //定义顶点着色器和片元着色器的代码
-            #pragma vertex vert
-            #pragma fragment frag
+            <span class="o">//</span><span class="err">定义顶点着色器和片元着色器的代码</span>
+            <span class="o">#</span><span class="n">pragma</span> <span class="n">vertex</span> <span class="n">vert</span>
+            <span class="o">#</span><span class="n">pragma</span> <span class="n">fragment</span> <span class="n">frag</span>
 
-            fixed4 _Color;
-            fixed4 _Offset;
+            <span class="n">fixed4</span> <span class="n">_Color</span><span class="p">;</span>
+            <span class="n">fixed4</span> <span class="n">_Offset</span><span class="p">;</span>
 
-            float4 vert(float4 v : POSITION) : SV_POSITION {
-                //意思是将模型空间中的点转换为剪裁空间（屏幕）中的点，然后加上offset
-                return UnityObjectToClipPos(v) + _Offset;
-            }
+            <span class="n">float4</span> <span class="n">vert</span><span class="p">(</span><span class="n">float4</span> <span class="n">v</span> <span class="p">:</span> <span class="k">POSITION</span><span class="p">)</span> <span class="p">:</span> <span class="n">SV_POSITION</span> <span class="err">{</span>
+                <span class="o">//</span><span class="err">意思是将模型空间中的点转换为剪裁空间（屏幕）中的点，然后加上</span><span class="k">offset</span>
+                <span class="k">return</span> <span class="n">UnityObjectToClipPos</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">+</span> <span class="n">_Offset</span><span class="p">;</span>
+            <span class="err">}</span>
 
-            fixed4 frag() : SV_Target {
-                return _Color;
-            }
+            <span class="n">fixed4</span> <span class="n">frag</span><span class="p">()</span> <span class="p">:</span> <span class="n">SV_Target</span> <span class="err">{</span>
+                <span class="k">return</span> <span class="n">_Color</span><span class="p">;</span>
+            <span class="err">}</span>
 
-            ENDCG
-        }
-    }
-}
-</pre></div>
+            <span class="n">ENDCG</span>
+        <span class="err">}</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
 
 
 <h3>使用</h3>
@@ -177,19 +177,19 @@
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2017-10-25T00:00:00+08:00">十月 25, 2017</time>
+            <time pubdate="pubdate" datetime="2017-10-25T00:00:00+08:00">10月 25, 2017</time>
             <h4>Category</h4>
             <a class="category-link" href="/categories.html#计算机图形学-ref">计算机图形学</a> 
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article"> 
                 <li><a href="/tags.html#shader-ref">shader
-                    <span>3</span>
+                    <span>4</span>
 </a></li>
                 <li><a href="/tags.html#Unity-ref">Unity
-                    <span>8</span>
+                    <span>11</span>
 </a></li>
                 <li><a href="/tags.html#学习笔记-ref">学习笔记
-                    <span>7</span>
+                    <span>11</span>
 </a></li>
             </ul>
 

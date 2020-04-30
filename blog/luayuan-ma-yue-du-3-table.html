@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="张文" />
+        <meta name="copyright" content="张文" />
+
+<meta name="keywords" content=", lua源码阅读, " />
+        <title>lua源码阅读3——table  · 观心苑
+</title>
+        <link href="http://www.vmetu.com/blog/../external/css/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://www.vmetu.com/blog/../external/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-144x144.png" />
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://www.vmetu.com/blog/"><span class=site-name>观心苑</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://www.vmetu.com/blog">Home</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/categories.html">Categories</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/tags.html">Tags</a></li>
+                            <li ><a href="http://www.vmetu.com/blog/archives.html">Archives</a></li>
+                            <li><form class="navbar-search" action="http://www.vmetu.com/blog/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://www.vmetu.com/blog/luayuan-ma-yue-du-3-table.html"> lua源码阅读3——table  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p>[TOC]</p>
+<p>​     </p>
+<h2>Table结构体</h2>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span> <span class="k">struct</span> <span class="n">Table</span> <span class="p">{</span>
+  <span class="n">CommonHeader</span><span class="p">;</span>
+  <span class="n">lu_byte</span> <span class="n">flags</span><span class="p">;</span>  <span class="cm">/* 1&lt;&lt;p means tagmethod(p) is not present */</span>
+  <span class="n">lu_byte</span> <span class="n">lsizenode</span><span class="p">;</span>  <span class="cm">/* log2 of size of &#39;node&#39; array */</span>
+  <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">sizearray</span><span class="p">;</span>  <span class="cm">/* size of &#39;array&#39; array */</span>
+  <span class="n">TValue</span> <span class="o">*</span><span class="n">array</span><span class="p">;</span>  <span class="cm">/* array part */</span>
+  <span class="n">Node</span> <span class="o">*</span><span class="n">node</span><span class="p">;</span> <span class="c1">//具有同一hash值的节点桶列表</span>
+  <span class="n">Node</span> <span class="o">*</span><span class="n">lastfree</span><span class="p">;</span>  <span class="cm">/* any free position is before this position */</span>
+  <span class="k">struct</span> <span class="n">Table</span> <span class="o">*</span><span class="n">metatable</span><span class="p">;</span>
+  <span class="n">GCObject</span> <span class="o">*</span><span class="n">gclist</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">Table</span><span class="p">;</span>
+</code></pre></div>
+
+
+<h3>节点的结构</h3>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span> <span class="k">struct</span> <span class="n">Node</span> <span class="p">{</span>
+  <span class="n">TValue</span> <span class="n">i_val</span><span class="p">;</span>
+  <span class="n">TKey</span> <span class="n">i_key</span><span class="p">;</span>  
+<span class="p">}</span> <span class="n">Node</span><span class="p">;</span>
+</code></pre></div>
+
+
+<p>一个节点包含一个key和value。我们主要来看看TKey:</p>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span> <span class="k">union</span> <span class="n">TKey</span> <span class="p">{</span>
+  <span class="k">struct</span> <span class="p">{</span>
+    <span class="n">TValuefields</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">next</span><span class="p">;</span>  <span class="cm">/* for chaining (offset for next node) */</span>
+  <span class="p">}</span> <span class="n">nk</span><span class="p">;</span> <span class="c1">//代表着一个链表</span>
+  <span class="n">TValue</span> <span class="n">tvk</span><span class="p">;</span> <span class="c1">//代表着一个值</span>
+<span class="p">}</span> <span class="n">TKey</span><span class="p">;</span>
+</code></pre></div>
+
+
+<h3>table的大小</h3>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="cm">** Try to find a boundary in table &#39;t&#39;. A &#39;boundary&#39; is an integer index</span>
+<span class="cm">** such that t[i] is non-nil and t[i+1] is nil (and 0 if t[1] is nil).</span>
+<span class="cm">*/</span>
+<span class="n">lua_Unsigned</span> <span class="nf">luaH_getn</span> <span class="p">(</span><span class="n">Table</span> <span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">t</span><span class="o">-&gt;</span><span class="n">sizearray</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">ttisnil</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t</span><span class="o">-&gt;</span><span class="n">array</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="cm">/* there is a boundary in the array part: (binary) search for it */</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="c1">//二分查找最后一个不是nil的value，i=value其下标+1，也就是个数</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+      <span class="c1">//保证j-1始终为nil, 如果数组全为nil，最终j=1, i=0</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">ttisnil</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t</span><span class="o">-&gt;</span><span class="n">array</span><span class="p">[</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]))</span> <span class="n">j</span> <span class="o">=</span> <span class="n">m</span><span class="p">;</span> 
+      <span class="k">else</span> <span class="n">i</span> <span class="o">=</span> <span class="n">m</span><span class="p">;</span> <span class="c1">//如果移动过i，i-1始终不为nil</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="cm">/* else must find a boundary in hash part */</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">isdummy</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>  <span class="cm">/* hash part is empty? */</span>
+    <span class="k">return</span> <span class="n">j</span><span class="p">;</span>  <span class="cm">/* that is easy... */</span>
+  <span class="k">else</span> <span class="k">return</span> <span class="n">unbound_search</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>这个函数用来获取table中的数组大小，用在tabe的<code>#</code>运算上。我们注意到，它是通过二分查找来找的，就会导致一个有趣的现象：</p>
+<div class="highlight"><pre><span></span><code><span class="o">#</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="kc">nil</span><span class="p">}</span> <span class="o">==</span> <span class="mi">6</span>
+<span class="o">#</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="kc">nil</span><span class="p">}</span> <span class="o">==</span> <span class="mi">6</span>
+<span class="o">#</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="kc">nil</span><span class="p">}</span> <span class="o">==</span> <span class="mi">2</span>
+</code></pre></div>
+
+
+<p>因为二分法的步长把3号位的nil跳过去了。</p>
+<p>当最后一个元素不是nil时，使用的是<code>unbound_search</code>来获取大小，它的本质还是一个二分查找：</p>
+<div class="highlight"><pre><span></span><code><span class="k">static</span> <span class="n">lua_Unsigned</span> <span class="nf">unbound_search</span> <span class="p">(</span><span class="n">Table</span> <span class="o">*</span><span class="n">t</span><span class="p">,</span> <span class="n">lua_Unsigned</span> <span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">lua_Unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>  <span class="cm">/* i is zero or a present index */</span>
+  <span class="n">j</span><span class="o">++</span><span class="p">;</span>
+
+  <span class="c1">//以2的幂次方为步长，找到一个为nil的下标</span>
+  <span class="cm">/* find &#39;i&#39; and &#39;j&#39; such that i is present and j is not */</span>
+  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">ttisnil</span><span class="p">(</span><span class="n">luaH_getint</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="p">)))</span> <span class="p">{</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">&gt;</span> <span class="n">l_castS2U</span><span class="p">(</span><span class="n">LUA_MAXINTEGER</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>  <span class="cm">/* overflow? */</span>
+      <span class="cm">/* table was built with bad purposes: resort to linear search */</span>
+      <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">ttisnil</span><span class="p">(</span><span class="n">luaH_getint</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span> <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+      <span class="k">return</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">j</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="c1">//在i和i*2的区间进行二分查找</span>
+  <span class="cm">/* now do a binary search between them */</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lua_Unsigned</span> <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ttisnil</span><span class="p">(</span><span class="n">luaH_getint</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">)))</span> <span class="n">j</span> <span class="o">=</span> <span class="n">m</span><span class="p">;</span>
+    <span class="k">else</span> <span class="n">i</span> <span class="o">=</span> <span class="n">m</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>通过这部分源代码我们可以看出来，lua认为nil为一个数组的结尾，为了不出现意外的情况，我们在建立数组时，<strong>数组里面的值最好不要有nil</strong>。</p>
+<h2>创建</h2>
+<h3>创建table</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Table</span> <span class="o">*</span><span class="nf">luaH_new</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">GCObject</span> <span class="o">*</span><span class="n">o</span> <span class="o">=</span> <span class="n">luaC_newobj</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">LUA_TTABLE</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Table</span><span class="p">));</span>
+  <span class="n">Table</span> <span class="o">*</span><span class="n">t</span> <span class="o">=</span> <span class="n">gco2t</span><span class="p">(</span><span class="n">o</span><span class="p">);</span>
+  <span class="n">t</span><span class="o">-&gt;</span><span class="n">metatable</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+  <span class="n">t</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">=</span> <span class="n">cast_byte</span><span class="p">(</span><span class="o">~</span><span class="mi">0</span><span class="p">);</span> <span class="c1">//flag初始化应该为255， </span>
+  <span class="n">t</span><span class="o">-&gt;</span><span class="n">array</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+  <span class="n">t</span><span class="o">-&gt;</span><span class="n">sizearray</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="n">setnodevector</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">t</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<h3>创建key</h3>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="cm">** inserts a new key into a hash table; first, check whether key&#39;s main</span>
+<span class="cm">** position is free. If not, check whether colliding node is in its main</span>
+<span class="cm">** position or not: if it is not, move colliding node to an empty place and</span>
+<span class="cm">** put new key in its main position; otherwise (colliding node is in its main</span>
+<span class="cm">** position), new key goes to an empty position.</span>
+<span class="cm">*/</span>
+<span class="n">TValue</span> <span class="o">*</span><span class="nf">luaH_newkey</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="n">Table</span> <span class="o">*</span><span class="n">t</span><span class="p">,</span> <span class="k">const</span> <span class="n">TValue</span> <span class="o">*</span><span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">Node</span> <span class="o">*</span><span class="n">mp</span><span class="p">;</span>
+  <span class="n">TValue</span> <span class="n">aux</span><span class="p">;</span>
+
+  <span class="c1">//检查key是否为nil, 并看能不能将float的key转成int的key</span>
+  <span class="p">...</span>
+
+  <span class="n">mp</span> <span class="o">=</span> <span class="n">mainposition</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ttisnil</span><span class="p">(</span><span class="n">gval</span><span class="p">(</span><span class="n">mp</span><span class="p">))</span> <span class="o">||</span> <span class="n">isdummy</span><span class="p">(</span><span class="n">t</span><span class="p">))</span> <span class="p">{</span>  <span class="cm">/* main position is taken? */</span>
+    <span class="n">Node</span> <span class="o">*</span><span class="n">othern</span><span class="p">;</span>
+    <span class="n">Node</span> <span class="o">*</span><span class="n">f</span> <span class="o">=</span> <span class="n">getfreepos</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>  <span class="cm">/* get a free place */</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">f</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>  <span class="cm">/* cannot find a free place? */</span>
+      <span class="n">rehash</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>  <span class="cm">/* grow table */</span>
+      <span class="cm">/* whatever called &#39;newkey&#39; takes care of TM cache */</span>
+      <span class="k">return</span> <span class="n">luaH_set</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>  <span class="cm">/* insert key into grown table */</span>
+    <span class="p">}</span>
+    <span class="n">lua_assert</span><span class="p">(</span><span class="o">!</span><span class="n">isdummy</span><span class="p">(</span><span class="n">t</span><span class="p">));</span>
+    <span class="n">othern</span> <span class="o">=</span> <span class="n">mainposition</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">gkey</span><span class="p">(</span><span class="n">mp</span><span class="p">));</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">othern</span> <span class="o">!=</span> <span class="n">mp</span><span class="p">)</span> <span class="p">{</span>  <span class="cm">/* is colliding node out of its main position? */</span>
+      <span class="cm">/* yes; move colliding node into free position */</span>
+      <span class="k">while</span> <span class="p">(</span><span class="n">othern</span> <span class="o">+</span> <span class="n">gnext</span><span class="p">(</span><span class="n">othern</span><span class="p">)</span> <span class="o">!=</span> <span class="n">mp</span><span class="p">)</span>  <span class="cm">/* find previous */</span>
+        <span class="n">othern</span> <span class="o">+=</span> <span class="n">gnext</span><span class="p">(</span><span class="n">othern</span><span class="p">);</span>
+      <span class="n">gnext</span><span class="p">(</span><span class="n">othern</span><span class="p">)</span> <span class="o">=</span> <span class="n">cast_int</span><span class="p">(</span><span class="n">f</span> <span class="o">-</span> <span class="n">othern</span><span class="p">);</span>  <span class="cm">/* rechain to point to &#39;f&#39; */</span>
+      <span class="o">*</span><span class="n">f</span> <span class="o">=</span> <span class="o">*</span><span class="n">mp</span><span class="p">;</span>  <span class="cm">/* copy colliding node into free pos. (mp-&gt;next also goes) */</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">gnext</span><span class="p">(</span><span class="n">mp</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">gnext</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">+=</span> <span class="n">cast_int</span><span class="p">(</span><span class="n">mp</span> <span class="o">-</span> <span class="n">f</span><span class="p">);</span>  <span class="cm">/* correct &#39;next&#39; */</span>
+        <span class="n">gnext</span><span class="p">(</span><span class="n">mp</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="cm">/* now &#39;mp&#39; is free */</span>
+      <span class="p">}</span>
+      <span class="n">setnilvalue</span><span class="p">(</span><span class="n">gval</span><span class="p">(</span><span class="n">mp</span><span class="p">));</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>  <span class="cm">/* colliding node is in its own main position */</span>
+      <span class="cm">/* new node will go into free position */</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">gnext</span><span class="p">(</span><span class="n">mp</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">gnext</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">=</span> <span class="n">cast_int</span><span class="p">((</span><span class="n">mp</span> <span class="o">+</span> <span class="n">gnext</span><span class="p">(</span><span class="n">mp</span><span class="p">))</span> <span class="o">-</span> <span class="n">f</span><span class="p">);</span>  <span class="cm">/* chain new position */</span>
+      <span class="k">else</span> <span class="n">lua_assert</span><span class="p">(</span><span class="n">gnext</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+      <span class="n">gnext</span><span class="p">(</span><span class="n">mp</span><span class="p">)</span> <span class="o">=</span> <span class="n">cast_int</span><span class="p">(</span><span class="n">f</span> <span class="o">-</span> <span class="n">mp</span><span class="p">);</span>
+      <span class="n">mp</span> <span class="o">=</span> <span class="n">f</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">setnodekey</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">mp</span><span class="o">-&gt;</span><span class="n">i_key</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>
+  <span class="n">luaC_barrierback</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>
+  <span class="n">lua_assert</span><span class="p">(</span><span class="n">ttisnil</span><span class="p">(</span><span class="n">gval</span><span class="p">(</span><span class="n">mp</span><span class="p">)));</span>
+  <span class="k">return</span> <span class="n">gval</span><span class="p">(</span><span class="n">mp</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<h2>查</h2>
+<h3>主入口</h3>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="cm">** main search function</span>
+<span class="cm">*/</span>
+<span class="k">const</span> <span class="n">TValue</span> <span class="o">*</span><span class="nf">luaH_get</span> <span class="p">(</span><span class="n">Table</span> <span class="o">*</span><span class="n">t</span><span class="p">,</span> <span class="k">const</span> <span class="n">TValue</span> <span class="o">*</span><span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">//根据key的类型调用不同的函数来查找</span>
+  <span class="k">switch</span> <span class="p">(</span><span class="n">ttype</span><span class="p">(</span><span class="n">key</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="nl">LUA_TSHRSTR</span><span class="p">:</span> <span class="k">return</span> <span class="n">luaH_getshortstr</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">tsvalue</span><span class="p">(</span><span class="n">key</span><span class="p">));</span>
+    <span class="k">case</span> <span class="nl">LUA_TNUMINT</span><span class="p">:</span> <span class="k">return</span> <span class="n">luaH_getint</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">ivalue</span><span class="p">(</span><span class="n">key</span><span class="p">));</span>
+    <span class="k">case</span> <span class="nl">LUA_TNIL</span><span class="p">:</span> <span class="k">return</span> <span class="n">luaO_nilobject</span><span class="p">;</span>
+    <span class="k">case</span> <span class="nl">LUA_TNUMFLT</span><span class="p">:</span> <span class="p">{</span>
+      <span class="n">lua_Integer</span> <span class="n">k</span><span class="p">;</span>
+      <span class="c1">//将float的key转成int，如果floor(key) != int(key),则进入defaut</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">luaV_tointeger</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="cm">/* index is int? */</span>
+        <span class="k">return</span> <span class="n">luaH_getint</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>  <span class="cm">/* use specialized version */</span>
+      <span class="cm">/* else... */</span>
+    <span class="p">}</span>  <span class="cm">/* FALLTHROUGH */</span>
+    <span class="k">default</span><span class="o">:</span> <span class="c1">//通用查找</span>
+      <span class="k">return</span> <span class="n">getgeneric</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>在这里我们看到一个比较有趣的地方，即在lua中，肯定有<code>t[2.0] == t[2]</code>,  由于各机器上<code>double</code>是有精度限制的，如果<code>10 == 10.0000000000000001</code>， 那么<code>t[10] == t[10.0000000000000001]</code>。</p>
+<h3>查找key为短字符串的值</h3>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="cm">** search function for short strings</span>
+<span class="cm">*/</span>
+<span class="k">const</span> <span class="n">TValue</span> <span class="o">*</span><span class="nf">luaH_getshortstr</span> <span class="p">(</span><span class="n">Table</span> <span class="o">*</span><span class="n">t</span><span class="p">,</span> <span class="n">TString</span> <span class="o">*</span><span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">Node</span> <span class="o">*</span><span class="n">n</span> <span class="o">=</span> <span class="n">hashstr</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span> <span class="c1">//根据短字符串的哈希值找到桶</span>
+  <span class="n">lua_assert</span><span class="p">(</span><span class="n">key</span><span class="o">-&gt;</span><span class="n">tt</span> <span class="o">==</span> <span class="n">LUA_TSHRSTR</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(;;)</span> <span class="p">{</span>  <span class="cm">/* check whether &#39;key&#39; is somewhere in the chain */</span>
+    <span class="k">const</span> <span class="n">TValue</span> <span class="o">*</span><span class="n">k</span> <span class="o">=</span> <span class="n">gkey</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ttisshrstring</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">eqshrstr</span><span class="p">(</span><span class="n">tsvalue</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">key</span><span class="p">))</span>
+      <span class="k">return</span> <span class="n">gval</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>  <span class="cm">/* that&#39;s it */</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="kt">int</span> <span class="n">nx</span> <span class="o">=</span> <span class="n">gnext</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">nx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">luaO_nilobject</span><span class="p">;</span>  <span class="cm">/* not found */</span>
+      <span class="n">n</span> <span class="o">+=</span> <span class="n">nx</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2"
+                href="http://www.vmetu.com/blog/luayuan-ma-yue-du-3-table.html#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'vmetu';
+        var disqus_identifier = 'http://www.vmetu.com/blog/luayuan-ma-yue-du-3-table.html';
+    var disqus_url = 'http://www.vmetu.com/blog/luayuan-ma-yue-du-3-table.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+            <aside>
+            <hr/>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://www.vmetu.com/blog/luayuan-ma-yue-du-1-yuan-ma-bian-yi.html" title="Previous: lua源码阅读1——源码编译">lua源码阅读1——源码编译</a></li>
+ 
+                <li class="next_article"><a href="http://www.vmetu.com/blog/shi-yong-stencilshi-xian-maskgong-neng.html" title="Next: 使用stencil实现mask功能">使用stencil实现mask功能</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2019-03-19T00:00:00+08:00">3月 19, 2019</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#lua源码阅读-ref">lua源码阅读</a> 
+
+        </div>
+        </section>
+</div>
+</article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'vmetu';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+        <script  language="javascript" type="text/javascript">
+            function uncollapse() {
+                var hash_str = window.location.hash;
+                if (window.location.hash.match(/^#comment-\d+$/))
+                {
+                    var hash_str = '#disqus_thread';
+                }
+                $(hash_str).collapse({
+                    toggle: true
+                    })
+            }
+        </script>
+
+        <script type="text/javascript" language="JavaScript">
+            uncollapse(); 
+        </script>
+    </body>
+</html>

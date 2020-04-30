@@ -62,17 +62,8 @@
 <p>[TOC]</p>
 <p>下面总结一些日常Python代码段</p>
 <h2>遍历文件夹</h2>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight"><pre><span></span><code><span class="ch">#!Python</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="k">def</span> <span class="nf">getAllFile</span><span class="p">(</span><span class="n">dirPath</span><span class="p">):</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">allsub</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">dirPath</span><span class="p">)</span>
@@ -83,83 +74,75 @@
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">subPath</span><span class="p">):</span>
             <span class="n">ret</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">getAllFile</span><span class="p">(</span><span class="n">subPath</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">ret</span>
-</pre></div>
-</td></tr></table>
+</code></pre></div>
+
 
 <h2>打zip包</h2>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">zipfile</span><span class="o">,</span> <span class="nn">os</span>
+<div class="highlight"><pre><span></span><code><span class="ch">#!Python</span>
+<span class="kn">import</span> <span class="nn">zipfile</span><span class="o">,</span> <span class="nn">os</span>
 
 <span class="n">zipPakFile</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">zipflieName</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span> <span class="p">,</span><span class="n">zipfile</span><span class="o">.</span><span class="n">ZIP_DEFLATED</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">fileList</span><span class="p">:</span>
     <span class="n">zipPakFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> 
 <span class="n">zipPakFile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</pre></div>
-</td></tr></table>
+</code></pre></div>
+
 
 <h2>删除文件夹</h2>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">shutil</span>
+<div class="highlight"><pre><span></span><code><span class="ch">#!Python</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
 <span class="c1">#True表示即使为空也强制删除，如果不加True, 只能删除空文件夹</span>
-<span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">dirPath</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-</pre></div>
-</td></tr></table>
+<span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">dirPath</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> 
+</code></pre></div>
+
 
 <h2>创建文件夹</h2>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="nb">dir</span><span class="p">):</span> 
-    <span class="c1">#makedirs和mkdir的区别是，如果父目录不存在，makedirs会创建父目录，而mkdir不会</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span>
-</pre></div>
-</td></tr></table>
+<div class="highlight"><pre><span></span><code><span class="ch">#!Python</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="nb">dir</span><span class="p">):</span> 
+    <span class="c1">#makedirs和mkdir的区别是，如果父目录不存在，makedirs会创建父目录，而mkdir不会python</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span>  
+</code></pre></div>
+
 
 <h2>拷贝文件</h2>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight"><pre><span></span><code><span class="ch">#!python</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="n">imageName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
 <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pelicanconf</span><span class="o">.</span><span class="n">OUTPUT_PATH</span><span class="p">,</span> <span class="n">imageName</span><span class="p">))</span>
-</pre></div>
-</td></tr></table>
+</code></pre></div>
+
 
 <h2>按编码转换字符串</h2>
-<div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">decode_bytes</span><span class="p">(</span><span class="n">byte_str</span><span class="p">,</span> <span class="n">encoding</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">decode_bytes</span><span class="p">(</span><span class="n">byte_str</span><span class="p">,</span> <span class="n">encoding</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">encoding</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">byte_str</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">byte_str</span>
-</pre></div>
+</code></pre></div>
 
 
 <h2>运行命令</h2>
-<div class="highlight"><pre><span></span>    <span class="c1">#encoding 为输出格式</span>
+<div class="highlight"><pre><span></span><code>    <span class="c1">#encoding 为输出格式</span>
     <span class="k">def</span> <span class="nf">execute_cmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 
-        <span class="k">print</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
 
-        <span class="n">pipe</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+        <span class="n">pipe</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
 
         <span class="c1">#实时读出一些数据</span>
-        <span class="k">while</span> <span class="n">pipe</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">while</span> <span class="n">pipe</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">line_byte</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">decode_bytes</span><span class="p">(</span><span class="n">line_byte</span><span class="p">,</span> <span class="n">encoding</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">);</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">decode_bytes</span><span class="p">(</span><span class="n">line_byte</span><span class="p">,</span> <span class="n">encoding</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">);</span>
 
         <span class="n">out</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">decode_bytes</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">encoding</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">);</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">decode_bytes</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">encoding</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">);</span>
 
         <span class="n">err</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;execute cmd error:&quot;</span><span class="p">,</span> <span class="n">decode_bytes</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">encoding</span><span class="p">))</span>
-</pre></div>
+</code></pre></div>
 <section>
 <div class="accordion" id="accordion2">
     <div class="accordion-group">
@@ -207,7 +190,7 @@
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2015-11-10T00:00:00+08:00">十一月 10, 2015</time>
+            <time pubdate="pubdate" datetime="2015-11-10T00:00:00+08:00">11月 10, 2015</time>
             <h4>Category</h4>
             <a class="category-link" href="/categories.html#编程语言-ref">编程语言</a> 
             <h4>Tags</h4>

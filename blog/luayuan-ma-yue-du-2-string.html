@@ -60,7 +60,7 @@
 
             <p>[TOC]</p>
 <h2>字符串部分对外接口</h2>
-<div class="highlight"><pre><span></span><span class="c1">//计算一段buff的哈希值</span>
+<div class="highlight"><pre><span></span><code><span class="c1">//计算一段buff的哈希值</span>
 <span class="n">LUAI_FUNC</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">luaS_hash</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">seed</span><span class="p">);</span>
 <span class="c1">//计算长字符串的哈希值</span>
 <span class="n">LUAI_FUNC</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">luaS_hashlongstr</span> <span class="p">(</span><span class="n">TString</span> <span class="o">*</span><span class="n">ts</span><span class="p">);</span>
@@ -80,11 +80,11 @@
 <span class="n">LUAI_FUNC</span> <span class="n">TString</span> <span class="o">*</span><span class="nf">luaS_new</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">);</span>
 <span class="c1">//创建长字符串</span>
 <span class="n">LUAI_FUNC</span> <span class="n">TString</span> <span class="o">*</span><span class="nf">luaS_createlngstrobj</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">);</span>
-</pre></div>
+</code></pre></div>
 
 
 <h2>字符串的结构体</h2>
-<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">** Header for string value; string bytes follow the end of this structure</span>
 <span class="cm">** (aligned according to &#39;UTString&#39;; see next).</span>
 <span class="cm">*/</span>
@@ -104,13 +104,13 @@
     <span class="k">struct</span> <span class="n">TString</span> <span class="o">*</span><span class="n">hnext</span><span class="p">;</span>  <span class="cm">/* linked list for hash table */</span>
   <span class="p">}</span> <span class="n">u</span><span class="p">;</span>
 <span class="p">}</span> <span class="n">TString</span><span class="p">;</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>在创建字符串时，会申请<code>sizeof(TString) + 字符串实际长度 + 1</code>的内存空间，头部存<code>TString</code>,后面跟着字符串内容。 </p>
 <h3>长字符串和短字符串</h3>
 <p>Lua 5.3引入了长字符串和短字符串的概念，它们按长度区分，定义在：</p>
-<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">** Maximum length for short strings, that is, strings that are</span>
 <span class="cm">** internalized. (Cannot be smaller than reserved words or tags for</span>
 <span class="cm">** metamethods, as these strings must be internalized;</span>
@@ -119,26 +119,26 @@
 <span class="cp">#if !defined(LUAI_MAXSHORTLEN)</span>
 <span class="cp">#define LUAI_MAXSHORTLEN    40</span>
 <span class="cp">#endif</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Lua中所有关键词都被认为是短字符串，最长的应该是"__newindex"，所以<code>LUAI_MAXSHORTLEN</code>不应小于10。</p>
 <p>Lua中所有的短字符串均被存放在全局状态表（global_State）的<strong>strt</strong>域中，<strong>strt</strong>是<strong>stringtable</strong>的简写，它是一个哈希表。</p>
 <h3>短字符串的组织方式</h3>
 <p>Lua中所有的短字符串均被存放在全局状态表（global_State）的<code>strt</code>域中，<code>strt</code>是<code>stringtable</code>的简写，它是一个哈希表。<code>strt</code>的定义：</p>
-<div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">stringtable</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span> <span class="k">struct</span> <span class="n">stringtable</span> <span class="p">{</span>
   <span class="n">TString</span> <span class="o">**</span><span class="n">hash</span><span class="p">;</span>
   <span class="kt">int</span> <span class="n">nuse</span><span class="p">;</span>  <span class="c1">//表里的字符串的个数</span>
   <span class="kt">int</span> <span class="n">size</span><span class="p">;</span> <span class="c1">//size是这个表的散列桶的个数</span>
 <span class="p">}</span> <span class="n">stringtable</span><span class="p">;</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>表的结构如下图(参考：https://www.cnblogs.com/heartchord/p/4561308.html)：</p>
 <p><img alt="img" src="https://images0.cnblogs.com/blog2015/526315/201506/181821271542574.png"></p>
 <p>在Lua初始化的时候会调用<code>luaS_init</code>来初始化短字符串的哈希表。</p>
 <h2>字符串索引初始化</h2>
-<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">** Initialize the string table and the string cache</span>
 <span class="cm">*/</span>
 <span class="kt">void</span> <span class="nf">luaS_init</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">)</span> <span class="p">{</span>
@@ -156,11 +156,11 @@
     <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">STRCACHE_M</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
       <span class="n">g</span><span class="o">-&gt;</span><span class="n">strcache</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">memerrmsg</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <h3>短字符串散列表的建立</h3>
-<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">** resizes the string table</span>
 <span class="cm">*/</span>
 <span class="kt">void</span> <span class="nf">luaS_resize</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="kt">int</span> <span class="n">newsize</span><span class="p">)</span> <span class="p">{</span>
@@ -203,11 +203,11 @@
   <span class="p">}</span>
   <span class="n">tb</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">=</span> <span class="n">newsize</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <h3>字符串哈希算法</h3>
-<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">** Lua will use at most ~(2^LUAI_HASHLIMIT) bytes from a string to</span>
 <span class="cm">** compute its hash</span>
 <span class="cm">*/</span>
@@ -222,7 +222,7 @@
     <span class="n">h</span> <span class="o">^=</span> <span class="p">((</span><span class="n">h</span><span class="o">&lt;&lt;</span><span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">h</span><span class="o">&gt;&gt;</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">cast_byte</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]));</span>
   <span class="k">return</span> <span class="n">h</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <ul>
@@ -231,7 +231,7 @@
 <li>Lua中使用了随机生成的<code>seed</code>来保证哈希值不被猜测</li>
 </ul>
 <h3>长字符串的哈希算法</h3>
-<div class="highlight"><pre><span></span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">luaS_hashlongstr</span> <span class="p">(</span><span class="n">TString</span> <span class="o">*</span><span class="n">ts</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">luaS_hashlongstr</span> <span class="p">(</span><span class="n">TString</span> <span class="o">*</span><span class="n">ts</span><span class="p">)</span> <span class="p">{</span>
   <span class="n">lua_assert</span><span class="p">(</span><span class="n">ts</span><span class="o">-&gt;</span><span class="n">tt</span> <span class="o">==</span> <span class="n">LUA_TLNGSTR</span><span class="p">);</span>
   <span class="k">if</span> <span class="p">(</span><span class="n">ts</span><span class="o">-&gt;</span><span class="n">extra</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>  <span class="cm">/* no hash? */</span>
     <span class="c1">//作为参数传进去的ts-&gt;hash就是随机种子</span>
@@ -240,12 +240,12 @@
   <span class="p">}</span>
   <span class="k">return</span> <span class="n">ts</span><span class="o">-&gt;</span><span class="n">hash</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <h3>随机数种子seed</h3>
 <p>Lua中生成随机数种子的逻辑：</p>
-<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">** a macro to help the creation of a unique random seed when a state is</span>
 <span class="cm">** created; the seed is used to randomize hashes.</span>
 <span class="cm">*/</span>
@@ -274,7 +274,7 @@
   <span class="n">lua_assert</span><span class="p">(</span><span class="n">p</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buff</span><span class="p">));</span>
   <span class="k">return</span> <span class="n">luaS_hash</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">h</span><span class="p">);</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <ul>
@@ -283,7 +283,7 @@
 </ul>
 <h2>字符串的创建</h2>
 <h3>创建入口</h3>
-<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">** Create or reuse a zero-terminated string, first checking in the</span>
 <span class="cm">** cache (using the string address as a key). The cache can contain</span>
 <span class="cm">** only zero-terminated strings, so it is safe to use &#39;strcmp&#39; to</span>
@@ -310,12 +310,12 @@
   <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">luaS_newlstr</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">str</span><span class="p">));</span>
   <span class="k">return</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>创建字符串时，先通过缓冲查找，可以避免一些重复字符串的创建。</p>
 <h3>创建字符串。</h3>
-<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">** new string (with explicit length)</span>
 <span class="cm">*/</span>
 <span class="n">TString</span> <span class="o">*</span><span class="nf">luaS_newlstr</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">)</span> <span class="p">{</span>
@@ -331,21 +331,21 @@
     <span class="k">return</span> <span class="n">ts</span><span class="p">;</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <h3>长字符串的创建</h3>
-<div class="highlight"><pre><span></span><span class="n">TString</span> <span class="o">*</span><span class="nf">luaS_createlngstrobj</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="n">TString</span> <span class="o">*</span><span class="nf">luaS_createlngstrobj</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">//长字符串在创建时，并没有计算哈希值，要作为索引用的时候才哈希</span>
   <span class="n">TString</span> <span class="o">*</span><span class="n">ts</span> <span class="o">=</span> <span class="n">createstrobj</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">LUA_TLNGSTR</span><span class="p">,</span> <span class="n">G</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">seed</span><span class="p">);</span>
   <span class="n">ts</span><span class="o">-&gt;</span><span class="n">u</span><span class="p">.</span><span class="n">lnglen</span> <span class="o">=</span> <span class="n">l</span><span class="p">;</span>
   <span class="k">return</span> <span class="n">ts</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <h3>短字符串创建</h3>
-<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">** checks whether short string exists and reuses it or creates a new one</span>
 <span class="cm">*/</span>
 <span class="k">static</span> <span class="n">TString</span> <span class="o">*</span><span class="nf">internshrstr</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">)</span> <span class="p">{</span>
@@ -381,12 +381,12 @@
   <span class="n">g</span><span class="o">-&gt;</span><span class="n">strt</span><span class="p">.</span><span class="n">nuse</span><span class="o">++</span><span class="p">;</span>
   <span class="k">return</span> <span class="n">ts</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <h3>通用创建过程：</h3>
 <p>可以发现，长字符串和短字符串都是通过<code>createstrobj</code>函数来创建的。</p>
-<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">** creates a new string object</span>
 <span class="cm">*/</span>
 <span class="k">static</span> <span class="n">TString</span> <span class="o">*</span><span class="nf">createstrobj</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">tag</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">h</span><span class="p">)</span> <span class="p">{</span>
@@ -402,11 +402,11 @@
   <span class="n">getstr</span><span class="p">(</span><span class="n">ts</span><span class="p">)[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span>  <span class="cm">/* ending 0 */</span>
   <span class="k">return</span> <span class="n">ts</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <h2>短字符串的删除</h2>
-<div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">luaS_remove</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="n">TString</span> <span class="o">*</span><span class="n">ts</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span> <span class="nf">luaS_remove</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="n">TString</span> <span class="o">*</span><span class="n">ts</span><span class="p">)</span> <span class="p">{</span>
   <span class="n">stringtable</span> <span class="o">*</span><span class="n">tb</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">G</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">strt</span><span class="p">;</span>
   <span class="n">TString</span> <span class="o">**</span><span class="n">p</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">tb</span><span class="o">-&gt;</span><span class="n">hash</span><span class="p">[</span><span class="n">lmod</span><span class="p">(</span><span class="n">ts</span><span class="o">-&gt;</span><span class="n">hash</span><span class="p">,</span> <span class="n">tb</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">)];</span>
   <span class="k">while</span> <span class="p">(</span><span class="o">*</span><span class="n">p</span> <span class="o">!=</span> <span class="n">ts</span><span class="p">)</span>  <span class="cm">/* find previous element */</span>
@@ -415,12 +415,12 @@
   <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">u</span><span class="p">.</span><span class="n">hnext</span><span class="p">;</span>  <span class="cm">/* remove element from its list */</span>
   <span class="n">tb</span><span class="o">-&gt;</span><span class="n">nuse</span><span class="o">--</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <h2>字符串比较</h2>
 <p>Lua中使用<code>luaV_equalobj</code>来比较两个对象：</p>
-<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">** Main operation for equality of Lua values; return &#39;t1 == t2&#39;.</span>
 <span class="cm">** L == NULL means raw equality (no metamethods)</span>
 <span class="cm">*/</span>
@@ -435,20 +435,20 @@
   <span class="p">}</span>
   <span class="p">...</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>对于短字符串：</p>
-<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">** equality for short strings, which are always internalized</span>
 <span class="cm">*/</span>
 <span class="cp">#define eqshrstr(a,b)   check_exp((a)-&gt;tt == LUA_TSHRSTR, (a) == (b))</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>直接判断他们的地址是否相同。</p>
 <p>对于长字符串</p>
-<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">** equality for long strings</span>
 <span class="cm">*/</span>
 <span class="kt">int</span> <span class="nf">luaS_eqlngstr</span> <span class="p">(</span><span class="n">TString</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="n">TString</span> <span class="o">*</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
@@ -458,7 +458,7 @@
     <span class="p">((</span><span class="n">len</span> <span class="o">==</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">u</span><span class="p">.</span><span class="n">lnglen</span><span class="p">)</span> <span class="o">&amp;&amp;</span>  <span class="cm">/* equal length and ... */</span> <span class="c1">//先比较长度可以加快判断</span>
      <span class="p">(</span><span class="n">memcmp</span><span class="p">(</span><span class="n">getstr</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">getstr</span><span class="p">(</span><span class="n">b</span><span class="p">),</span> <span class="n">len</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">));</span>  <span class="cm">/* equal contents */</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>相等的条件是：地址相同或者内容相同。</p>
@@ -509,7 +509,7 @@
         <div class="span2" style="float:right;font-size:0.9em;">
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2019-03-13T00:00:00+08:00">三月 13, 2019</time>
+            <time pubdate="pubdate" datetime="2019-03-13T00:00:00+08:00">3月 13, 2019</time>
             <h4>Category</h4>
             <a class="category-link" href="/categories.html#lua源码阅读-ref">lua源码阅读</a> 
 
