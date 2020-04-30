@@ -62,7 +62,12 @@ BROWSER_COLOR = "#333"
 ROBOTS = "index, follow"
 COPYRIGHT_YEAR = 2020
 MAIN_MENU = True
-#MENUITEMS={"Archives":"asdfasdfasdf"}
+MENUITEMS=[
+    ("首页", SITEURL),
+    ("所有", SITEURL + "/archives.html"), 
+    ("分类", SITEURL + "/categories.html"),
+    ("标签", SITEURL + "/tags.html"),
+]
 
 # Elegant theme
 STATIC_PATHS = ['theme/images', 'images']
