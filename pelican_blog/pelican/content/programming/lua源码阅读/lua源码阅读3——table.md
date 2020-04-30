@@ -40,8 +40,8 @@ typedef union TKey {
   struct {
     TValuefields;
     int next;  /* for chaining (offset for next node) */
-  } nk;
-  TValue tvk;
+  } nk; //代表着一个链表
+  TValue tvk; //代表着一个值
 } TKey;
 ```
 
