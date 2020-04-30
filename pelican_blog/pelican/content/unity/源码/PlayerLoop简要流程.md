@@ -97,7 +97,31 @@ static void InitDefaultPlayerLoop()
 
 ## PlayerLoopSystem组织方式
 
+所有的PlayerLoopSystem保存在`s_currentLoop`中，它内部是一个`NativePlayerLoopSystem`的数组，大致如下：
 
+![1588249654028](F:\GitHub\shazi129.github.io\pelican_blog\pelican\content\unity\源码\1588249654028.png)
+
+- 列表头记录了所有PlayerLoopSystem的个数
+
+- 每一个PlayerLoopSystem和它的subSystem存在一片连续的区域
+
+- PlayerLoopSystem有它的处理逻辑(updateFunction)，并记录了它的subSystem的个数
+
+- subSystem中只有处理逻辑
+
+- 所有的处理逻辑都来自`CoreScriptingClasses`类中
+
+- 处理函数的命名规则：
+
+  - PlayerLoopSystem为它的名字，例如`CoreScriptingClasses.initialization`
+
+  - subSystem的名字为“PlayerLoopSystem的名字+subSystem的名字", 例如`CoreScriptingClasses.initializationPlayerUpdateTime`
+
+  - 命名通过`PLAYER_LOOP_INJECT(Name)`宏定义
+
+- 处理函数的初始化定义在`CoreScriptingClasses.InitializeCoreScriptingClasses`, 从dll中加载。
+
+  
 
 ## ExecutePlayerLoop
 

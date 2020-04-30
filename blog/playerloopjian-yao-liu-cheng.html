@@ -191,6 +191,40 @@
 </code></pre></div>
 <p>大致意思就是初始化这么多的回调，每个回调对应的是<code>CoreScriptingClasses</code>中的相应函数。</p>
 <h2 id="playerloopsystemzu zhi fang shi">PlayerLoopSystem组织方式</h2>
+<p>所有的PlayerLoopSystem保存在<code>s_currentLoop</code>中，它内部是一个<code>NativePlayerLoopSystem</code>的数组，大致如下：</p>
+<p><img alt="1588249654028" src="F:\GitHub\shazi129.github.io\pelican_blog\pelican\content\unity\源码\1588249654028.png"/></p>
+<ul>
+<li>
+<p>列表头记录了所有PlayerLoopSystem的个数</p>
+</li>
+<li>
+<p>每一个PlayerLoopSystem和它的subSystem存在一片连续的区域</p>
+</li>
+<li>
+<p>PlayerLoopSystem有它的处理逻辑(updateFunction)，并记录了它的subSystem的个数</p>
+</li>
+<li>
+<p>subSystem中只有处理逻辑</p>
+</li>
+<li>
+<p>所有的处理逻辑都来自<code>CoreScriptingClasses</code>类中</p>
+</li>
+<li>
+<p>处理函数的命名规则：</p>
+</li>
+<li>
+<p>PlayerLoopSystem为它的名字，例如<code>CoreScriptingClasses.initialization</code></p>
+</li>
+<li>
+<p>subSystem的名字为&ldquo;PlayerLoopSystem的名字+subSystem的名字", 例如<code>CoreScriptingClasses.initializationPlayerUpdateTime</code></p>
+</li>
+<li>
+<p>命名通过<code>PLAYER_LOOP_INJECT(Name)</code>宏定义</p>
+</li>
+<li>
+<p>处理函数的初始化定义在<code>CoreScriptingClasses.InitializeCoreScriptingClasses</code>, 从dll中加载。</p>
+</li>
+</ul>
 <h2 id="executeplayerloop">ExecutePlayerLoop</h2>
 <p>首先判断本个NativePlayerLoopSystem要不要再当前帧执行：</p>
 <div class="highlight"><pre><span></span><code><span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">system</span><span class="o">-&gt;</span><span class="n">loopConditionFunction</span> <span class="o">||</span> <span class="n">system</span><span class="o">-&gt;</span><span class="n">loopConditionFunction</span><span class="p">())</span>
