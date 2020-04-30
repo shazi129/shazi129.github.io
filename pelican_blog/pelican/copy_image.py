@@ -25,7 +25,7 @@ def getAllImageFile(dirPath):
 if __name__ == '__main__':
 
     #复制favicon.ico
-    shutil.copy("%s/../external/images/favicon.ico" % (pelicanconf.OUTPUT_PATH), "%s/favicon.ico" % (pelicanconf.OUTPUT_PATH))
+    #shutil.copy("%s/../external/images/favicon.ico" % (pelicanconf.OUTPUT_PATH), "%s/favicon.ico" % (pelicanconf.OUTPUT_PATH))
 
     #复制文章的图片
     images = getAllImageFile(pelicanconf.PATH)
