@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.vmetu.com/blog/</loc>
-<lastmod>2020-04-30T14:56:35-00:00</lastmod>
+<lastmod>2020-04-30T15:28:05-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.vmetu.com/blog/archives.html</loc>
-<lastmod>2020-04-30T14:56:35-00:00</lastmod>
+<lastmod>2020-04-30T15:28:05-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.vmetu.com/blog/tags.html</loc>
-<lastmod>2020-04-30T14:56:35-00:00</lastmod>
+<lastmod>2020-04-30T15:28:05-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.vmetu.com/blog/categories.html</loc>
-<lastmod>2020-04-30T14:56:35-00:00</lastmod>
+<lastmod>2020-04-30T15:28:05-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

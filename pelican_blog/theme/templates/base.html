@@ -156,12 +156,6 @@
 
       {% if SITESUBTITLE %}<p>{{ SITESUBTITLE }}</p>{% endif %}
 
-      {% if 'tipue_search' in PLUGINS %}
-        <form class="navbar-search" action="{{ SITEURL }}/search.html" role="search">
-          <input type="text" name="q" id="tipue_search_input" placeholder="{{ _('Search...') }}">
-        </form>
-      {% endif %}
-
       {% if pages or LINKS %}
       <nav>
         <ul class="list">
@@ -245,6 +239,13 @@
       {% if FEED_ALL_RSS %}
       <a href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}">{{ _('RSS') }}</a>
       {% endif %}
+
+      {% if 'tipue_search' in PLUGINS %}
+        <form style="display: inline" class="navbar-search" action="{{ SITEURL }}/search.html" role="search">
+          <input type="text" name="q" id="tipue_search_input" placeholder="{{ _('Search...') }}">
+        </form>
+      {% endif %}
+
     </nav>
     {% endif %}
 
