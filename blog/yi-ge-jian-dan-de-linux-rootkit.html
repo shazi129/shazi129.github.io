@@ -1,91 +1,99 @@
+
 <!DOCTYPE html>
 <html lang="zh">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="张文" />
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
 
-        <meta property="og:type" content="article" />
-        <meta name="twitter:card" content="summary">
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
-<meta name="keywords" content="信息安全, Linux, rootkit, 编程语言, " />
-
-<meta property="og:title" content="一个简单的linux rootkit "/>
-<meta property="og:url" content="http://www.vmetu.com/blog/yi-ge-jian-dan-de-linux-rootkit.html" />
-<meta property="og:description" content="一个简单的linux …" />
-<meta property="og:site_name" content="观心苑" />
-<meta property="og:article:author" content="张文" />
-<meta property="og:article:published_time" content="2010-04-24T00:00:00+08:00" />
-<meta name="twitter:title" content="一个简单的linux rootkit ">
-<meta name="twitter:description" content="一个简单的linux …">
-
-        <title>一个简单的linux rootkit  · 观心苑
-</title>
-        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/css/custom.css" media="screen">
-
-        <link rel="shortcut icon" href="http://www.vmetu.com/blog/theme/images/favicon.ico" type="image/x-icon" />
-        <link rel="icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-152x152.png" type="image/png" />
-        <link rel="apple-touch-icon" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon.png"  type="image/png" />
-        <link rel="apple-touch-icon" sizes="57x57" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-57x57.png" type="image/png" />
-        <link rel="apple-touch-icon" sizes="72x72" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-72x72.png" type="image/png" />
-        <link rel="apple-touch-icon" sizes="76x76" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-76x76.png" type="image/png" />
-        <link rel="apple-touch-icon" sizes="114x114" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-114x114.png" type="image/png" />
-        <link rel="apple-touch-icon" sizes="120x120" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-120x120.png" type="image/png" />
-        <link rel="apple-touch-icon" sizes="144x144" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-144x144.png" type="image/png" />
-        <link rel="apple-touch-icon" sizes="152x152" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-152x152.png" type="image/png" />
-        <link rel="apple-touch-icon" sizes="152x152" href="http://www.vmetu.com/blog/theme/images/apple-touch-icon-180x180.png" type="image/png" />
+    <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/stylesheet/style.min.css">
 
 
-    </head>
-    <body>
-        <div id="content">
-            <div class="navbar navbar-static-top">
-                <div class="navbar-inner">
-                    <div class="container-fluid">
-                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </a>
-                        <a class="brand" href="http://www.vmetu.com/blog/"><span class=site-name>观心苑</span></a>
-                        <div class="nav-collapse collapse">
-                            <ul class="nav pull-right top-menu">
-                                <li >
-                                    <a href=
-                                       http://www.vmetu.com/blog
-                                    >Home</a>
-                                </li>
-                                <li ><a href="http://www.vmetu.com/blog/categories.html">Categories</a></li>
-                                <li ><a href="http://www.vmetu.com/blog/tags.html">Tags</a></li>
-                                <li ><a href="http://www.vmetu.com/blog/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="http://www.vmetu.com/blog/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container-fluid">
-                <div class="row-fluid">
-                    <div class="span1"></div>
-                    <div class="span10">
-<article itemscope>
-<div class="row-fluid">
-    <header class="page-header span10 offset2">
-        <h1>
-            <a href="http://www.vmetu.com/blog/yi-ge-jian-dan-de-linux-rootkit.html">
-                一个简单的linux rootkit
-            </a>
-        </h1>
-    </header>
-</div>
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="http://www.vmetu.com/blog/theme/pygments/github.min.css">
 
-<div class="row-fluid">
-        <div class="span8 offset2 article-content">
-            
-            <h1>一个简单的linux rootkit</h1>
+    <script src="http://www.vmetu.com/blog/theme/tipuesearch/jquery.min.js"></script>
+    <script src="http://www.vmetu.com/blog/theme/tipuesearch/tipuesearch.min.js"></script>
+    <script src="http://www.vmetu.com/blog/theme/tipuesearch/tipuesearch.min.js"></script>
+    <script src="http://www.vmetu.com/blog/theme/tipuesearch/tipuesearch_set.min.js"></script>
+    <script src="http://www.vmetu.com/blog/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="http://www.vmetu.com/blog/theme/tipuesearch/tipuesearch.min.css" />
+
+  <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/font-awesome/css/solid.css">
+
+
+
+
+
+
+
+<meta name="author" content="张文" />
+<meta name="description" content="一个简单的linux …" />
+<meta name="keywords" content="信息安全, Linux, rootkit">
+
+
+<meta property="og:site_name" content="观心苑"/>
+<meta property="og:title" content="一个简单的linux rootkit"/>
+<meta property="og:description" content="一个简单的linux …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http://www.vmetu.com/blog/yi-ge-jian-dan-de-linux-rootkit.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2010-04-24 00:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="http://www.vmetu.com/blog/author/zhang-wen.html">
+<meta property="article:section" content="编程语言"/>
+<meta property="article:tag" content="信息安全"/>
+<meta property="article:tag" content="Linux"/>
+<meta property="article:tag" content="rootkit"/>
+<meta property="og:image" content="">
+
+  <title>观心苑 &ndash; 一个简单的linux rootkit</title>
+
+</head>
+<body class="light-theme">
+  <aside>
+    <div>
+      <a href="http://www.vmetu.com/blog">
+        <img src="http://www.vmetu.com/blog/theme/img/profile.png" alt="" title="">
+      </a>
+
+      <h1>
+        <a href="http://www.vmetu.com/blog"></a>
+      </h1>
+
+
+        <form class="navbar-search" action="/search.html" role="search">
+          <input type="text" name="q" id="tipue_search_input" placeholder="Search...">
+        </form>
+
+
+      <ul class="social">
+      </ul>
+    </div>
+
+  </aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="yi-ge-jian-dan-de-linux-rootkit">一个简单的linux rootkit</h1>
+    <p>
+      Posted on 周六 24 四月 2010 in <a href="http://www.vmetu.com/blog/category/bian-cheng-yu-yan.html">编程语言</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <h1>一个简单的linux rootkit</h1>
 <p>@(编程语言)[信息安全, Linux, rootkit]</p>
 <p>下面提供一个相对完整的rootkit，在Fedora 12上编译运行成功。</p>
 <div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;linux/module.h&gt;</span><span class="cp"></span>
@@ -172,167 +180,69 @@
 
 <p>运行效果：</p>
 <p>加载模块后，mkdir命令失效。</p>
-
-
-             
- 
-                <p id="post-share-links">
-    Share on:
-    <a href="http://twitter.com/home?status=b'%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84linux%20rootkit%20http%3A//www.vmetu.com/blog/yi-ge-jian-dan-de-linux-rootkit.html'" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
-    ❄
-    <a href="http://www.facebook.com/sharer/sharer.php?u=http%3A//www.vmetu.com/blog/yi-ge-jian-dan-de-linux-rootkit.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
-    ❄
-    <a href="mailto:?subject=%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84linux%20rootkit&amp;body=http%3A//www.vmetu.com/blog/yi-ge-jian-dan-de-linux-rootkit.html" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="http://www.vmetu.com/blog/tag/xin-xi-an-quan.html">信息安全</a>
+      <a href="http://www.vmetu.com/blog/tag/linux.html">Linux</a>
+      <a href="http://www.vmetu.com/blog/tag/rootkit.html">rootkit</a>
     </p>
-
-            
-            
+  </div>
 
 
+  <div class="neighbors">
+    <a class="btn float-left" href="http://www.vmetu.com/blog/meng-die.html" title="梦蝶">
+      <i class="fa fa-angle-left"></i> Previous Post
+    </a>
+    <a class="btn float-right" href="http://www.vmetu.com/blog/linuxxia-wei-zhuang-icmpgong-ji-de-shi-xian.html" title="linux下伪装ICMP攻击的实现">
+      Next Post <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
 
 
 
-
-<section>
-    <h6 style="display:none;">Comments</h6>
-    <p id="comment-message"> </p>
-
-    <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle disqus-comment-count comment-count"
-                   data-toggle="collapse"
-                   data-parent="#accordion2"
-                   data-disqus-identifier="http://www.vmetu.com/blog/yi-ge-jian-dan-de-linux-rootkit.html"
-                   href="http://www.vmetu.com/blog/yi-ge-jian-dan-de-linux-rootkit.html#comment_thread"
-                   id="comment-accordion-toggle">
-                    Comments
-                </a>
-            </div>
-            <div id="comment_thread" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <div class="comments">
-                        <div id="disqus_thread"></div>
-                        <script>
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
     var disqus_shortname = 'vmetu';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-
-    var disqus_identifier = 'http://www.vmetu.com/blog/yi-ge-jian-dan-de-linux-rootkit.html';
-    var disqus_url = 'http://www.vmetu.com/blog/yi-ge-jian-dan-de-linux-rootkit.html';
-
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
 </script>
-
-<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-            <hr/>
-            <aside>
-            <nav>
-            <ul class="articles-timeline">
-                <li class="previous-article">« <a href="http://www.vmetu.com/blog/meng-die.html" title="Previous: 梦蝶">梦蝶</a></li>
-                <li class="next-article"><a href="http://www.vmetu.com/blog/linuxxia-wei-zhuang-icmpgong-ji-de-shi-xian.html" title="Next: linux下伪装ICMP攻击的实现">linux下伪装ICMP攻击的实现</a> »</li>
-            </ul>
-            </nav>
-            </aside>
-        </div>
-        <section id="article-sidebar" class="span2">
-            <h4>Published</h4>
-            <time itemprop="dateCreated" datetime="2010-04-24T00:00:00+08:00">4月 24, 2010</time>
-            <h4>Category</h4>
-            <a class="category-link" href="http://www.vmetu.com/blog/categories.html#bian-cheng-yu-yan-ref">编程语言</a>
-            <h4>Tags</h4>
-            <ul class="list-of-tags tags-in-article">
-                <li><a href="http://www.vmetu.com/blog/tags.html#linux-ref">Linux
-                    <span>1</span>
-</a></li>
-                <li><a href="http://www.vmetu.com/blog/tags.html#rootkit-ref">rootkit
-                    <span>1</span>
-</a></li>
-                <li><a href="http://www.vmetu.com/blog/tags.html#xin-xi-an-quan-ref">信息安全
-                    <span>1</span>
-</a></li>
-            </ul>
-            
-
-
-
-
-
-            
-
-
-
-
-
-        </section>
-</div>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
 </article>
-                    </div>
-                    <div class="span1"></div>
-                </div>
-            </div>
-        </div>
-<footer>
+
+    <footer>
+<p>&copy;  </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p>    </footer>
+  </main>
 
 
 
 
-    <div id="fpowered">
-        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
-        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
-    </div>
-</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
-        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-        <script>
-            function validateForm(query)
-            {
-                return (query.length > 0);
-            }
-        </script>
-
-    <script>
-    (function () {
-        if (window.location.hash.match(/^#comment-\d+$/)) {
-            $('#comment_thread').collapse('show');
-        }
-    })();
-    window.onhashchange=function(){
-        if (window.location.hash.match(/^#comment-\d+$/))
-            window.location.reload(true);
-    }
-    $('#comment_thread').on('shown', function () {
-        var link = document.getElementById('comment-accordion-toggle');
-        var old_innerHTML = link.innerHTML;
-        $(link).fadeOut(200, function() {
-            $(this).text('Click here to hide comments').fadeIn(200);
-        });
-        $('#comment_thread').on('hidden', function () {
-            $(link).fadeOut(200, function() {
-                $(this).text(old_innerHTML).fadeIn(200);
-            });
-        })
-    })
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " 观心苑 ",
+  "url" : "http://www.vmetu.com/blog",
+  "image": "",
+  "description": ""
+}
 </script>
 
-    </body>
-    <!-- Theme: Elegant built for Pelican
-        License : MIT -->
+    <script>
+      $(document).ready(function() {
+        $('#tipue_search_input').tipuesearch();
+      });
+    </script>
+
+</body>
 </html>
