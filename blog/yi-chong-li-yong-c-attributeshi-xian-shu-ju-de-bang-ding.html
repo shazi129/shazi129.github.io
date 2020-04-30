@@ -105,6 +105,10 @@
 
 <article class="single">
   <header>
+      <div class="col-lg-3 hidden-xs hidden-sm">
+          <div id="toc"><ul><li><a class="toc-href" href="#" title="一种利用C# Attribute实现数据的绑定">一种利用C# Attribute实现数据的绑定</a><ul><li><a class="toc-href" href="#yi chong li yong c# attributeshi xian shu ju de bang ding" title="一种利用C# Attribute实现数据的绑定">一种利用C# Attribute实现数据的绑定</a></li></ul></li></ul></div>
+      </div>
+
       
     <h1 id="yi-chong-li-yong-c-attributeshi-xian-shu-ju-de-bang-ding">一种利用C# Attribute实现数据的绑定</h1>
     <p>
@@ -115,7 +119,7 @@
 
 
   <div>
-    <h1>一种利用C# Attribute实现数据的绑定</h1>
+    <h1 id="yi chong li yong c# attributeshi xian shu ju de bang ding">一种利用C# Attribute实现数据的绑定</h1>
 <p>在日常开发中，经常会有数据和UI绑定的需求，即数据发生改变时，UI要随之改变。这里提供一个简单的思路，目的是尽量减少代码的编写。</p>
 <p>ModelBase 数据存储基类</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span> <span class="nn">System.Collections</span><span class="p">;</span>
@@ -210,13 +214,11 @@
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-
-
 <p>使用：
 如果model中的某个property要被绑定，那么就加上<code>ObservableName</code>的属性，指定绑定的key， 然后就可以通过<code>addObserverBinding</code>来绑定行为了。</p>
 <div class="highlight"><pre><span></span><code>    <span class="k">class</span> <span class="nc">Person</span><span class="p">:</span> <span class="n">ModelBase</span>
     <span class="p">{</span>
-<span class="na">        [ObservableName(&quot;address&quot;)]</span>
+<span class="na">        [ObservableName("address")]</span>
         <span class="k">public</span> <span class="kt">string</span> <span class="n">address</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
     <span class="p">}</span>
 
@@ -225,23 +227,23 @@
         <span class="k">public</span> <span class="k">void</span> <span class="nf">testAttribute</span><span class="p">()</span>
         <span class="p">{</span>
             <span class="n">Person</span> <span class="n">zhangwen</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Person</span><span class="p">();</span>
-            <span class="n">zhangwen</span><span class="p">.</span><span class="n">addObserverBinding</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;(</span><span class="s">&quot;address&quot;</span><span class="p">,</span> <span class="n">onZhangwenAddrChange</span><span class="p">);</span>
+            <span class="n">zhangwen</span><span class="p">.</span><span class="n">addObserverBinding</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;(</span><span class="s">"address"</span><span class="p">,</span> <span class="n">onZhangwenAddrChange</span><span class="p">);</span>
 
             <span class="n">Person</span> <span class="n">shazi</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Person</span><span class="p">();</span>
-            <span class="n">shazi</span><span class="p">.</span><span class="n">addObserverBinding</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;(</span><span class="s">&quot;address&quot;</span><span class="p">,</span> <span class="n">onShaziAddrChange</span><span class="p">);</span>
+            <span class="n">shazi</span><span class="p">.</span><span class="n">addObserverBinding</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;(</span><span class="s">"address"</span><span class="p">,</span> <span class="n">onShaziAddrChange</span><span class="p">);</span>
 
-            <span class="n">zhangwen</span><span class="p">.</span><span class="n">setObservableData</span><span class="p">(</span><span class="s">&quot;address&quot;</span><span class="p">,</span> <span class="s">&quot;caifugang&quot;</span><span class="p">);</span>
-            <span class="n">shazi</span><span class="p">.</span><span class="n">setObservableData</span><span class="p">(</span><span class="s">&quot;address&quot;</span><span class="p">,</span> <span class="s">&quot;baijin&quot;</span><span class="p">);</span>
+            <span class="n">zhangwen</span><span class="p">.</span><span class="n">setObservableData</span><span class="p">(</span><span class="s">"address"</span><span class="p">,</span> <span class="s">"caifugang"</span><span class="p">);</span>
+            <span class="n">shazi</span><span class="p">.</span><span class="n">setObservableData</span><span class="p">(</span><span class="s">"address"</span><span class="p">,</span> <span class="s">"baijin"</span><span class="p">);</span>
         <span class="p">}</span>
 
         <span class="k">private</span> <span class="k">void</span> <span class="nf">onShaziAddrChange</span><span class="p">(</span><span class="kt">string</span> <span class="n">obj</span><span class="p">)</span>
         <span class="p">{</span>
-            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;shazi&#39;s addr changed, new addr: &quot;</span> <span class="p">+</span> <span class="n">obj</span><span class="p">);</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">"shazi's addr changed, new addr: "</span> <span class="p">+</span> <span class="n">obj</span><span class="p">);</span>
         <span class="p">}</span>
 
         <span class="k">private</span> <span class="k">void</span> <span class="nf">onZhangwenAddrChange</span><span class="p">(</span><span class="kt">string</span> <span class="n">obj</span><span class="p">)</span>
         <span class="p">{</span>
-            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;zhangwen&#39;s addr changed, new addr: &quot;</span> <span class="p">+</span> <span class="n">obj</span><span class="p">);</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">"zhangwen's addr changed, new addr: "</span> <span class="p">+</span> <span class="n">obj</span><span class="p">);</span>
         <span class="p">}</span>
 
         <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>

@@ -107,6 +107,7 @@
 
 <article class="single">
   <header>
+
       
     <h1 id="shi-yong-stencilshi-xian-maskgong-neng">使用stencil实现mask功能</h1>
     <p>
@@ -118,17 +119,17 @@
 
   <div>
     <p>代码</p>
-<div class="highlight"><pre><span></span><code><span class="n">Shader</span> <span class="s">&quot;Custom/StencilMask&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="n">Shader</span> <span class="s">"Custom/StencilMask"</span>
 <span class="p">{</span>
     <span class="n">Properties</span>
     <span class="p">{</span>
-        <span class="n">_MainTex</span> <span class="p">(</span><span class="s">&quot;Albedo (RGB)&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="n">D</span><span class="p">)</span> <span class="o">=</span> <span class="s">&quot;white&quot;</span> <span class="p">{}</span>
-        <span class="n">_StencilRef</span><span class="p">(</span><span class="s">&quot;StencilRef&quot;</span><span class="p">,</span> <span class="n">Float</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">_MainTex</span> <span class="p">(</span><span class="s">"Albedo (RGB)"</span><span class="p">,</span> <span class="mi">2</span><span class="n">D</span><span class="p">)</span> <span class="o">=</span> <span class="s">"white"</span> <span class="p">{}</span>
+        <span class="n">_StencilRef</span><span class="p">(</span><span class="s">"StencilRef"</span><span class="p">,</span> <span class="n">Float</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="p">}</span>
 
     <span class="n">SubShader</span>
     <span class="p">{</span>
-        <span class="n">Tags</span> <span class="p">{</span> <span class="s">&quot;RenderType&quot;</span> <span class="o">=</span> <span class="s">&quot;Transparent&quot;</span> <span class="p">}</span>
+        <span class="n">Tags</span> <span class="p">{</span> <span class="s">"RenderType"</span> <span class="o">=</span> <span class="s">"Transparent"</span> <span class="p">}</span>
         <span class="n">Blend</span> <span class="n">SrcAlpha</span> <span class="n">OneMinusSrcAlpha</span>
 
         <span class="n">Pass</span>
@@ -145,7 +146,7 @@
             <span class="cp">#pragma vertex vert</span>
             <span class="cp">#pragma fragment frag</span>
 
-            <span class="cp">#include</span> <span class="cpf">&quot;Lighting.cginc&quot;</span><span class="cp"></span>
+            <span class="cp">#include</span> <span class="cpf">"Lighting.cginc"</span><span class="cp"></span>
 
             <span class="n">sampler2D</span> <span class="n">_MainTex</span><span class="p">;</span>
             <span class="n">float4</span>    <span class="n">_MainTex_ST</span><span class="p">;</span>

@@ -105,6 +105,10 @@
 
 <article class="single">
   <header>
+      <div class="col-lg-3 hidden-xs hidden-sm">
+          <div id="toc"><ul><li><a class="toc-href" href="#" title="Unity2D帧动画实现的两种方式">Unity2D帧动画实现的两种方式</a><ul><li><a class="toc-href" href="#yuan cai liao zhun bei" title="源材料准备">源材料准备</a></li><li><a class="toc-href" href="#1. jiao ben fang shi shi xian" title="1. 脚本方式实现">1. 脚本方式实现</a></li><li><a class="toc-href" href="#2.bian ji qi shi xian" title="2.编辑器实现">2.编辑器实现</a><ul><li><a class="toc-href" href="#da kai dong hua bian ji qi" title="打开动画编辑器">打开动画编辑器</a></li></ul></li></ul></li></ul></div>
+      </div>
+
       
     <h1 id="unity2dzheng-dong-hua-shi-xian-de-liang-chong-fang-shi">Unity2D帧动画实现的两种方式</h1>
     <p>
@@ -116,11 +120,11 @@
 
   <div>
     <p>在游戏制作过程中，经常用到帧动画，这里介绍两种实现帧动画的方式</p>
-<h2>源材料准备</h2>
+<h2 id="yuan cai liao zhun bei">源材料准备</h2>
 <p>序列帧所用到的图片：</p>
-<p><img alt="image" src="http://i11.tietuku.com/c42269cb3abd49bf.png"></p>
+<p><img alt="image" src="http://i11.tietuku.com/c42269cb3abd49bf.png"/></p>
 <p>生成这些序列帧所用到的资源可以参考： <a href="http://www.raywenderlich.com/61532/unity-2d-tutorial-getting-started">http://www.raywenderlich.com/61532/unity-2d-tutorial-getting-started</a></p>
-<h2>1. 脚本方式实现</h2>
+<h2 id="1. jiao ben fang shi shi xian">1. 脚本方式实现</h2>
 <p>脚本实现的方式在上面的链接中有介绍，这里把列出源码：</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="n">UnityEngine</span><span class="p">;</span><span class="w"></span>
 <span class="k">using</span><span class="w"> </span><span class="k">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">;</span><span class="w"></span>
@@ -162,18 +166,16 @@
 <span class="w">    </span><span class="err">}</span><span class="w"></span>
 <span class="err">}</span><span class="w"></span>
 </code></pre></div>
-
-
-<h2>2.编辑器实现</h2>
+<h2 id="2.bian ji qi shi xian">2.编辑器实现</h2>
 <p>帧动画也可以由Unity的动画编辑器来实现，实现方式如下。</p>
-<h3>打开动画编辑器</h3>
+<h3 id="da kai dong hua bian ji qi">打开动画编辑器</h3>
 <p>先在场景中以序列帧的第一帧创建一个精灵，选中它，然后通过快捷键Ctrl + 6 或者菜单中的 Window -&gt; Animation打开动画编辑器。在弹出窗口的左上角点击<strong>Add Property</strong>, 会弹出一个让你保存动画的界面，如图：</p>
-<p><img alt="image" src="http://i11.tietuku.com/f2685707fa981717.png">  <br>
+<p><img alt="image" src="http://i11.tietuku.com/f2685707fa981717.png"/> <br/>
 输入一个名字将其保存起来。</p>
 <p>根据上面程序实现的方法，我们知道绘制精灵是通过SpriteRender来实现的, 所以在动画编辑器中可以增加一个SpriteRender属性：</p>
-<p><img alt="image" src="http://i11.tietuku.com/5d483c4cddef2115.png"></p>
+<p><img alt="image" src="http://i11.tietuku.com/5d483c4cddef2115.png"/></p>
 <p>之后就可以将序列帧拖入动画编辑器中：</p>
-<p><img alt="image" src="http://i11.tietuku.com/3797c8d911c3aa84.png"></p>
+<p><img alt="image" src="http://i11.tietuku.com/3797c8d911c3aa84.png"/></p>
 <p>加好之后，点击左上角的三角符号，就可以发现Unity编辑器中的僵尸动起来了。</p>
   </div>
   <div class="tag-cloud">

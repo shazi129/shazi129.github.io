@@ -16,7 +16,7 @@ DEFAULT_LANG = u'zh'
 
 # Plugins and extensions
 PLUGIN_PATHS = ['../plugins/']
-PLUGINS = ['sitemap', 'extract_toc', 'tipue_search', 
+PLUGINS = ['sitemap', 'pelican-toc', 'tipue_search', 
            'neighbors', 'render_math', 'share_post', 'i18n_subsites']
 
 #SiteMap配置，允许搜索引擎搜索

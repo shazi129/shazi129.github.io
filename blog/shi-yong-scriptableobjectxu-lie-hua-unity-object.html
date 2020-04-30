@@ -107,6 +107,7 @@
 
 <article class="single">
   <header>
+
       
     <h1 id="shi-yong-scriptableobjectxu-lie-hua-unity-object">使用ScriptableObject序列化Unity Object</h1>
     <p>
@@ -129,35 +130,31 @@
 
 <span class="c1">//序列化到data.byte</span>
 <span class="n">BinaryFormatter</span> <span class="n">formatter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BinaryFormatter</span><span class="p">();</span>
-<span class="n">Stream</span> <span class="n">stream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileStream</span><span class="p">(</span><span class="s">&quot;data.byte&quot;</span><span class="p">,</span> <span class="n">FileMode</span><span class="p">.</span><span class="n">Create</span><span class="p">,</span> <span class="n">FileAccess</span><span class="p">.</span><span class="n">Write</span><span class="p">,</span> <span class="n">FileShare</span><span class="p">.</span><span class="n">None</span><span class="p">);</span>
+<span class="n">Stream</span> <span class="n">stream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileStream</span><span class="p">(</span><span class="s">"data.byte"</span><span class="p">,</span> <span class="n">FileMode</span><span class="p">.</span><span class="n">Create</span><span class="p">,</span> <span class="n">FileAccess</span><span class="p">.</span><span class="n">Write</span><span class="p">,</span> <span class="n">FileShare</span><span class="p">.</span><span class="n">None</span><span class="p">);</span>
 
 <span class="n">formatter</span><span class="p">.</span><span class="n">Serialize</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">objData</span><span class="p">);</span>
 <span class="n">stream</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
 </code></pre></div>
-
-
 <p>Unity会提示</p>
 <blockquote>
 <p>SerializationException: Type UnityEngine.Sprite is not marked as Serializable.</p>
 </blockquote>
-<p>通常的做法是将要序列化的数据附加到一个GameObject上，然后将GameObject做成Prefab，在要使用数据的地方引用Prefab就可以了。这里提供一个算是比较通用的<a href="https://github.com/shazi129/tools/blob/master/Unity/IdObjectMap.cs">脚本</a>，用来实现类似表的功能。 但我们发现这是一种<font color=red><strong>数据附加到界面上来存储</strong></font>的方式，有违<strong>界面与数据分离</strong>的设计方式。</p>
+<p>通常的做法是将要序列化的数据附加到一个GameObject上，然后将GameObject做成Prefab，在要使用数据的地方引用Prefab就可以了。这里提供一个算是比较通用的<a href="https://github.com/shazi129/tools/blob/master/Unity/IdObjectMap.cs">脚本</a>，用来实现类似表的功能。 但我们发现这是一种<font color="red"><strong>数据附加到界面上来存储</strong></font>的方式，有违<strong>界面与数据分离</strong>的设计方式。</p>
 <p><a href="https://docs.unity3d.com/ScriptReference/ScriptableObject.html"><strong>ScriptableObject</strong></a>提供了一种不依赖<strong>GameObject</strong>的序列化数据的方式。</p>
 <p>我们可以将数据封装成这样：</p>
 <div class="highlight"><pre><span></span><code><span class="err">public class ScriptableData : ScriptableObject</span>
 <span class="err">{</span>
-<span class="err">    public string myName = &quot;&quot;;</span>
+<span class="err">    public string myName = "";</span>
 <span class="err">    public int myLevel = 0;</span>
 <span class="err">    public Sprite myIcon = null;</span>
 <span class="err">}</span>
 </code></pre></div>
-
-
 <p>提供一个创建数据文件的接口：</p>
-<div class="highlight"><pre><span></span><code><span class="k">[MenuItem(&quot;ScriptableTest/CreateData&quot;)]</span>
+<div class="highlight"><pre><span></span><code><span class="k">[MenuItem("ScriptableTest/CreateData")]</span>
 <span class="na">public static void CallFunc()</span>
 <span class="na">{</span>
     <span class="na">ScriptableData data</span> <span class="o">=</span> <span class="s">ScriptableObject.CreateInstance&lt;ScriptableData&gt;();</span>
-<span class="s">    data.myName = &quot;&quot;;</span>
+<span class="s">    data.myName = "";</span>
 <span class="s">    data.myLevel = 0;</span>
 <span class="s">    data.myIcon = null;</span>
 
@@ -166,10 +163,8 @@
     <span class="na">AssetDatabase.SaveAssets();</span>
 <span class="na">}</span>
 </code></pre></div>
-
-
 <p>创建出来的文件是这样子的：</p>
-<p><img alt="Alt text" src="./1511945085211.png"></p>
+<p><img alt="Alt text" src="./1511945085211.png"/></p>
 <p>填上数据后，就可以在运行时读取了：</p>
 <div class="highlight"><pre><span></span><code><span class="err">ScriptableData _data = AssetDatabase.LoadAssetAtPath&lt;ScriptableData&gt;(GlobalValue.ScriptableDataPaht);</span>
 <span class="err">nameInput.text = _data.myName;</span>

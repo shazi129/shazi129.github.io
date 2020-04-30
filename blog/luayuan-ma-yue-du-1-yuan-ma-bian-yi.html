@@ -104,6 +104,7 @@
 
 <article class="single">
   <header>
+
       
     <h1 id="luayuan-ma-yue-du-1-yuan-ma-bian-yi">lua源码阅读1——源码编译</h1>
     <p>
@@ -128,25 +129,25 @@
 </ol>
 <p>这里是我的测试代码：</p>
 <div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&quot;./../src/lua.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">"./../src/lua.h"</span><span class="cp"></span>
 
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="kt">char</span> <span class="n">lua</span><span class="p">[]</span> <span class="o">=</span> 
-        <span class="s">&quot;local a = 1 </span><span class="se">\n</span><span class="s">&quot;</span>\
-        <span class="s">&quot;local b = 2 </span><span class="se">\n</span><span class="s">&quot;</span>\
-        <span class="s">&quot;print (string.format(</span><span class="se">\&quot;</span><span class="s">a+b=%d</span><span class="se">\&quot;</span><span class="s">, a+b))&quot;</span><span class="p">;</span>
+        <span class="s">"local a = 1 </span><span class="se">\n</span><span class="s">"</span>\
+        <span class="s">"local b = 2 </span><span class="se">\n</span><span class="s">"</span>\
+        <span class="s">"print (string.format(</span><span class="se">\"</span><span class="s">a+b=%d</span><span class="se">\"</span><span class="s">, a+b))"</span><span class="p">;</span>
 
     <span class="n">lua_State</span> <span class="o">*</span> <span class="n">lstate</span> <span class="o">=</span> <span class="n">luaL_newstate</span><span class="p">();</span>
     <span class="n">luaL_openlibs</span><span class="p">(</span><span class="n">lstate</span><span class="p">);</span>
 
     <span class="k">if</span> <span class="p">(</span><span class="n">luaL_loadstring</span><span class="p">(</span><span class="n">lstate</span><span class="p">,</span> <span class="n">lua</span><span class="p">)</span> <span class="o">||</span> <span class="n">lua_pcall</span><span class="p">(</span><span class="n">lstate</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
     <span class="p">{</span>
-        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;error:  %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">lua_tostring</span><span class="p">(</span><span class="n">lstate</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"error:  %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">lua_tostring</span><span class="p">(</span><span class="n">lstate</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">));</span>
     <span class="p">}</span>
 
     <span class="n">lua_close</span><span class="p">(</span><span class="n">lstate</span><span class="p">);</span>
-    <span class="n">system</span><span class="p">(</span><span class="s">&quot;pause&quot;</span><span class="p">);</span>
+    <span class="n">system</span><span class="p">(</span><span class="s">"pause"</span><span class="p">);</span>
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>

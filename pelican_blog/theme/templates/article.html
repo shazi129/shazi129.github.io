@@ -20,6 +20,12 @@
 {% block content %}
 <article class="single">
   <header>
+    {% if article.toc %}
+      <div class="col-lg-3 hidden-xs hidden-sm">
+          {{article.toc}}
+      </div>
+    {% endif %}
+
     {% if not ARTICLE_HIDE_TRANSLATION %}
       {% import 'partial/translations.html' as translations with context %}
       {{ translations.translations_for(article) }}

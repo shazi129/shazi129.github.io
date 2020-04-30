@@ -105,6 +105,10 @@
 
 <article class="single">
   <header>
+      <div class="col-lg-3 hidden-xs hidden-sm">
+          <div id="toc"><ul><li><a class="toc-href" href="#" title="USheet API说明">USheet API说明</a><ul><li><a class="toc-href" href="#usheet api shuo ming" title="USheet API 说明">USheet API 说明</a><ul><li><a class="toc-href" href="#cha xun xiang guan" title="查询相关">查询相关</a><ul><li><a class="toc-href" href="#gen ju biao de nei rong cha zhao xing hao" title="根据表的内容查找行号">根据表的内容查找行号</a></li><li><a class="toc-href" href="#cha zhao mou ge dan yuan ge de nei rong" title="查找某个单元格的内容">查找某个单元格的内容</a></li><li><a class="toc-href" href="#cha zhao suo you fu he tiao jian de xing" title="查找所有符合条件的行">查找所有符合条件的行</a></li><li><a class="toc-href" href="#gen ju xing hao huo qu xing nei rong" title="根据行号获取行内容">根据行号获取行内容</a></li></ul></li><li><a class="toc-href" href="#shan chu xiang guan_1" title="删除相关">删除相关</a><ul><li><a class="toc-href" href="#shan chu yi lie" title="删除一列">删除一列</a></li><li><a class="toc-href" href="#shan chu yi xing" title="删除一行">删除一行</a></li></ul></li><li><a class="toc-href" href="#xiu gai xiang guan_1" title="修改相关">修改相关</a><ul><li><a class="toc-href" href="#xiu gai dan yuan ge shu ju" title="修改单元格数据">修改单元格数据</a></li><li><a class="toc-href" href="#xiu gai lie ming" title="修改列名">修改列名</a></li></ul></li></ul></li></ul></li></ul></div>
+      </div>
+
       
     <h1 id="usheet-apishuo-ming">USheet API说明</h1>
     <p>
@@ -115,20 +119,20 @@
 
 
   <div>
-    <h1>USheet API 说明</h1>
+    <h1 id="usheet api shuo ming">USheet API 说明</h1>
 <p>[TOC]</p>
 <p><strong>最新源码：</strong> https://github.com/shazi129/USheet.git</p>
 <p><strong>名字空间：USheet</strong></p>
 <p><strong>注意：</strong>如果需要使修改后的数据落地，需要调用<code>EditorUtility.SetDirty(sheetData);</code></p>
-<h2>查询相关</h2>
-<h3>根据表的内容查找行号</h3>
+<h2 id="cha xun xiang guan">查询相关</h2>
+<h3 id="gen ju biao de nei rong cha zhao xing hao">根据表的内容查找行号</h3>
 <p><code>int indexOf&lt;T&gt;(string title, T value, int startIndex = 0)</code></p>
 <p><strong>参数：</strong>
 <strong>title: </strong> 索引列的表头
 <strong>Value:</strong> 索引列的值
 <strong>startIndex:</strong>查找的起始行号</p>
 <p><strong>返回：</strong> 从0开始的行号</p>
-<h3>查找某个单元格的内容</h3>
+<h3 id="cha zhao mou ge dan yuan ge de nei rong">查找某个单元格的内容</h3>
 <p><code>IGridData getValue&lt;T&gt;(string keyName, T keyValue, string title, int index = 0)</code></p>
 <p><strong>参数：</strong>
 <strong>keyName: </strong> 索引列的表头
@@ -136,34 +140,34 @@
 <strong>title:</strong>单元格所在的列表头
 <strong>index :</strong>查找的起始行号</p>
 <p><strong>返回：</strong> 单元格内容结构体，没查到返回null</p>
-<h3>查找所有符合条件的行</h3>
+<h3 id="cha zhao suo you fu he tiao jian de xing">查找所有符合条件的行</h3>
 <p><code>List&lt;Dictionary&lt;string, IGridData&gt;&gt; getRows&lt;T&gt;(string keyName, T keyValue)</code>
 <strong>参数：</strong>
 <strong>keyName: </strong> 索引列的表头
 <strong>keyValue:</strong> 索引列的值</p>
 <p><strong>返回：</strong> 所有的行内容，没查到返回null。其中<code>Dictionary&lt;string, IGridData&gt;</code>代表一行的内容，key为列名， IGridData为数据</p>
-<h3>根据行号获取行内容</h3>
+<h3 id="gen ju xing hao huo qu xing nei rong">根据行号获取行内容</h3>
 <p><code>Dictionary&lt;string, IGridData&gt; getRow(int index)</code>
 <strong>参数：</strong>
 <strong>index: </strong> 行号
 <strong>返回：</strong> 所有的行内容，没查到返回null。在返回的Dictionary中，key为列名， IGridData为数据</p>
-<h2>删除相关</h2>
-<h3>删除一列</h3>
+<h2 id="shan chu xiang guan_1">删除相关</h2>
+<h3 id="shan chu yi lie">删除一列</h3>
 <p><code>void deleteColumn(string columnName)</code>
 <strong>参数：</strong>
 <strong>columnName: </strong> 列名</p>
-<h3>删除一行</h3>
+<h3 id="shan chu yi xing">删除一行</h3>
 <p><code>void deleteRow(int index = -1)</code>
 <strong>参数：</strong>
 <strong>index : </strong>行号，小于0时删除最后一行</p>
-<h2>修改相关</h2>
-<h3>修改单元格数据</h3>
+<h2 id="xiu gai xiang guan_1">修改相关</h2>
+<h3 id="xiu gai dan yuan ge shu ju">修改单元格数据</h3>
 <p><code>void modify(string title, int rowIndex, IGridData iData)</code>
 <strong>参数：</strong>
 <strong>title: </strong> 列名
 <strong>rowIndex: </strong> 行号
 <strong>iData:</strong>需要修改成的数据</p>
-<h3>修改列名</h3>
+<h3 id="xiu gai lie ming">修改列名</h3>
 <p><code>void modifyColumnName(string oldName, string newName)</code>
 <strong>参数：</strong>
 <strong>oldName: </strong> 要修改的列名

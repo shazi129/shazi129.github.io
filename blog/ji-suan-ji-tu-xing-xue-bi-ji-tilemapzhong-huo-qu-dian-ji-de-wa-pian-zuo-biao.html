@@ -105,6 +105,10 @@
 
 <article class="single">
   <header>
+      <div class="col-lg-3 hidden-xs hidden-sm">
+          <div id="toc"><ul><li><a class="toc-href" href="#" title="计算机图形学笔记&mdash;&mdash;Tilemap中获取点击的瓦片坐标">计算机图形学笔记&mdash;&mdash;Tilemap中获取点击的瓦片坐标</a><ul><li><a class="toc-href" href="#tilemapzhong huo qu dian ji de wa pian zuo biao" title="Tilemap中获取点击的瓦片坐标">Tilemap中获取点击的瓦片坐标</a><ul><li><a class="toc-href" href="#yuan li" title="原理">原理</a></li><li><a class="toc-href" href="#dai ma" title="代码">代码</a></li></ul></li></ul></li></ul></div>
+      </div>
+
       
     <h1 id="ji-suan-ji-tu-xing-xue-bi-ji-tilemapzhong-huo-qu-dian-ji-de-wa-pian-zuo-biao">计算机图形学笔记——Tilemap中获取点击的瓦片坐标</h1>
     <p>
@@ -115,11 +119,11 @@
 
 
   <div>
-    <h1>Tilemap中获取点击的瓦片坐标</h1>
+    <h1 id="tilemapzhong huo qu dian ji de wa pian zuo biao">Tilemap中获取点击的瓦片坐标</h1>
 <p>[TOC]</p>
-<h2>原理</h2>
+<h2 id="yuan li">原理</h2>
 <p>通过摄像机和屏幕空间中的点画一条射线，该射线与Tilemap相交的点可以认为是点击到的点。我们将其转换为一个数学问题，如图：</p>
-<p><img alt="1572354170288" src=".\1572354170288.png"></p>
+<p><img alt="1572354170288" src=".\1572354170288.png"/></p>
 <p><span class="math">\(C\)</span>为射线的起点，<span class="math">\(\vec m\)</span>为射线的单位向量，<span class="math">\(O\)</span>为平面上的一个点，<span class="math">\(\vec n\)</span>为平面的单位法向量，求射线与平面的交点<span class="math">\(P\)</span>。</p>
 <p>推导过程：
 </p>
@@ -131,7 +135,7 @@ $$</div>
 <div class="math">$$
 \vec {OP} \cdot \vec n = 0 \tag 2
 $$</div>
-<p>其中：  <br>
+<p>其中：  <br/>
 </p>
 <div class="math">$$
 \vec {OP} = \vec {OC} + \vec {CP} \tag 3
@@ -156,7 +160,7 @@ $$</div>
 <div class="math">$$
 P = \vec {CP} + C = d \ast \vec m + C = C -\frac{\vec {OC} \cdot \vec n}{\vec m \cdot \vec n} \cdot \vec m
 $$</div>
-<h2>代码</h2>
+<h2 id="dai ma">代码</h2>
 <div class="highlight"><pre><span></span><code><span class="k">using</span> <span class="nn">System.Collections</span><span class="p">;</span>
 <span class="k">using</span> <span class="nn">System.Collections.Generic</span><span class="p">;</span>
 <span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
@@ -187,47 +191,45 @@ $$</div>
         <span class="p">{</span>
             <span class="c1">//O点使用tilemap的世界坐标</span>
             <span class="n">_O</span> <span class="p">=</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">;</span>
-            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;O: &quot;</span> <span class="p">+</span> <span class="n">_O</span><span class="p">);</span>
+            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"O: "</span> <span class="p">+</span> <span class="n">_O</span><span class="p">);</span>
 
             <span class="c1">//C点为摄像机</span>
             <span class="n">_C</span> <span class="p">=</span> <span class="n">renderCamera</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">;</span>
-            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;C: &quot;</span> <span class="p">+</span> <span class="n">_C</span><span class="p">);</span>
+            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"C: "</span> <span class="p">+</span> <span class="n">_C</span><span class="p">);</span>
 
             <span class="c1">//手动设置的法向量</span>
             <span class="n">_n</span> <span class="p">=</span> <span class="n">tileMapNormal</span><span class="p">;</span>
-            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;n: &quot;</span> <span class="p">+</span> <span class="n">_n</span><span class="p">);</span>
+            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"n: "</span> <span class="p">+</span> <span class="n">_n</span><span class="p">);</span>
 
             <span class="n">Vector3</span> <span class="n">nearClipScreenPos</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector3</span><span class="p">(</span><span class="n">Input</span><span class="p">.</span><span class="n">mousePosition</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">Input</span><span class="p">.</span><span class="n">mousePosition</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">renderCamera</span><span class="p">.</span><span class="n">nearClipPlane</span><span class="p">);</span>
             <span class="n">Vector3</span> <span class="n">nearClipWorldPos</span> <span class="p">=</span> <span class="n">Camera</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">ScreenToWorldPoint</span><span class="p">(</span><span class="n">nearClipScreenPos</span><span class="p">);</span>
 
             <span class="c1">//摄像机到点击位置的射线</span>
             <span class="n">Vector3</span> <span class="n">m</span> <span class="p">=</span> <span class="p">(</span><span class="n">nearClipWorldPos</span> <span class="p">-</span> <span class="n">_C</span><span class="p">).</span><span class="n">normalized</span><span class="p">;</span>
-            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;m: &quot;</span> <span class="p">+</span> <span class="n">m</span><span class="p">);</span>
+            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"m: "</span> <span class="p">+</span> <span class="n">m</span><span class="p">);</span>
 
             <span class="c1">//向量OC</span>
             <span class="n">Vector3</span> <span class="n">oc</span> <span class="p">=</span> <span class="n">_C</span> <span class="p">-</span> <span class="n">_O</span><span class="p">;</span>
-            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;oc: &quot;</span> <span class="p">+</span> <span class="n">oc</span><span class="p">);</span>
+            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"oc: "</span> <span class="p">+</span> <span class="n">oc</span><span class="p">);</span>
 
             <span class="kt">float</span> <span class="n">d</span> <span class="p">=</span> <span class="n">Vector3</span><span class="p">.</span><span class="n">Dot</span><span class="p">(</span><span class="n">oc</span><span class="p">,</span> <span class="n">_n</span><span class="p">)</span> <span class="p">/</span> <span class="n">Vector3</span><span class="p">.</span><span class="n">Dot</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">_n</span><span class="p">);</span>
-            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;d: &quot;</span> <span class="p">+</span> <span class="n">d</span><span class="p">);</span>
+            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"d: "</span> <span class="p">+</span> <span class="n">d</span><span class="p">);</span>
 
             <span class="c1">//向量OP</span>
             <span class="n">Vector3</span> <span class="n">op</span> <span class="p">=</span> <span class="n">oc</span> <span class="p">-</span> <span class="n">d</span> <span class="p">*</span> <span class="n">m</span><span class="p">;</span>
-            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;op: &quot;</span> <span class="p">+</span> <span class="n">op</span><span class="p">);</span>
+            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"op: "</span> <span class="p">+</span> <span class="n">op</span><span class="p">);</span>
 
             <span class="c1">//P点</span>
             <span class="n">Vector3</span> <span class="n">p</span> <span class="p">=</span> <span class="n">_O</span> <span class="p">+</span> <span class="n">op</span><span class="p">;</span>
-            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;p: &quot;</span> <span class="p">+</span> <span class="n">p</span><span class="p">);</span>
+            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"p: "</span> <span class="p">+</span> <span class="n">p</span><span class="p">);</span>
 
             <span class="c1">// 将世界坐标转换为瓦片坐标</span>
             <span class="n">Vector3Int</span> <span class="n">cellPos</span> <span class="p">=</span> <span class="n">_grid</span><span class="p">.</span><span class="n">WorldToCell</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
-            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;cellPos:&quot;</span> <span class="p">+</span> <span class="n">cellPos</span><span class="p">);</span>
+            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"cellPos:"</span> <span class="p">+</span> <span class="n">cellPos</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-
-
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
