@@ -23,6 +23,10 @@
     <script src="http://www.vmetu.com/blog/tipuesearch_content.js"></script>
     <link rel="stylesheet" href="http://www.vmetu.com/blog/theme/tipuesearch/tipuesearch.min.css" />
 
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
   <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/font-awesome/css/fontawesome.css">
   <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/font-awesome/css/brands.css">
   <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/font-awesome/css/solid.css">
@@ -118,7 +122,7 @@
 <h2>矩阵与坐标变换</h2>
 <p>在图像的绘制过程中，矩阵主要是用来进行坐标变换。我们先来看下面的推导。</p>
 <ul>
-<li>要得到任意<strong>坐标系1</strong>中的某个点[a, b, c]，可以让原点先在x轴位移[a, 0, 0], 再在y轴上位移[0, b, 0]，最后在z轴上位移[0, 0, c]。将这三个方向的单位向量定义为$p,q,r$, 可以得到推导中的(1)。</li>
+<li>要得到任意<strong>坐标系1</strong>中的某个点[a, b, c]，可以让原点先在x轴位移[a, 0, 0], 再在y轴上位移[0, b, 0]，最后在z轴上位移[0, 0, c]。将这三个方向的单位向量定义为<span class="math">\(p,q,r\)</span>, 可以得到推导中的(1)。</li>
 <li>p,q,r是<strong>坐标系2</strong>中的某个向量，如推导中的(2)</li>
 <li>计算后得到推导结果(4)，该结果就是<strong>坐标系1</strong>中的向量[a, b, c]在<strong>坐标系2</strong>中的表示</li>
 </ul>
@@ -128,7 +132,7 @@
 <p>对于<strong>物体坐标系</strong>，它的坐标轴的单位向量在<strong>世界坐标系</strong>中分别为：p=[2, 1], q=[-1, 2]：
 <img alt="Alt text" src="./1459156022980.png"></p>
 <p>那么对于物体坐标系中的某个点[1, 1]，变换到世界坐标系中为：    </p>
-<p>$$\begin{bmatrix}   1 &amp; 1  \end{bmatrix}  \begin{bmatrix}   2 &amp; 1  \ -1 &amp; 2 \end{bmatrix} = \begin{bmatrix}   1 &amp; 3  \end{bmatrix}$$</p>
+<div class="math">$$\begin{bmatrix}   1 &amp; 1  \end{bmatrix}  \begin{bmatrix}   2 &amp; 1  \\ -1 &amp; 2 \end{bmatrix} = \begin{bmatrix}   1 &amp; 3  \end{bmatrix}$$</div>
 <p>我们发现，从<strong>物体坐标系</strong>到<strong>世界坐标系</strong>的变换，是<strong>物体坐标系</strong>进行了<strong>缩小</strong>，和<strong>顺时针旋转</strong>， 但对于绘制出来的图像对于<strong>世界坐标系</strong>却是<strong>放大</strong>和<strong>逆时针旋转</strong>。在计算机绘制图形的时候，就是通过变换坐标系来进行图像的<strong>缩放</strong>和<strong>旋转</strong>的。</p>
 <h2>矩阵变换的应用</h2>
 <p>计算时，可以通过预先得出的变换矩阵来使流程简化。下面列一下各种变换矩阵。</p>
@@ -145,10 +149,10 @@
 <p>镜像也是缩放。物体对于某个平面的镜像，就是该物品在平面法向量上的缩放为-1。例如在Unity2D中，如果将某个精灵的轴的缩放设为-1，那么会得到一个镜像精灵。</p>
 <h3>平移与齐次坐标</h3>
 <p>从上面的内容可知，将某一个向量平移，可以加上一个矩阵；将一个物体缩放或旋转，可以右乘一个矩阵： </p>
-<p>$p_1 = pM_1 + M_2$</p>
+<p><span class="math">\(p_1 = pM_1 + M_2\)</span></p>
 <p>其中M1是缩放旋转矩阵，M2是位移矩阵。如果经过多次这样的变换的话，会产生很多的代数项，齐次坐标就是用来解决这个问题的。</p>
-<p>所谓齐次坐标就是用n+1个分量来表示n维坐标。例如：二维平面上的点$A(x , y)$用齐次坐标表示为$(h_x , h_y , h)$；三维空间中的点$B(x , y , z)$用齐次坐标表示为$(h_x , h_y , h_z , h)$。一个向量的齐次表示并不是唯一的，齐次坐标中的h取不同值表示的都是同一个点，比如$(8 , 4 , 2)$、$(4 , 2 , 1)$表示的都是二维平面上的点$(4 , 2)$。下面来看一个等式：    </p>
-<p>$$\begin{bmatrix}   x &amp; y &amp; z &amp; 1 \end{bmatrix} \begin{bmatrix}   1 &amp; 0 &amp; 0 &amp; 0 \ 0 &amp; 1 &amp; 0 &amp; 0 \ 0 &amp; 0 &amp; 1 &amp; 0 \ a &amp; b &amp; c &amp; 1\end{bmatrix} = \begin{bmatrix}   x+a &amp; y+b &amp; z+c &amp; 1 \end{bmatrix}$$</p>
+<p>所谓齐次坐标就是用n+1个分量来表示n维坐标。例如：二维平面上的点<span class="math">\(A(x , y)\)</span>用齐次坐标表示为<span class="math">\((h_x , h_y , h)\)</span>；三维空间中的点<span class="math">\(B(x , y , z)\)</span>用齐次坐标表示为<span class="math">\((h_x , h_y , h_z , h)\)</span>。一个向量的齐次表示并不是唯一的，齐次坐标中的h取不同值表示的都是同一个点，比如<span class="math">\((8 , 4 , 2)\)</span>、<span class="math">\((4 , 2 , 1)\)</span>表示的都是二维平面上的点<span class="math">\((4 , 2)\)</span>。下面来看一个等式：    </p>
+<div class="math">$$\begin{bmatrix}   x &amp; y &amp; z &amp; 1 \end{bmatrix} \begin{bmatrix}   1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 \\ a &amp; b &amp; c &amp; 1\end{bmatrix} = \begin{bmatrix}   x+a &amp; y+b &amp; z+c &amp; 1 \end{bmatrix}$$</div>
 <p>可以看出，一个点的位移，可以用齐次坐标的右乘来表示。</p>
 <h2>矩阵的缺点</h2>
 <ul>
@@ -158,7 +162,7 @@
 </ul>
 <h2>欧拉角</h2>
 <p>在三维坐标系中，要转动某个物体，可以通过依次绕其各个轴旋转来实现。那么表示一个物体的方位，就可以通过这三个角来表示。
-欧拉角表示的是物体的最终方位而不是旋转过程。例如我们说将一个物体旋转到$(ψ, θ, φ)$，这个方位是相对于物体<strong>未旋转</strong>时的角度，而<strong>不是</strong>将当前物体绕z轴旋转ψ， 绕x轴旋转θ， 绕y轴旋转φ。</p>
+欧拉角表示的是物体的最终方位而不是旋转过程。例如我们说将一个物体旋转到<span class="math">\((ψ, θ, φ)\)</span>，这个方位是相对于物体<strong>未旋转</strong>时的角度，而<strong>不是</strong>将当前物体绕z轴旋转ψ， 绕x轴旋转θ， 绕y轴旋转φ。</p>
 <h3>万向节运动</h3>
 <p>因为用欧拉角表示方位与旋转的次序无关。unity中默认的是z-x-y，这样的次序就导致了z轴的旋转会影响x,y轴的旋转，x轴的旋转会影响y轴的旋转。 这样的旋转类似于万向节的运动。</p>
 <h3>万向锁</h3>
@@ -181,25 +185,87 @@
 <h2>复数与旋转</h2>
 <p>要解决差值问题，还是要减少旋转依赖的参数。但矩阵的数据太冗余，好在数学家们发现如下规律：
 对于复数：</p>
-<p>$ p = x + yi $
-$ q = cosθ + i sinθ$
+<p><span class="math">\( p = x + yi $
+$ q = cosθ + i sinθ\)</span>
 $ pq = (x + yi)(cosθ + isinθ) = (xcosθ - ysinθ) + (xsinθ+ ycosθ)i $</p>
 <p>这对于上面的旋转矩阵是不是很像？只要将复数的实部和虚部看做坐标轴，那么<em>p</em>可以看做一个向量，pq就可以看p成旋转θ角之后的向量。</p>
 <h3>四元数</h3>
 <p>相对于二维坐标中的复数，数学家还定义了三维坐标中的四元数：</p>
-<p>$p = w + xi + yj + zk$</p>
+<p><span class="math">\(p = w + xi + yj + zk\)</span></p>
 <p>其中：</p>
-<p>$i^2 = j^2 = k^2 = -1$
-$ij = k, ji = -k$
-$jk = i, kj = -i$
-$ki = j, ik = -j$</p>
+<p><span class="math">\(i^2 = j^2 = k^2 = -1\)</span>
+<span class="math">\(ij = k, ji = -k\)</span>
+<span class="math">\(jk = i, kj = -i\)</span>
+<span class="math">\(ki = j, ik = -j\)</span></p>
 <p>设四元数：</p>
-<p>$ q = [cos(\theta /2),  nsin(\theta/2)] = [cos(\theta/2), ({n}<em y>{x}sin(\theta/2), {n}</em>sin(\theta/2), {n}_{z}sin(\theta/2))]$</p>
+<p><span class="math">\( q = [cos(\theta /2),  nsin(\theta/2)] = [cos(\theta/2), ({n}_{x}sin(\theta/2), {n}_{y}sin(\theta/2), {n}_{z}sin(\theta/2))]\)</span></p>
 <p>对于任意四元数：</p>
-<p>$ p = [w, (x, y, z)]$         </p>
+<p><span class="math">\( p = [w, (x, y, z)]\)</span>         </p>
 <p>那么对于等式：</p>
-<p>$ p' = qpq^{-1} = [cos(\theta /2),  nsin(\theta/2)][w, (x, y, z)][cos(\theta /2),  -nsin(\theta/2)]$</p>
+<p><span class="math">\( p' = qpq^{-1} = [cos(\theta /2),  nsin(\theta/2)][w, (x, y, z)][cos(\theta /2),  -nsin(\theta/2)]\)</span></p>
 <p>展开后可以得到类似于三维旋转矩阵的东西。这说明四元数可以用在物体的旋转计算中。</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
   </div>
   <div class="tag-cloud">
     <p>
