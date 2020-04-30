@@ -3,8 +3,7 @@ Date: 2018-04-02
 Category: 编程语言
 Tags: Unity
 
-
-#USheet API 说明
+# USheet API 说明
 
 
 [TOC]
@@ -15,9 +14,9 @@ Tags: Unity
 
 **注意：**如果需要使修改后的数据落地，需要调用`EditorUtility.SetDirty(sheetData);`
 
-##查询相关
+## 查询相关
 
-###根据表的内容查找行号
+###  根据表的内容查找行号
 `int indexOf<T>(string title, T value, int startIndex = 0)`
 
 **参数：**
