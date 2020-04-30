@@ -99,7 +99,7 @@ static void InitDefaultPlayerLoop()
 
 所有的PlayerLoopSystem保存在`s_currentLoop`中，它内部是一个`NativePlayerLoopSystem`的数组，大致如下：
 
-![1588249654028](F:\GitHub\shazi129.github.io\pelican_blog\pelican\content\unity\源码\1588249654028.png)
+![1588249654028](./1588249654028.png)
 
 - 列表头记录了所有PlayerLoopSystem的个数
 
