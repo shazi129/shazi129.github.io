@@ -51,9 +51,12 @@ PROJECTS = [
     },
 ]
 
+#TAG_SAVE_AS = 'tag/{slug}.html'
+#CATEGORY_SAVE_AS = 'category/{slug}.html'
+
 # Flex theme
 SITESUBTITLE = u"随便写点东西"
-SITEDESCRIPTION = "Foo Bar's Thoughts and Writings"
+SITEDESCRIPTION = ""
 SITELOGO = SITEURL + "/../external/images/profile.jpg"
 FAVICON = SITEURL + "/../external/images/favicon.ico"
 BROWSER_COLOR = "#333"
@@ -66,14 +69,6 @@ MENUITEMS=[
     ("分类", SITEURL + "/categories.html"),
     ("标签", SITEURL + "/tags.html"),
 ]
-
-# Elegant theme
-STATIC_PATHS = ['theme/images', 'images']
-DIRECT_TEMPLATES = (('index', 'tags', 'categories', 'archives', 'search', '404'))
-TAG_SAVE_AS = ''
-AUTHOR_SAVE_AS = ''
-CATEGORY_SAVE_AS = ''
-USE_SHORTCUT_ICONS = True
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
@@ -102,3 +97,4 @@ DISQUS_SITENAME = 'vmetu'
 SUMMARY_MAX_LENGTH = 1
 
 FOUNDATION_FOOTER_TEXT = "Copyright &copy; 2015 - 2016 Vmetu. All Rights Reserved"
+
