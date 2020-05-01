@@ -12,8 +12,6 @@ OUTPUT_PATH = './../../blog'
 
 TIMEZONE = 'Asia/Shanghai'
 
-#DEFAULT_LANG = u'zh'
-
 # Plugins and extensions
 PLUGIN_PATHS = ['../plugins/']
 PLUGINS = ['sitemap', 'pelican-toc', 'tipue_search', 
@@ -37,7 +35,6 @@ SITEMAP = {
 # Enable Jinja2 i18n extension used to parse translations.
 JINJA_ENVIRONMENT = {"extensions": ["jinja2.ext.i18n"]}
 
-
 LANDING_PAGE_ABOUT = {
 	"title": "I have a dream",
 	"details": u"一个游戏开发者, <a href=\"mailto:apply_count@sina.com\">mail</a>",
@@ -51,8 +48,6 @@ PROJECTS = [
     },
 ]
 
-#TAG_SAVE_AS = 'tag/{slug}.html'
-#CATEGORY_SAVE_AS = 'category/{slug}.html'
 
 # Flex theme
 SITESUBTITLE = u"随便写点东西"
@@ -68,6 +63,7 @@ MENUITEMS=[
     ("所有", SITEURL + "/archives.html"), 
     ("分类", SITEURL + "/categories.html"),
     ("标签", SITEURL + "/tags.html"),
+    ("关于", SITEURL + "/about.html")
 ]
 
 THEME_COLOR = 'dark'
@@ -96,6 +92,8 @@ DEFAULT_PAGINATION = 10
 #RELATIVE_URLS = True
 
 THEME = "./../theme"
+TEMPLATE_PAGES = {'./../../personal/about.html': "about.html"} #key相对theme目录， value相对output目录
+
 USE_FOLDER_AS_CATEGORY = True
 #MONTH_ARCHIVE_SAVE_AS = 'time_category'
 #MONTH_ARCHIVE_SAVE_AS = 'time_category/{date:%Y}/{date:%b}/index.html'
