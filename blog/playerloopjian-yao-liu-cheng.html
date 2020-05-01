@@ -49,13 +49,13 @@
     <meta name="msapplication-TileColor" content="#333">
 
 <meta name="author" content="张文" />
-<meta name="description" content="PlayerLoop简要流程 …" />
+<meta name="description" content="[TOC …" />
 <meta name="keywords" content="Unity">
 
 
 <meta property="og:site_name" content="观心苑"/>
 <meta property="og:title" content="PlayerLoop简要流程"/>
-<meta property="og:description" content="PlayerLoop简要流程 …"/>
+<meta property="og:description" content="[TOC …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://www.vmetu.com/blog/playerloopjian-yao-liu-cheng.html"/>
 <meta property="og:type" content="article"/>
@@ -64,7 +64,7 @@
 <meta property="article:author" content="http://www.vmetu.com/blog/author/zhang-wen.html">
 <meta property="article:section" content="编程语言"/>
 <meta property="article:tag" content="Unity"/>
-<meta property="og:image" content="http://www.vmetu.com/blog/../external/images/profile.jpg">
+<meta property="og:image" content="http://www.vmetu.com/blog/../external/images/profile.png">
 
   <title>观心苑 &ndash; PlayerLoop简要流程</title>
 
@@ -73,7 +73,7 @@
   <aside>
     <div>
       <a href="http://www.vmetu.com/blog">
-        <img src="http://www.vmetu.com/blog/../external/images/profile.jpg" alt="张三" title="张三">
+        <img src="http://www.vmetu.com/blog/../external/images/profile.png" alt="张三" title="张三">
       </a>
 
       <h1>
@@ -106,7 +106,7 @@
 <article class="single">
   <header>
       <div class="col-lg-3 hidden-xs hidden-sm">
-          <div id="toc"><ul><li><a class="toc-href" href="#" title="PlayerLoop简要流程">PlayerLoop简要流程</a><ul><li><a class="toc-href" href="#playerloopjian yao liu cheng" title="PlayerLoop简要流程">PlayerLoop简要流程</a><ul><li><a class="toc-href" href="#playerloopjian jie" title="PlayerLoop简介">PlayerLoop简介</a></li><li><a class="toc-href" href="#reentrancychecker" title="ReentrancyChecker">ReentrancyChecker</a></li><li><a class="toc-href" href="#isworldplaying" title="IsWorldPlaying">IsWorldPlaying</a></li><li><a class="toc-href" href="#s_defaultloop" title="s_defaultLoop">s_defaultLoop</a></li><li><a class="toc-href" href="#playerloopsystemzu zhi fang shi" title="PlayerLoopSystem组织方式">PlayerLoopSystem组织方式</a></li><li><a class="toc-href" href="#executeplayerloop" title="ExecutePlayerLoop">ExecutePlayerLoop</a></li></ul></li></ul></li></ul></div>
+          <div id="toc"><ul><li><a class="toc-href" href="#" title="PlayerLoop简要流程">PlayerLoop简要流程</a><ul><li><a class="toc-href" href="#playerloopjian jie" title="PlayerLoop简介">PlayerLoop简介</a></li><li><a class="toc-href" href="#reentrancychecker" title="ReentrancyChecker">ReentrancyChecker</a></li><li><a class="toc-href" href="#isworldplaying" title="IsWorldPlaying">IsWorldPlaying</a></li><li><a class="toc-href" href="#s_defaultloop" title="s_defaultLoop">s_defaultLoop</a></li><li><a class="toc-href" href="#playerloopsystemzu zhi fang shi" title="PlayerLoopSystem组织方式">PlayerLoopSystem组织方式</a></li><li><a class="toc-href" href="#executeplayerloop" title="ExecutePlayerLoop">ExecutePlayerLoop</a></li></ul></li></ul></div>
       </div>
 
       
@@ -119,8 +119,7 @@
 
 
   <div>
-    <h1 id="playerloopjian yao liu cheng">PlayerLoop简要流程</h1>
-<p>[TOC]</p>
+    <p>[TOC]</p>
 <h2 id="playerloopjian jie">PlayerLoop简介</h2>
 <p>PlayerLoop是Unity的主循环，每帧都会跑一次。Unity 2018添加了PlayerLoop相关的API, 我们可以利用如下代码来查看一个PlayerLoop干了那些事：</p>
 <div class="highlight"><pre><span></span><code><span class="kt">var</span> <span class="n">playerLoop</span> <span class="p">=</span> <span class="n">PlayerLoop</span><span class="p">.</span><span class="n">GetDefaultPlayerLoop</span><span class="p">();</span>
@@ -326,7 +325,7 @@ Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a 
   "@type" : "Blog",
   "name": " 观心苑 ",
   "url" : "http://www.vmetu.com/blog",
-  "image": "http://www.vmetu.com/blog/../external/images/profile.jpg",
+  "image": "http://www.vmetu.com/blog/../external/images/profile.png",
   "description": ""
 }
 </script>

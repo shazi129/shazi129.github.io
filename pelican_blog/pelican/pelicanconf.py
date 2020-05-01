@@ -57,7 +57,7 @@ PROJECTS = [
 # Flex theme
 SITESUBTITLE = u"随便写点东西"
 SITEDESCRIPTION = ""
-SITELOGO = SITEURL + "/../external/images/profile.jpg"
+SITELOGO = SITEURL + "/../external/images/profile.png"
 FAVICON = SITEURL + "/../external/images/favicon.ico"
 BROWSER_COLOR = "#333"
 ROBOTS = "index, follow"
