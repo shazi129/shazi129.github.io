@@ -125,6 +125,9 @@ def generate_toc(content):
     if isinstance(content, contents.Static):
         return
 
+    #删除markdown中的toc标签
+    content._content = content._content.replace("<p>[TOC]</p>\n", "")
+
     _toc_run = content.metadata.get(
             'toc_run',
             content.settings[TOC_KEY]['TOC_RUN'])

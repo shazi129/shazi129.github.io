@@ -49,13 +49,13 @@
     <meta name="msapplication-TileColor" content="#333">
 
 <meta name="author" content="张文" />
-<meta name="description" content="[TOC …" />
+<meta name="description" content="PlayerLoop简介 …" />
 <meta name="keywords" content="Unity">
 
 
 <meta property="og:site_name" content="观心苑"/>
 <meta property="og:title" content="PlayerLoop简要流程"/>
-<meta property="og:description" content="[TOC …"/>
+<meta property="og:description" content="PlayerLoop简介 …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://www.vmetu.com/blog/playerloopjian-yao-liu-cheng.html"/>
 <meta property="og:type" content="article"/>
@@ -119,8 +119,7 @@
 
 
   <div>
-    <p>[TOC]</p>
-<h2 id="playerloopjian jie">PlayerLoop简介</h2>
+    <h2 id="playerloopjian jie">PlayerLoop简介</h2>
 <p>PlayerLoop是Unity的主循环，每帧都会跑一次。Unity 2018添加了PlayerLoop相关的API, 我们可以利用如下代码来查看一个PlayerLoop干了那些事：</p>
 <div class="highlight"><pre><span></span><code><span class="kt">var</span> <span class="n">playerLoop</span> <span class="p">=</span> <span class="n">PlayerLoop</span><span class="p">.</span><span class="n">GetDefaultPlayerLoop</span><span class="p">();</span>
 <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">header</span> <span class="k">in</span> <span class="n">playerLoop</span><span class="p">.</span><span class="n">subSystemList</span><span class="p">)</span>
