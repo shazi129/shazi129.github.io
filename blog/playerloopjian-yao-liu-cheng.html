@@ -49,13 +49,13 @@
     <meta name="msapplication-TileColor" content="#333">
 
 <meta name="author" content="张文" />
-<meta name="description" content="PlayerLoop简介 …" />
+<meta name="description" content="PlayerLoop简要流程 …" />
 <meta name="keywords" content="Unity">
 
 
 <meta property="og:site_name" content="观心苑"/>
 <meta property="og:title" content="PlayerLoop简要流程"/>
-<meta property="og:description" content="PlayerLoop简介 …"/>
+<meta property="og:description" content="PlayerLoop简要流程 …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://www.vmetu.com/blog/playerloopjian-yao-liu-cheng.html"/>
 <meta property="og:type" content="article"/>
@@ -105,10 +105,6 @@
 
 <article class="single">
   <header>
-      <div class="col-lg-3 hidden-xs hidden-sm">
-          <div id="toc"><ul><li><a class="toc-href" href="#" title="PlayerLoop简要流程">PlayerLoop简要流程</a><ul><li><a class="toc-href" href="#playerloopjian jie" title="PlayerLoop简介">PlayerLoop简介</a></li><li><a class="toc-href" href="#reentrancychecker" title="ReentrancyChecker">ReentrancyChecker</a></li><li><a class="toc-href" href="#isworldplaying" title="IsWorldPlaying">IsWorldPlaying</a></li><li><a class="toc-href" href="#s_defaultloop" title="s_defaultLoop">s_defaultLoop</a></li><li><a class="toc-href" href="#playerloopsystemzu zhi fang shi" title="PlayerLoopSystem组织方式">PlayerLoopSystem组织方式</a></li><li><a class="toc-href" href="#executeplayerloop" title="ExecutePlayerLoop">ExecutePlayerLoop</a></li></ul></li></ul></div>
-      </div>
-
       
     <h1 id="playerloopjian-yao-liu-cheng">PlayerLoop简要流程</h1>
     <p>
@@ -119,7 +115,7 @@
 
 
   <div>
-    <h2 id="playerloopjian jie">PlayerLoop简介</h2>
+    <div id="toc"><ul><li><a class="toc-href" href="#" title="PlayerLoop简要流程">PlayerLoop简要流程</a><ul><li><a class="toc-href" href="#playerloopjian jie" title="PlayerLoop简介">PlayerLoop简介</a></li><li><a class="toc-href" href="#reentrancychecker" title="ReentrancyChecker">ReentrancyChecker</a></li><li><a class="toc-href" href="#isworldplaying" title="IsWorldPlaying">IsWorldPlaying</a></li><li><a class="toc-href" href="#s_defaultloop" title="s_defaultLoop">s_defaultLoop</a></li><li><a class="toc-href" href="#playerloopsystemzu zhi fang shi" title="PlayerLoopSystem组织方式">PlayerLoopSystem组织方式</a></li><li><a class="toc-href" href="#executeplayerloop" title="ExecutePlayerLoop">ExecutePlayerLoop</a></li></ul></li></ul></div><h2 id="playerloopjian jie">PlayerLoop简介</h2>
 <p>PlayerLoop是Unity的主循环，每帧都会跑一次。Unity 2018添加了PlayerLoop相关的API, 我们可以利用如下代码来查看一个PlayerLoop干了那些事：</p>
 <div class="highlight"><pre><span></span><code><span class="kt">var</span> <span class="n">playerLoop</span> <span class="p">=</span> <span class="n">PlayerLoop</span><span class="p">.</span><span class="n">GetDefaultPlayerLoop</span><span class="p">();</span>
 <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">header</span> <span class="k">in</span> <span class="n">playerLoop</span><span class="p">.</span><span class="n">subSystemList</span><span class="p">)</span>

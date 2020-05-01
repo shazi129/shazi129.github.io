@@ -49,13 +49,13 @@
     <meta name="msapplication-TileColor" content="#333">
 
 <meta name="author" content="张文" />
-<meta name="description" content="​ Table结构体 …" />
+<meta name="description" content="lua源码阅读3 …" />
 <meta name="keywords" content="">
 
 
 <meta property="og:site_name" content="观心苑"/>
 <meta property="og:title" content="lua源码阅读3——table"/>
-<meta property="og:description" content="​ Table结构体 …"/>
+<meta property="og:description" content="lua源码阅读3 …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://www.vmetu.com/blog/luayuan-ma-yue-du-3-table.html"/>
 <meta property="og:type" content="article"/>
@@ -104,10 +104,6 @@
 
 <article class="single">
   <header>
-      <div class="col-lg-3 hidden-xs hidden-sm">
-          <div id="toc"><ul><li><a class="toc-href" href="#" title="lua源码阅读3&mdash;&mdash;table">lua源码阅读3&mdash;&mdash;table</a><ul><li><a class="toc-href" href="#tablejie gou ti" title="Table结构体">Table结构体</a><ul><li><a class="toc-href" href="#jie dian de jie gou" title="节点的结构">节点的结构</a></li><li><a class="toc-href" href="#tablede da xiao" title="table的大小">table的大小</a></li></ul></li><li><a class="toc-href" href="#chuang jian_1" title="创建">创建</a><ul><li><a class="toc-href" href="#chuang jian table" title="创建table">创建table</a></li><li><a class="toc-href" href="#chuang jian key" title="创建key">创建key</a></li></ul></li><li><a class="toc-href" href="#cha_1" title="查">查</a><ul><li><a class="toc-href" href="#zhu ru kou" title="主入口">主入口</a></li><li><a class="toc-href" href="#cha zhao keywei duan zi fu chuan de zhi" title="查找key为短字符串的值">查找key为短字符串的值</a></li></ul></li></ul></li></ul></div>
-      </div>
-
       
     <h1 id="luayuan-ma-yue-du-3-table">lua源码阅读3——table</h1>
     <p>
@@ -118,7 +114,7 @@
 
 
   <div>
-    <p>​     </p>
+    <div id="toc"><ul><li><a class="toc-href" href="#" title="lua源码阅读3&mdash;&mdash;table">lua源码阅读3&mdash;&mdash;table</a><ul><li><a class="toc-href" href="#tablejie gou ti" title="Table结构体">Table结构体</a><ul><li><a class="toc-href" href="#jie dian de jie gou" title="节点的结构">节点的结构</a></li><li><a class="toc-href" href="#tablede da xiao" title="table的大小">table的大小</a></li></ul></li><li><a class="toc-href" href="#chuang jian_1" title="创建">创建</a><ul><li><a class="toc-href" href="#chuang jian table" title="创建table">创建table</a></li><li><a class="toc-href" href="#chuang jian key" title="创建key">创建key</a></li></ul></li><li><a class="toc-href" href="#cha_1" title="查">查</a><ul><li><a class="toc-href" href="#zhu ru kou" title="主入口">主入口</a></li><li><a class="toc-href" href="#cha zhao keywei duan zi fu chuan de zhi" title="查找key为短字符串的值">查找key为短字符串的值</a></li></ul></li></ul></li></ul></div><p>​     </p>
 <h2 id="tablejie gou ti">Table结构体</h2>
 <div class="highlight"><pre><span></span><code><span class="k">typedef</span> <span class="k">struct</span> <span class="n">Table</span> <span class="p">{</span>
   <span class="n">CommonHeader</span><span class="p">;</span>

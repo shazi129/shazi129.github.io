@@ -125,9 +125,6 @@ def generate_toc(content):
     if isinstance(content, contents.Static):
         return
 
-    #删除markdown中的toc标签
-    content._content = content._content.replace("<p>[TOC]</p>\n", "")
-
     _toc_run = content.metadata.get(
             'toc_run',
             content.settings[TOC_KEY]['TOC_RUN'])
@@ -162,6 +159,10 @@ def generate_toc(content):
         tree_soup = BeautifulSoup(tree_string, 'html.parser')
         content.toc = tree_soup.decode(formatter='html')
     content._content = soup.decode(formatter='html')
+
+    if (settoc):
+        #删除markdown中的toc标签
+        content._content = content._content.replace("<p>[TOC]</p>\n", content.toc)
 
 
 def register():

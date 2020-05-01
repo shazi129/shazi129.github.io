@@ -49,13 +49,13 @@
     <meta name="msapplication-TileColor" content="#333">
 
 <meta name="author" content="张文" />
-<meta name="description" content="字符串部分对外接口 …" />
+<meta name="description" content="lua源码阅读2 …" />
 <meta name="keywords" content="">
 
 
 <meta property="og:site_name" content="观心苑"/>
 <meta property="og:title" content="lua源码阅读2——string"/>
-<meta property="og:description" content="字符串部分对外接口 …"/>
+<meta property="og:description" content="lua源码阅读2 …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://www.vmetu.com/blog/luayuan-ma-yue-du-2-string.html"/>
 <meta property="og:type" content="article"/>
@@ -104,10 +104,6 @@
 
 <article class="single">
   <header>
-      <div class="col-lg-3 hidden-xs hidden-sm">
-          <div id="toc"><ul><li><a class="toc-href" href="#" title="lua源码阅读2&mdash;&mdash;string">lua源码阅读2&mdash;&mdash;string</a><ul><li><a class="toc-href" href="#zi fu chuan bu fen dui wai jie kou" title="字符串部分对外接口">字符串部分对外接口</a></li><li><a class="toc-href" href="#zi fu chuan de jie gou ti" title="字符串的结构体">字符串的结构体</a><ul><li><a class="toc-href" href="#chang zi fu chuan he duan zi fu chuan" title="长字符串和短字符串">长字符串和短字符串</a></li><li><a class="toc-href" href="#duan zi fu chuan de zu zhi fang shi" title="短字符串的组织方式">短字符串的组织方式</a></li></ul></li><li><a class="toc-href" href="#zi fu chuan suo yin chu shi hua_1" title="字符串索引初始化">字符串索引初始化</a><ul><li><a class="toc-href" href="#duan zi fu chuan san lie biao de jian li" title="短字符串散列表的建立">短字符串散列表的建立</a></li><li><a class="toc-href" href="#zi fu chuan ha xi suan fa" title="字符串哈希算法">字符串哈希算法</a></li><li><a class="toc-href" href="#chang zi fu chuan de ha xi suan fa" title="长字符串的哈希算法">长字符串的哈希算法</a></li><li><a class="toc-href" href="#sui ji shu chong zi seed" title="随机数种子seed">随机数种子seed</a></li></ul></li><li><a class="toc-href" href="#zi fu chuan de chuang jian_1" title="字符串的创建">字符串的创建</a><ul><li><a class="toc-href" href="#chuang jian ru kou" title="创建入口">创建入口</a></li><li><a class="toc-href" href="#chuang jian zi fu chuan ." title="创建字符串。">创建字符串。</a></li><li><a class="toc-href" href="#chang zi fu chuan de chuang jian" title="长字符串的创建">长字符串的创建</a></li><li><a class="toc-href" href="#duan zi fu chuan chuang jian" title="短字符串创建">短字符串创建</a></li><li><a class="toc-href" href="#tong yong chuang jian guo cheng :" title="通用创建过程：">通用创建过程：</a></li></ul></li><li><a class="toc-href" href="#duan zi fu chuan de shan chu_1" title="短字符串的删除">短字符串的删除</a></li><li><a class="toc-href" href="#zi fu chuan bi jiao" title="字符串比较">字符串比较</a></li></ul></li></ul></div>
-      </div>
-
       
     <h1 id="luayuan-ma-yue-du-2-string">lua源码阅读2——string</h1>
     <p>
@@ -118,7 +114,7 @@
 
 
   <div>
-    <h2 id="zi fu chuan bu fen dui wai jie kou">字符串部分对外接口</h2>
+    <div id="toc"><ul><li><a class="toc-href" href="#" title="lua源码阅读2&mdash;&mdash;string">lua源码阅读2&mdash;&mdash;string</a><ul><li><a class="toc-href" href="#zi fu chuan bu fen dui wai jie kou" title="字符串部分对外接口">字符串部分对外接口</a></li><li><a class="toc-href" href="#zi fu chuan de jie gou ti" title="字符串的结构体">字符串的结构体</a><ul><li><a class="toc-href" href="#chang zi fu chuan he duan zi fu chuan" title="长字符串和短字符串">长字符串和短字符串</a></li><li><a class="toc-href" href="#duan zi fu chuan de zu zhi fang shi" title="短字符串的组织方式">短字符串的组织方式</a></li></ul></li><li><a class="toc-href" href="#zi fu chuan suo yin chu shi hua_1" title="字符串索引初始化">字符串索引初始化</a><ul><li><a class="toc-href" href="#duan zi fu chuan san lie biao de jian li" title="短字符串散列表的建立">短字符串散列表的建立</a></li><li><a class="toc-href" href="#zi fu chuan ha xi suan fa" title="字符串哈希算法">字符串哈希算法</a></li><li><a class="toc-href" href="#chang zi fu chuan de ha xi suan fa" title="长字符串的哈希算法">长字符串的哈希算法</a></li><li><a class="toc-href" href="#sui ji shu chong zi seed" title="随机数种子seed">随机数种子seed</a></li></ul></li><li><a class="toc-href" href="#zi fu chuan de chuang jian_1" title="字符串的创建">字符串的创建</a><ul><li><a class="toc-href" href="#chuang jian ru kou" title="创建入口">创建入口</a></li><li><a class="toc-href" href="#chuang jian zi fu chuan ." title="创建字符串。">创建字符串。</a></li><li><a class="toc-href" href="#chang zi fu chuan de chuang jian" title="长字符串的创建">长字符串的创建</a></li><li><a class="toc-href" href="#duan zi fu chuan chuang jian" title="短字符串创建">短字符串创建</a></li><li><a class="toc-href" href="#tong yong chuang jian guo cheng :" title="通用创建过程：">通用创建过程：</a></li></ul></li><li><a class="toc-href" href="#duan zi fu chuan de shan chu_1" title="短字符串的删除">短字符串的删除</a></li><li><a class="toc-href" href="#zi fu chuan bi jiao" title="字符串比较">字符串比较</a></li></ul></li></ul></div><h2 id="zi fu chuan bu fen dui wai jie kou">字符串部分对外接口</h2>
 <div class="highlight"><pre><span></span><code><span class="c1">//计算一段buff的哈希值</span>
 <span class="n">LUAI_FUNC</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">luaS_hash</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">seed</span><span class="p">);</span>
 <span class="c1">//计算长字符串的哈希值</span>

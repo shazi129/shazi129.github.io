@@ -105,10 +105,6 @@
 
 <article class="single">
   <header>
-      <div class="col-lg-3 hidden-xs hidden-sm">
-          <div id="toc"><ul><li><a class="toc-href" href="#" title="计算机图形学笔记&mdash;&mdash;画直线算法">计算机图形学笔记&mdash;&mdash;画直线算法</a><ul><li><a class="toc-href" href="#ji suan ji tu xing xue bi ji ----hua zhi xian suan fa" title="计算机图形学笔记&mdash;&mdash;画直线算法">计算机图形学笔记&mdash;&mdash;画直线算法</a><ul><li><a class="toc-href" href="#ddasuan fa" title="DDA算法">DDA算法</a></li><li><a class="toc-href" href="#bresenhamsuan fa" title="Bresenham算法">Bresenham算法</a></li></ul></li></ul></li></ul></div>
-      </div>
-
       
     <h1 id="ji-suan-ji-tu-xing-xue-bi-ji-hua-zhi-xian-suan-fa">计算机图形学笔记——画直线算法</h1>
     <p>
@@ -121,7 +117,7 @@
   <div>
     <h1 id="ji suan ji tu xing xue bi ji ----hua zhi xian suan fa">计算机图形学笔记&mdash;&mdash;画直线算法</h1>
 <p>@(计算机图形学)[学习笔记]</p>
-<p>画线算法主要用来解决如下问题：对于某个直线方程，已知起点重点，计算机如何绘制出这个线段。计算机绘制线段其实就是绘制一系列的像素点。</p>
+<div id="toc"><ul><li><a class="toc-href" href="#" title="计算机图形学笔记&mdash;&mdash;画直线算法">计算机图形学笔记&mdash;&mdash;画直线算法</a><ul><li><a class="toc-href" href="#ji suan ji tu xing xue bi ji ----hua zhi xian suan fa" title="计算机图形学笔记&mdash;&mdash;画直线算法">计算机图形学笔记&mdash;&mdash;画直线算法</a><ul><li><a class="toc-href" href="#ddasuan fa" title="DDA算法">DDA算法</a></li><li><a class="toc-href" href="#bresenhamsuan fa" title="Bresenham算法">Bresenham算法</a></li></ul></li></ul></li></ul></div><p>画线算法主要用来解决如下问题：对于某个直线方程，已知起点重点，计算机如何绘制出这个线段。计算机绘制线段其实就是绘制一系列的像素点。</p>
 <h2 id="ddasuan fa">DDA算法</h2>
 <p><strong>思路:</strong> 对于直线方程 <span class="math">\(y = kx + b\)</span>， 在一个坐标轴以单位长度步进，并计算得到另一坐标轴的步进，之后根据起点+步进得到一个点的坐标，这个点就是需要绘制的点。为了保证绘制的精度，选择步进较大的坐标轴为基础坐标轴，例如每次步进​$\Delta x &gt; \Delta y  $, 那么以x轴为单位长度步进的坐标轴。</p>
 <p>实现代码：</p>
