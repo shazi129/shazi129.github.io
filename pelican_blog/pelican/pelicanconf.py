@@ -12,7 +12,7 @@ OUTPUT_PATH = './../../blog'
 
 TIMEZONE = 'Asia/Shanghai'
 
-DEFAULT_LANG = u'zh'
+#DEFAULT_LANG = u'zh'
 
 # Plugins and extensions
 PLUGIN_PATHS = ['../plugins/']
@@ -96,5 +96,5 @@ USE_FOLDER_AS_CATEGORY = True
 DISQUS_SITENAME = 'vmetu'
 SUMMARY_MAX_LENGTH = 1
 
-FOUNDATION_FOOTER_TEXT = "Copyright &copy; 2015 - 2016 Vmetu. All Rights Reserved"
+FOUNDATION_FOOTER_TEXT = "Copyright &copy; 2015 - 2020 Vmetu. All Rights Reserved"
 

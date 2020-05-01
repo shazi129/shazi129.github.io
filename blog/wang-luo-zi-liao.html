@@ -49,24 +49,24 @@
     <meta name="msapplication-TileColor" content="#333">
 
 <meta name="author" content="张文" />
-<meta name="description" content="今天安装了Pelican …" />
-<meta name="keywords" content="Pelican">
+<meta name="description" content="[TOC …" />
+<meta name="keywords" content="网络资料">
 
 
 <meta property="og:site_name" content="观心苑"/>
-<meta property="og:title" content="Pelican安装过程"/>
-<meta property="og:description" content="今天安装了Pelican …"/>
+<meta property="og:title" content="网络资料"/>
+<meta property="og:description" content="[TOC …"/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="http://www.vmetu.com/blog/pelicanan-zhuang-guo-cheng.html"/>
+<meta property="og:url" content="http://www.vmetu.com/blog/wang-luo-zi-liao.html"/>
 <meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2015-09-16 00:00:00+08:00"/>
+<meta property="article:published_time" content="2100-04-02 00:00:00+08:00"/>
 <meta property="article:modified_time" content=""/>
 <meta property="article:author" content="http://www.vmetu.com/blog/author/zhang-wen.html">
-<meta property="article:section" content="Pelican"/>
-<meta property="article:tag" content="Pelican"/>
+<meta property="article:section" content="技术"/>
+<meta property="article:tag" content="网络资料"/>
 <meta property="og:image" content="http://www.vmetu.com/blog/../external/images/profile.png">
 
-  <title>观心苑 &ndash; Pelican安装过程</title>
+  <title>观心苑 &ndash; 网络资料</title>
 
 </head>
 <body class="light-theme">
@@ -105,66 +105,47 @@
 
 <article class="single">
   <header>
+      <div class="col-lg-3 hidden-xs hidden-sm">
+          <div id="toc"><ul><li><a class="toc-href" href="#" title="网络资料">网络资料</a><ul><li><a class="toc-href" href="#gong ju" title="工具">工具</a></li><li><a class="toc-href" href="#unity" title="Unity">Unity</a><ul><li><a class="toc-href" href="#xuan yu song profileshen wa xi lie" title="宣雨松Profile深挖系列">宣雨松Profile深挖系列</a></li></ul></li><li><a class="toc-href" href="#lua os.date_1" title="lua os.date">lua os.date</a></li><li><a class="toc-href" href="#latexshu xue fu hao" title="Latex数学符号">Latex数学符号</a></li></ul></li></ul></div>
+      </div>
 
       
-    <h1 id="pelicanan-zhuang-guo-cheng">Pelican安装过程</h1>
+    <h1 id="wang-luo-zi-liao">网络资料</h1>
     <p>
-      Posted on 周三 16 九月 2015 in <a href="http://www.vmetu.com/blog/category/pelican.html">Pelican</a>
+      Posted on 周五 02 四月 2100 in <a href="http://www.vmetu.com/blog/category/ji-zhu.html">技术</a>
 
     </p>
   </header>
 
 
   <div>
-    <p>今天安装了Pelican，下面来说下过程和遇到的问题</p>
-<ul>
-<li>
-<p>安装Python，因为在Mac下，省掉这一步</p>
-</li>
-<li>
-<p>安装pip(<a href="https://pypi.python.org/packages/source/p/pip/pip-7.1.2.tar.gz#md5=3823d2343d9f3aaab21cf9c917710196">下载地址</a>), 解压后运行： <code>python setup.py install</code> 安装</p>
-</li>
-<li>
-<p>安装pelican， 运行 <code>pip install pelican</code></p>
-</li>
-<li>
-<p>安装markdown， 运行 <code>pip install markdown</code></p>
-</li>
-<li>
-<p>启动pelican创建工程，pelican－quickstart, 此时有可能出现如下错误：</p>
-<div class="highlight"><pre><span></span><code><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>  
-<span class="n">File</span> <span class="s2">"/usr/local/bin/pelican-quickstart"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">7</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.tools.pelican_quickstart</span> <span class="kn">import</span> <span class="n">main</span>  
-<span class="n">File</span> <span class="s2">"/Library/Python/2.7/site-packages/pelican/__init__.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">20</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.generators</span> <span class="kn">import</span> <span class="p">(</span><span class="n">ArticlesGenerator</span><span class="p">,</span> <span class="n">PagesGenerator</span><span class="p">,</span>  
-<span class="n">File</span> <span class="s2">"/Library/Python/2.7/site-packages/pelican/generators.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">22</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">pelican.readers</span> <span class="kn">import</span> <span class="n">Readers</span>  
-<span class="n">File</span> <span class="s2">"/Library/Python/2.7/site-packages/pelican/readers.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">24</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
-    <span class="kn">from</span> <span class="nn">six.moves.html_parser</span> <span class="kn">import</span> <span class="n">HTMLParser</span>  
-<span class="ne">ImportError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="n">html_parser</span>
-</code></pre></div>
-<p>这时只需要更改一下源文件即可：<code>vim /Library/Python/2.7/site-packages/pelican/readers.py</code>。<br/>
-将24行的：<br/>
-<code>from six.moves.html_parser import HTMLParser</code><br/>
- 换成：<br/>
-<code>from HTMLParser import HTMLParser</code><br/>
-即可</p>
-</li>
-</ul>
+    <p>[TOC]</p>
+<h2 id="gong ju">工具</h2>
+<p><a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">时区 wiki</a></p>
+<p><a href="http://tool.chinaz.com/tools/unixtime.aspx">站长工具-Unix 时间戳</a></p>
+<p><a href="https://www.fangdaijisuanqi.com/">房贷计算器</a></p>
+<h2 id="unity">Unity</h2>
+<h3 id="xuan yu song profileshen wa xi lie">宣雨松Profile深挖系列</h3>
+<p><a href="https://connect.unity.com/p/profilershen-wa-dao-hang-tiao-1">Profiler深挖-导航条</a></p>
+<p><a href="https://connect.unity.com/p/profilershen-wa-cpu-2">Profiler深挖-CPU面板</a></p>
+<p><a href="https://connect.unity.com/p/profilershen-wa-gpumian-ban-3">Profiler深挖-GPU面板</a></p>
+<p><a href="https://connect.unity.com/p/profilershen-wa-renderingmian-ban-4">Profiler深挖-Rendering面板</a></p>
+<p><a href="https://connect.unity.com/p/profilershen-wa-memorymian-ban-5">Profiler深挖-Memory面板</a></p>
+<p><a href="https://connect.unity.com/p/profilershen-wa-uimian-ban-6">Profiler深挖-UI面板</a></p>
+<p><a href="https://connect.unity.com/p/profilershen-wa-zhen-ji-7">Profiler深挖-真机</a></p>
+<h2 id="lua os.date_1"><a href="https://www.jianshu.com/p/76ac11863591">lua os.date</a></h2>
+<h2 id="latexshu xue fu hao"><a href="http://mohu.org/info/symbols/symbols.htm">Latex数学符号</a></h2>
   </div>
   <div class="tag-cloud">
     <p>
-      <a href="http://www.vmetu.com/blog/tag/pelican.html">Pelican</a>
+      <a href="http://www.vmetu.com/blog/tag/wang-luo-zi-liao.html">网络资料</a>
     </p>
   </div>
 
 
   <div class="neighbors">
-    <a class="btn float-left" href="http://www.vmetu.com/blog/yi-ge-neng-chu-li-jsonde-fieldstorage.html" title="一个能处理json的FieldStorage">
+    <a class="btn float-left" href="http://www.vmetu.com/blog/playerloopjian-yao-liu-cheng.html" title="PlayerLoop简要流程">
       <i class="fa fa-angle-left"></i> Previous Post
-    </a>
-    <a class="btn float-right" href="http://www.vmetu.com/blog/unity2dzheng-dong-hua-shi-xian-de-liang-chong-fang-shi.html" title="Unity2D帧动画实现的两种方式">
-      Next Post <i class="fa fa-angle-right"></i>
     </a>
   </div>
 
