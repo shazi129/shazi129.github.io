@@ -19,7 +19,7 @@ import codecs, markdown
 def get_html(md_path):
 	input_file = codecs.open(md_path, mode="r", encoding="utf-8")
 	text = input_file.read()
-	return markdown.markdown(text)
+	return markdown.markdown(text, extensions=['markdown.extensions.toc'])
 
 if __name__ == "__main__":
 	for item in personal_cfg:

@@ -1,8 +1,3 @@
-Title: 网络资料
-Date: 2100-04-02
-Category: 技术
-Tags: 网络资料
-
 [TOC]
 
 ## 工具
