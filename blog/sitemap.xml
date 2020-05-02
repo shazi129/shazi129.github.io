@@ -5,43 +5,43 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.vmetu.com/blog/</loc>
-<lastmod>2020-05-01T18:13:07-00:00</lastmod>
+<lastmod>2020-05-02T10:45:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.vmetu.com/blog/archives.html</loc>
-<lastmod>2020-05-01T18:13:07-00:00</lastmod>
+<lastmod>2020-05-02T10:45:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.vmetu.com/blog/tags.html</loc>
-<lastmod>2020-05-01T18:13:07-00:00</lastmod>
+<lastmod>2020-05-02T10:45:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.vmetu.com/blog/categories.html</loc>
-<lastmod>2020-05-01T18:13:07-00:00</lastmod>
+<lastmod>2020-05-02T10:45:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.vmetu.com/blog/about.html</loc>
-<lastmod>2020-05-01T18:13:07-00:00</lastmod>
+<lastmod>2020-05-02T10:45:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://www.vmetu.com/blog/wang-luo-zi-liao.html</loc>
-<lastmod>2100-04-02T00:00:00+08:00</lastmod>
-<changefreq>monthly</changefreq>
+<loc>http://www.vmetu.com/blog/recorder.html</loc>
+<lastmod>2020-05-02T10:45:34-00:00</lastmod>
+<changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
@@ -284,13 +284,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://www.vmetu.com/blog/category/ji-zhu.html</loc>
-<lastmod>2100-04-02T00:00:00+08:06</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
 <loc>http://www.vmetu.com/blog/category/luayuan-ma-yue-du.html</loc>
 <lastmod>2019-03-19T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
@@ -321,13 +314,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://www.vmetu.com/blog/category/za-qi-za-ba.html</loc>
 <lastmod>2010-01-09T00:00:00+08:06</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>http://www.vmetu.com/blog/tag/wang-luo-zi-liao.html</loc>
-<lastmod>2100-04-02T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -425,7 +411,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.vmetu.com/blog/author/zhang-wen.html</loc>
-<lastmod>2100-04-02T00:00:00+08:06</lastmod>
+<lastmod>2020-04-30T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

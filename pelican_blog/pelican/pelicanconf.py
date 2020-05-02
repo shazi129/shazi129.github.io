@@ -14,7 +14,7 @@ TIMEZONE = 'Asia/Shanghai'
 
 # Plugins and extensions
 PLUGIN_PATHS = ['../plugins/']
-PLUGINS = ['sitemap', 'pelican-toc', 'tipue_search', 
+PLUGINS = ['personal', 'sitemap', 'pelican-toc', 'tipue_search', 
            'neighbors', 'render_math', 'share_post', 'i18n_subsites']
 
 #SiteMap配置，允许搜索引擎搜索
@@ -35,19 +35,6 @@ SITEMAP = {
 # Enable Jinja2 i18n extension used to parse translations.
 JINJA_ENVIRONMENT = {"extensions": ["jinja2.ext.i18n"]}
 
-LANDING_PAGE_ABOUT = {
-	"title": "I have a dream",
-	"details": u"一个游戏开发者, <a href=\"mailto:apply_count@sina.com\">mail</a>",
-}
-
-PROJECTS = [
-    {
-        'name': '英雄杀',
-        'url': 'http://yxs.qq.com/',
-        'description': u'策略卡牌游戏'
-    },
-]
-
 
 # Flex theme
 SITESUBTITLE = u"随便写点东西"
@@ -63,6 +50,7 @@ MENUITEMS=[
     ("所有", SITEURL + "/archives.html"), 
     ("分类", SITEURL + "/categories.html"),
     ("标签", SITEURL + "/tags.html"),
+    ("记录", SITEURL + "/recorder.html"),
     ("关于", SITEURL + "/about.html")
 ]
 
@@ -92,7 +80,12 @@ DEFAULT_PAGINATION = 10
 #RELATIVE_URLS = True
 
 THEME = "./../theme"
-TEMPLATE_PAGES = {'./../../personal/about.html': "about.html"} #key相对theme目录， value相对output目录
+
+#key相对theme目录， value相对output目录
+TEMPLATE_PAGES = {
+    './../../personal/about.html': "about.html",
+    './../../personal/recorder.html': "recorder.html"
+} 
 
 USE_FOLDER_AS_CATEGORY = True
 #MONTH_ARCHIVE_SAVE_AS = 'time_category'
@@ -102,4 +95,3 @@ DISQUS_SITENAME = 'vmetu'
 SUMMARY_MAX_LENGTH = 1
 
 FOUNDATION_FOOTER_TEXT = "Copyright &copy; 2015 - 2020 Vmetu. All Rights Reserved"
-
