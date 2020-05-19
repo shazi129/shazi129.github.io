@@ -64,7 +64,7 @@
 <meta property="article:published_time" content="2020-04-30 00:00:00+08:00"/>
 <meta property="article:modified_time" content=""/>
 <meta property="article:author" content="http://www.vmetu.com/blog/author/zhang-wen.html">
-<meta property="article:section" content="编程语言"/>
+<meta property="article:section" content="源码"/>
 <meta property="article:tag" content="Unity"/>
 <meta property="og:image" content="http://www.vmetu.com/blog/../external/images/profile.png">
 
@@ -112,14 +112,14 @@
       
     <h1 id="playerloopjian-yao-liu-cheng">PlayerLoop简要流程</h1>
     <p>
-      Posted on 周四 30 四月 2020 in <a href="http://www.vmetu.com/blog/category/bian-cheng-yu-yan.html">编程语言</a>
+      Posted on 周四 30 四月 2020 in <a href="http://www.vmetu.com/blog/category/yuan-ma.html">源码</a>
 
     </p>
   </header>
 
 
   <div>
-    <div id="toc"><ul><li><a class="toc-href" href="#" title="PlayerLoop简要流程">PlayerLoop简要流程</a><ul><li><a class="toc-href" href="#playerloopjian jie" title="PlayerLoop简介">PlayerLoop简介</a></li><li><a class="toc-href" href="#reentrancychecker" title="ReentrancyChecker">ReentrancyChecker</a></li><li><a class="toc-href" href="#isworldplaying" title="IsWorldPlaying">IsWorldPlaying</a></li><li><a class="toc-href" href="#s_defaultloop" title="s_defaultLoop">s_defaultLoop</a></li><li><a class="toc-href" href="#playerloopsystemzu zhi fang shi" title="PlayerLoopSystem组织方式">PlayerLoopSystem组织方式</a></li><li><a class="toc-href" href="#executeplayerloop" title="ExecutePlayerLoop">ExecutePlayerLoop</a></li></ul></li></ul></div><h2 id="playerloopjian jie">PlayerLoop简介</h2>
+    <div id="toc"><ul><li><a class="toc-href" href="#" title="PlayerLoop简要流程">PlayerLoop简要流程</a><ul><li><a class="toc-href" href="#playerloopjian jie" title="PlayerLoop简介">PlayerLoop简介</a></li><li><a class="toc-href" href="#reentrancychecker" title="ReentrancyChecker">ReentrancyChecker</a></li><li><a class="toc-href" href="#isworldplaying" title="IsWorldPlaying">IsWorldPlaying</a></li><li><a class="toc-href" href="#s_defaultloop" title="s_defaultLoop">s_defaultLoop</a></li><li><a class="toc-href" href="#playerloopsystemzu zhi fang shi" title="PlayerLoopSystem组织方式">PlayerLoopSystem组织方式</a></li><li><a class="toc-href" href="#playerloopsystemde chu li han shu" title="PlayerLoopSystem的处理函数">PlayerLoopSystem的处理函数</a></li><li><a class="toc-href" href="#executeplayerloop" title="ExecutePlayerLoop">ExecutePlayerLoop</a></li></ul></li></ul></div><h2 id="playerloopjian jie">PlayerLoop简介</h2>
 <p>PlayerLoop是Unity的主循环，每帧都会跑一次。Unity 2018添加了PlayerLoop相关的API, 我们可以利用如下代码来查看一个PlayerLoop干了那些事：</p>
 <div class="highlight"><pre><span></span><code><span class="kt">var</span> <span class="n">playerLoop</span> <span class="p">=</span> <span class="n">PlayerLoop</span><span class="p">.</span><span class="n">GetDefaultPlayerLoop</span><span class="p">();</span>
 <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">header</span> <span class="k">in</span> <span class="n">playerLoop</span><span class="p">.</span><span class="n">subSystemList</span><span class="p">)</span>
@@ -204,25 +204,34 @@
 <li>
 <p>subSystem中只有处理逻辑</p>
 </li>
-<li>
-<p>所有的处理逻辑都来自<code>CoreScriptingClasses</code>类中</p>
-</li>
-<li>
-<p>处理函数的命名规则：</p>
-</li>
-<li>
-<p>PlayerLoopSystem为它的名字，例如<code>CoreScriptingClasses.initialization</code></p>
-</li>
-<li>
-<p>subSystem的名字为&ldquo;PlayerLoopSystem的名字+subSystem的名字", 例如<code>CoreScriptingClasses.initializationPlayerUpdateTime</code></p>
-</li>
-<li>
-<p>命名通过<code>PLAYER_LOOP_INJECT(Name)</code>宏定义</p>
-</li>
-<li>
-<p>处理函数的初始化定义在<code>CoreScriptingClasses.InitializeCoreScriptingClasses</code>, 从dll中加载。</p>
-</li>
 </ul>
+<h2 id="playerloopsystemde chu li han shu">PlayerLoopSystem的处理函数</h2>
+<p>定义于<code>PlayerLoopCallbacks.h</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="n">UpdateFunc</span><span class="o">*</span> <span class="n">RegisteredInitializationFunctions</span><span class="p">[</span><span class="n">PLAYER_LOOP_Initialization_COUNT</span><span class="p">];</span>
+<span class="n">UpdateFunc</span><span class="o">*</span> <span class="n">RegisteredEarlyUpdateFunctions</span><span class="p">[</span><span class="n">PLAYER_LOOP_EarlyUpdate_COUNT</span><span class="p">];</span>
+<span class="n">UpdateFunc</span><span class="o">*</span> <span class="n">RegisteredFixedUpdateFunctions</span><span class="p">[</span><span class="n">PLAYER_LOOP_FixedUpdate_COUNT</span><span class="p">];</span>
+<span class="n">UpdateFunc</span><span class="o">*</span> <span class="n">RegisteredPreUpdateFunctions</span><span class="p">[</span><span class="n">PLAYER_LOOP_PreUpdate_COUNT</span><span class="p">];</span>
+<span class="n">UpdateFunc</span><span class="o">*</span> <span class="n">RegisteredUpdateFunctions</span><span class="p">[</span><span class="n">PLAYER_LOOP_Update_COUNT</span><span class="p">];</span>
+<span class="n">UpdateFunc</span><span class="o">*</span> <span class="n">RegisteredPreLateUpdateFunctions</span><span class="p">[</span><span class="n">PLAYER_LOOP_PreLateUpdate_COUNT</span><span class="p">];</span>
+<span class="n">UpdateFunc</span><span class="o">*</span> <span class="n">RegisteredPostLateUpdateFunctions</span><span class="p">[</span><span class="n">PLAYER_LOOP_PostLateUpdate_COUNT</span><span class="p">];</span>
+</code></pre></div>
+<p>具体回调函数通过宏<code>REGISTER_PLAYERLOOP_CALL</code>来注册，例如<code>Player.cpp</code>中：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span> <span class="nf">InitPlayerLoopCallbacks</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">REGISTER_PLAYERLOOP_CALL</span><span class="p">(</span><span class="n">Initialization</span><span class="p">,</span> <span class="n">AsyncUploadTimeSlicedUpdate</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="n">GetAsyncUploadManager</span><span class="p">().</span><span class="n">TimeSlicedUpdate</span><span class="p">();</span> <span class="c1">//真正的处理函数</span>
+    <span class="p">});</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>或者<code>ClusterInputModuleRegistration.cpp</code>中：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span> <span class="nf">InitClusterInput</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="p">...</span>
+    <span class="n">REGISTER_PLAYERLOOP_CALL</span><span class="p">(</span><span class="n">Initialization</span><span class="p">,</span> <span class="n">SynchronizeInputs</span><span class="p">,</span> <span class="n">GetClusterInputModule</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">Update</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="executeplayerloop">ExecutePlayerLoop</h2>
 <p>首先判断本个NativePlayerLoopSystem要不要再当前帧执行：</p>
 <div class="highlight"><pre><span></span><code><span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">system</span><span class="o">-&gt;</span><span class="n">loopConditionFunction</span> <span class="o">||</span> <span class="n">system</span><span class="o">-&gt;</span><span class="n">loopConditionFunction</span><span class="p">())</span>
@@ -284,6 +293,9 @@
   <div class="neighbors">
     <a class="btn float-left" href="http://www.vmetu.com/blog/unityyuan-ma-bian-yi.html" title="Unity源码编译">
       <i class="fa fa-angle-left"></i> Previous Post
+    </a>
+    <a class="btn float-right" href="http://www.vmetu.com/blog/monobehavioursheng-ming-zhou-qi.html" title="MonoBehaviour生命周期">
+      Next Post <i class="fa fa-angle-right"></i>
     </a>
   </div>
 

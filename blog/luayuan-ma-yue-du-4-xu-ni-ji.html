@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -12,9 +12,11 @@
 
     <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/stylesheet/style.min.css">
 
+    <link id="dark-theme-style" rel="stylesheet" type="text/css"
+    href="http://www.vmetu.com/blog/theme/stylesheet/dark-theme.min.css">
 
-    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
-          href="http://www.vmetu.com/blog/theme/pygments/github.min.css">
+    <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
+          href="http://www.vmetu.com/blog/theme/pygments/monokai.min.css">
 
     <script src="http://www.vmetu.com/blog/theme/tipuesearch/jquery.min.js"></script>
     <script src="http://www.vmetu.com/blog/theme/tipuesearch/tipuesearch.min.js"></script>
@@ -49,27 +51,26 @@
     <meta name="msapplication-TileColor" content="#333">
 
 <meta name="author" content="张文" />
-<meta name="description" content="[TOC …" />
-<meta name="keywords" content="Unity">
+<meta name="description" content="lua虚拟机用来解析和执行lua代码 …" />
+<meta name="keywords" content="">
 
 
 <meta property="og:site_name" content="观心苑"/>
-<meta property="og:title" content="网页链接"/>
-<meta property="og:description" content="[TOC …"/>
+<meta property="og:title" content="lua源码阅读4——虚拟机"/>
+<meta property="og:description" content="lua虚拟机用来解析和执行lua代码 …"/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="http://www.vmetu.com/blog/wang-ye-lian-jie.html"/>
+<meta property="og:url" content="http://www.vmetu.com/blog/luayuan-ma-yue-du-4-xu-ni-ji.html"/>
 <meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2021-04-02 00:00:00+08:00"/>
+<meta property="article:published_time" content="2020-05-15 00:00:00+08:00"/>
 <meta property="article:modified_time" content=""/>
 <meta property="article:author" content="http://www.vmetu.com/blog/author/zhang-wen.html">
-<meta property="article:section" content="编程语言"/>
-<meta property="article:tag" content="Unity"/>
+<meta property="article:section" content="lua源码阅读"/>
 <meta property="og:image" content="http://www.vmetu.com/blog/../external/images/profile.png">
 
-  <title>观心苑 &ndash; 网页链接</title>
+  <title>观心苑 &ndash; lua源码阅读4——虚拟机</title>
 
 </head>
-<body class="light-theme">
+<body class="dark-theme">
   <aside>
     <div>
       <a href="http://www.vmetu.com/blog">
@@ -94,6 +95,8 @@
       <a href="http://www.vmetu.com/blog/archives.html">所有</a>
       <a href="http://www.vmetu.com/blog/categories.html">分类</a>
       <a href="http://www.vmetu.com/blog/tags.html">标签</a>
+      <a href="http://www.vmetu.com/blog/recorder.html">记录</a>
+      <a href="http://www.vmetu.com/blog/about.html">关于</a>
 
 
 
@@ -105,34 +108,32 @@
 
 <article class="single">
   <header>
-      <div class="col-lg-3 hidden-xs hidden-sm">
-          <div id="toc"><ul><li><a class="toc-href" href="#" title="网页链接">网页链接</a><ul><li><a class="toc-href" href="#ji zhu lei" title="技术类">技术类</a><ul><li><a class="toc-href" href="#shi qu xin xi" title="时区信息">时区信息</a></li></ul></li></ul></li></ul></div>
-      </div>
-
       
-    <h1 id="wang-ye-lian-jie">网页链接</h1>
+    <h1 id="luayuan-ma-yue-du-4-xu-ni-ji">lua源码阅读4——虚拟机</h1>
     <p>
-      Posted on 周五 02 四月 2021 in <a href="http://www.vmetu.com/blog/category/bian-cheng-yu-yan.html">编程语言</a>
+      Posted on 周五 15 五月 2020 in <a href="http://www.vmetu.com/blog/category/luayuan-ma-yue-du.html">lua源码阅读</a>
 
     </p>
   </header>
 
 
   <div>
-    <p>[TOC]</p>
-<h1 id="ji zhu lei">技术类</h1>
-<h2 id="shi qu xin xi">时区信息</h2>
-<p>https://en.wikipedia.org/wiki/List_of_tz_database_time_zones</p>
+    <p>lua虚拟机用来解析和执行lua代码，例如在我们的main函数中：</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="p">(</span><span class="n">luaL_loadstring</span><span class="p">(</span><span class="n">lstate</span><span class="p">,</span> <span class="n">lua</span><span class="p">)</span> <span class="o">||</span> <span class="n">lua_pcall</span><span class="p">(</span><span class="n">lstate</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"error:  %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">lua_tostring</span><span class="p">(</span><span class="n">lstate</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>luaL_loadstring</code>将lua代码解析成字节码，<code>lua_pcall</code>将字节码放到虚拟机中运行。</p>
   </div>
   <div class="tag-cloud">
     <p>
-      <a href="http://www.vmetu.com/blog/tag/unity.html">Unity</a>
     </p>
   </div>
 
 
   <div class="neighbors">
-    <a class="btn float-left" href="http://www.vmetu.com/blog/playerloopjian-yao-liu-cheng.html" title="PlayerLoop简要流程">
+    <a class="btn float-left" href="http://www.vmetu.com/blog/monobehavioursheng-ming-zhou-qi.html" title="MonoBehaviour生命周期">
       <i class="fa fa-angle-left"></i> Previous Post
     </a>
   </div>

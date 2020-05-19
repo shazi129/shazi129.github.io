@@ -14,7 +14,7 @@ TIMEZONE = 'Asia/Shanghai'
 
 # Plugins and extensions
 PLUGIN_PATHS = ['../plugins/']
-PLUGINS = ['personal', 'sitemap', 'pelican-toc', 'tipue_search', 
+PLUGINS = ['personal', 'pelican-toc', 'sitemap', 'tipue_search', 
            'neighbors', 'render_math', 'share_post', 'i18n_subsites']
 
 #SiteMap配置，允许搜索引擎搜索
@@ -35,6 +35,7 @@ SITEMAP = {
 # Enable Jinja2 i18n extension used to parse translations.
 JINJA_ENVIRONMENT = {"extensions": ["jinja2.ext.i18n"]}
 
+#MARKDOWN = {"extensions": ["markdown.extensions.toc"]}
 
 # Flex theme
 SITESUBTITLE = u"随便写点东西"

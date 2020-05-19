@@ -1,6 +1,6 @@
 Title: PlayerLoop简要流程
 Date: 2020-04-30
-Category: 编程语言
+Category: 源码
 Tags: Unity
 
 
@@ -109,17 +109,44 @@ static void InitDefaultPlayerLoop()
 
 - subSystem中只有处理逻辑
 
-- 所有的处理逻辑都来自`CoreScriptingClasses`类中
 
-- 处理函数的命名规则：
+## PlayerLoopSystem的处理函数
+定义于`PlayerLoopCallbacks.h`：
 
-  - PlayerLoopSystem为它的名字，例如`CoreScriptingClasses.initialization`
+```cpp
+UpdateFunc* RegisteredInitializationFunctions[PLAYER_LOOP_Initialization_COUNT];
+UpdateFunc* RegisteredEarlyUpdateFunctions[PLAYER_LOOP_EarlyUpdate_COUNT];
+UpdateFunc* RegisteredFixedUpdateFunctions[PLAYER_LOOP_FixedUpdate_COUNT];
+UpdateFunc* RegisteredPreUpdateFunctions[PLAYER_LOOP_PreUpdate_COUNT];
+UpdateFunc* RegisteredUpdateFunctions[PLAYER_LOOP_Update_COUNT];
+UpdateFunc* RegisteredPreLateUpdateFunctions[PLAYER_LOOP_PreLateUpdate_COUNT];
+UpdateFunc* RegisteredPostLateUpdateFunctions[PLAYER_LOOP_PostLateUpdate_COUNT];
+```
 
-  - subSystem的名字为“PlayerLoopSystem的名字+subSystem的名字", 例如`CoreScriptingClasses.initializationPlayerUpdateTime`
+具体回调函数通过宏`REGISTER_PLAYERLOOP_CALL`来注册，例如`Player.cpp`中：
 
-  - 命名通过`PLAYER_LOOP_INJECT(Name)`宏定义
+```cpp
+void InitPlayerLoopCallbacks()
+{
+    REGISTER_PLAYERLOOP_CALL(Initialization, AsyncUploadTimeSlicedUpdate,
+    {
+        GetAsyncUploadManager().TimeSlicedUpdate(); //真正的处理函数
+    });
+    ...
+}
+```
 
-- 处理函数的初始化定义在`CoreScriptingClasses.InitializeCoreScriptingClasses`, 从dll中加载。
+或者`ClusterInputModuleRegistration.cpp`中：
+
+```cpp
+void InitClusterInput()
+{
+	...
+    REGISTER_PLAYERLOOP_CALL(Initialization, SynchronizeInputs, GetClusterInputModule()->Update());
+}
+```
+
+
 
   
 
@@ -182,4 +209,6 @@ static void OnRuntimeMethodLoad()
 
 public struct MyUpdateHacker { }
 ```
+
+
 
