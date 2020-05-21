@@ -32,7 +32,9 @@
 
 ### [Inside UE4](https://zhuanlan.zhihu.com/p/22813908)
 
+## 编译原理
 
+### [基于栈的虚拟机 VS 基于寄存器的虚拟机](https://blog.csdn.net/dashuniuniu/article/details/50347149)
 
 ## 其他
 
