@@ -8,6 +8,14 @@
 
 [房贷计算器](https://www.fangdaijisuanqi.com/)
 
+## Lua
+
+### [lua os.date](https://www.jianshu.com/p/76ac11863591)
+
+### [lua 源码分析之线程对象lua_State](https://www.cnblogs.com/renyuan/p/6812206.html)
+
+### [Lua虚拟机的体系结构](https://blog.csdn.net/chenjiayi_yun/article/details/8877235)
+
 ## Unity
 
 ### 宣雨松Profile深挖系列
@@ -37,8 +45,6 @@
 ### [基于栈的虚拟机 VS 基于寄存器的虚拟机](https://blog.csdn.net/dashuniuniu/article/details/50347149)
 
 ## 其他
-
-### [lua os.date](https://www.jianshu.com/p/76ac11863591)
 
 ### [Latex数学符号](http://mohu.org/info/symbols/symbols.htm)
 

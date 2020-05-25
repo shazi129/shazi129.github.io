@@ -51,13 +51,13 @@
     <meta name="msapplication-TileColor" content="#333">
 
 <meta name="author" content="张文" />
-<meta name="description" content="lua虚拟机用来解析和执行lua代码 …" />
+<meta name="description" content="lua源码阅读4 …" />
 <meta name="keywords" content="">
 
 
 <meta property="og:site_name" content="观心苑"/>
 <meta property="og:title" content="lua源码阅读4——虚拟机"/>
-<meta property="og:description" content="lua虚拟机用来解析和执行lua代码 …"/>
+<meta property="og:description" content="lua源码阅读4 …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://www.vmetu.com/blog/luayuan-ma-yue-du-4-xu-ni-ji.html"/>
 <meta property="og:type" content="article"/>
@@ -118,13 +118,42 @@
 
 
   <div>
-    <p>lua虚拟机用来解析和执行lua代码，例如在我们的main函数中：</p>
-<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="p">(</span><span class="n">luaL_loadstring</span><span class="p">(</span><span class="n">lstate</span><span class="p">,</span> <span class="n">lua</span><span class="p">)</span> <span class="o">||</span> <span class="n">lua_pcall</span><span class="p">(</span><span class="n">lstate</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-<span class="p">{</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">"error:  %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">lua_tostring</span><span class="p">(</span><span class="n">lstate</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">));</span>
-<span class="p">}</span>
+    <div id="toc"><ul><li><a class="toc-href" href="#" title="lua源码阅读4&mdash;&mdash;虚拟机">lua源码阅读4&mdash;&mdash;虚拟机</a><ul><li><a class="toc-href" href="#lua_state" title="lua_State">lua_State</a></li></ul></li></ul></div><h2 id="lua_state">lua_State</h2>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="cm">** 'per thread' state  每个虚拟机线程的上下文</span>
+<span class="cm">*/</span>
+<span class="k">struct</span> <span class="n">lua_State</span> <span class="p">{</span>
+  <span class="n">CommonHeader</span><span class="p">;</span>
+  <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">nci</span><span class="p">;</span>  <span class="cm">/* number of items in 'ci' list */</span>
+  <span class="n">lu_byte</span> <span class="n">status</span><span class="p">;</span>
+  <span class="n">StkId</span> <span class="n">top</span><span class="p">;</span>  <span class="cm">/* first free slot in the stack */</span>
+
+  <span class="c1">//主线程上下文</span>
+  <span class="n">global_State</span> <span class="o">*</span><span class="n">l_G</span><span class="p">;</span>
+
+  <span class="c1">//当前调用的函数信息，lua认为所有代码都在一个函数中</span>
+  <span class="n">CallInfo</span> <span class="o">*</span><span class="n">ci</span><span class="p">;</span>  <span class="cm">/* call info for current function */</span>
+  <span class="k">const</span> <span class="n">Instruction</span> <span class="o">*</span><span class="n">oldpc</span><span class="p">;</span>  <span class="cm">/* last pc traced */</span>
+
+  <span class="c1">//数据栈</span>
+  <span class="n">StkId</span> <span class="n">stack_last</span><span class="p">;</span>  <span class="cm">/* last free slot in the stack */</span>
+  <span class="n">StkId</span> <span class="n">stack</span><span class="p">;</span>  <span class="cm">/* stack base */</span>
+  <span class="n">UpVal</span> <span class="o">*</span><span class="n">openupval</span><span class="p">;</span>  <span class="cm">/* list of open upvalues in this stack */</span>
+  <span class="n">GCObject</span> <span class="o">*</span><span class="n">gclist</span><span class="p">;</span>
+  <span class="k">struct</span> <span class="n">lua_State</span> <span class="o">*</span><span class="n">twups</span><span class="p">;</span>  <span class="cm">/* list of threads with open upvalues */</span>
+  <span class="k">struct</span> <span class="n">lua_longjmp</span> <span class="o">*</span><span class="n">errorJmp</span><span class="p">;</span>  <span class="cm">/* current error recover point */</span>
+  <span class="n">CallInfo</span> <span class="n">base_ci</span><span class="p">;</span>  <span class="cm">/* CallInfo for first level (C calling Lua) */</span>
+  <span class="k">volatile</span> <span class="n">lua_Hook</span> <span class="n">hook</span><span class="p">;</span>
+  <span class="kt">ptrdiff_t</span> <span class="n">errfunc</span><span class="p">;</span>  <span class="cm">/* current error handling function (stack index) */</span>
+  <span class="kt">int</span> <span class="n">stacksize</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">basehookcount</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">hookcount</span><span class="p">;</span>
+  <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">nny</span><span class="p">;</span>  <span class="cm">/* number of non-yieldable calls in stack */</span>
+  <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">nCcalls</span><span class="p">;</span>  <span class="cm">/* number of nested C calls */</span>
+  <span class="n">l_signalT</span> <span class="n">hookmask</span><span class="p">;</span>
+  <span class="n">lu_byte</span> <span class="n">allowhook</span><span class="p">;</span>
+<span class="p">};</span>
 </code></pre></div>
-<p><code>luaL_loadstring</code>将lua代码解析成字节码，<code>lua_pcall</code>将字节码放到虚拟机中运行。</p>
   </div>
   <div class="tag-cloud">
     <p>

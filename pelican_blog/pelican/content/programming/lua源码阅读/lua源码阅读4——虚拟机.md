@@ -2,16 +2,45 @@ Title:lua源码阅读4——虚拟机
 Date: 2020-05-15 
 Category: lua源码阅读     
 
+[TOC]
 
-
-lua虚拟机用来解析和执行lua代码，例如在我们的main函数中：
+## lua_State
 
 ```cpp
-if (luaL_loadstring(lstate, lua) || lua_pcall(lstate, 0, 0, 0))
-{
-    printf("error:  %s\n", lua_tostring(lstate, -1));
-}
-```
+/*
+** 'per thread' state  每个虚拟机线程的上下文
+*/
+struct lua_State {
+  CommonHeader;
+  unsigned short nci;  /* number of items in 'ci' list */
+  lu_byte status;
+  StkId top;  /* first free slot in the stack */
 
-`luaL_loadstring`将lua代码解析成字节码，`lua_pcall`将字节码放到虚拟机中运行。
+  //主线程上下文
+  global_State *l_G;
+
+  //当前调用的函数信息，lua认为所有代码都在一个函数中
+  CallInfo *ci;  /* call info for current function */
+  const Instruction *oldpc;  /* last pc traced */
+
+  //数据栈
+  StkId stack_last;  /* last free slot in the stack */
+  StkId stack;  /* stack base */
+  UpVal *openupval;  /* list of open upvalues in this stack */
+  GCObject *gclist;
+  struct lua_State *twups;  /* list of threads with open upvalues */
+  struct lua_longjmp *errorJmp;  /* current error recover point */
+  CallInfo base_ci;  /* CallInfo for first level (C calling Lua) */
+  volatile lua_Hook hook;
+  ptrdiff_t errfunc;  /* current error handling function (stack index) */
+  int stacksize;
+  int basehookcount;
+  int hookcount;
+  unsigned short nny;  /* number of non-yieldable calls in stack */
+  unsigned short nCcalls;  /* number of nested C calls */
+  l_signalT hookmask;
+  lu_byte allowhook;
+};
+
+```
 
