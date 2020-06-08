@@ -16,6 +16,8 @@
 
 ### [Lua虚拟机的体系结构](https://blog.csdn.net/chenjiayi_yun/article/details/8877235)
 
+### [构建Lua解释器](https://manistein.github.io/blog/post/program/let-us-build-a-lua-interpreter/构建lua解释器part0/)
+
 ## Unity
 
 ### 宣雨松Profile深挖系列
