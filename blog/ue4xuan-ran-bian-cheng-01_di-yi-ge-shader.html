@@ -1,0 +1,531 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/stylesheet/style.min.css">
+
+    <link id="dark-theme-style" rel="stylesheet" type="text/css"
+    href="http://www.vmetu.com/blog/theme/stylesheet/dark-theme.min.css">
+
+    <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
+          href="http://www.vmetu.com/blog/theme/pygments/monokai.min.css">
+
+    <script src="http://www.vmetu.com/blog/theme/tipuesearch/jquery.min.js"></script>
+    <script src="http://www.vmetu.com/blog/theme/tipuesearch/tipuesearch.min.js"></script>
+    <script src="http://www.vmetu.com/blog/theme/tipuesearch/tipuesearch.min.js"></script>
+    <script src="http://www.vmetu.com/blog/theme/tipuesearch/tipuesearch_set.min.js"></script>
+    <script src="http://www.vmetu.com/blog/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="http://www.vmetu.com/blog/theme/tipuesearch/tipuesearch.min.css" />
+
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="http://www.vmetu.com/blog/theme/font-awesome/css/solid.css">
+
+
+
+
+    <link rel="shortcut icon" href="http://www.vmetu.com/blog/../external/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="http://www.vmetu.com/blog/../external/images/favicon.ico" type="image/x-icon">
+
+
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#333">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#333">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Microsoft EDGE -->
+    <meta name="msapplication-TileColor" content="#333">
+
+<meta name="author" content="张文" />
+<meta name="description" content="UE4渲染编程01_第一个Shader …" />
+<meta name="keywords" content="Shader 渲染">
+
+
+<meta property="og:site_name" content="观心苑"/>
+<meta property="og:title" content="UE4渲染编程01_第一个Shader"/>
+<meta property="og:description" content="UE4渲染编程01_第一个Shader …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http://www.vmetu.com/blog/ue4xuan-ran-bian-cheng-01_di-yi-ge-shader.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2020-12-07 00:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="http://www.vmetu.com/blog/author/zhang-wen.html">
+<meta property="article:section" content="Unreal Engine"/>
+<meta property="article:tag" content="Shader 渲染"/>
+<meta property="og:image" content="http://www.vmetu.com/blog/../external/images/profile.png">
+
+  <title>观心苑 &ndash; UE4渲染编程01_第一个Shader</title>
+
+</head>
+<body class="dark-theme">
+  <aside>
+    <div>
+      <a href="http://www.vmetu.com/blog">
+        <img src="http://www.vmetu.com/blog/../external/images/profile.png" alt="张三" title="张三">
+      </a>
+
+      <h1>
+        <a href="http://www.vmetu.com/blog">张三</a>
+      </h1>
+
+<p>随便写点东西</p>
+
+      <ul class="social">
+      </ul>
+    </div>
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="http://www.vmetu.com/blog">首页</a>
+      <a href="http://www.vmetu.com/blog/archives.html">所有</a>
+      <a href="http://www.vmetu.com/blog/categories.html">分类</a>
+      <a href="http://www.vmetu.com/blog/tags.html">标签</a>
+      <a href="http://www.vmetu.com/blog/recorder.html">记录</a>
+      <a href="http://www.vmetu.com/blog/about.html">关于</a>
+
+
+
+        <form style="display: inline" class="navbar-search" action="http://www.vmetu.com/blog/search.html" role="search">
+          <input type="text" name="q" id="tipue_search_input" placeholder="Search...">
+        </form>
+
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="ue4xuan-ran-bian-cheng-01_di-yi-ge-shader">UE4渲染编程01_第一个Shader</h1>
+    <p>
+      Posted on 周一 07 十二月 2020 in <a href="http://www.vmetu.com/blog/category/unreal-engine.html">Unreal Engine</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <h1 id="ue4xuan ran bian cheng 01_di yi ge shader">UE4渲染编程01_第一个Shader</h1>
+<div id="toc"><ul><li><a class="toc-href" href="#" title="UE4渲染编程01_第一个Shader">UE4渲染编程01_第一个Shader</a><ul><li><a class="toc-href" href="#ue4xuan ran bian cheng 01_di yi ge shader" title="UE4渲染编程01_第一个Shader">UE4渲染编程01_第一个Shader</a><ul><li><a class="toc-href" href="#chuang jian yi ge ue4cha jian" title="创建一个UE4插件">创建一个UE4插件</a></li><li><a class="toc-href" href="#tian jia shaderwen jian" title="添加Shader文件">添加Shader文件</a></li><li><a class="toc-href" href="#shaderdui ying de c++lei" title="Shader对应的C++类">Shader对应的C++类</a></li><li><a class="toc-href" href="#shaderdui lan tu bao lu de jie kou" title="Shader对蓝图暴露的接口">Shader对蓝图暴露的接口</a></li></ul></li><li><a class="toc-href" href='#include "shadertestlibrary.h"_1' title='include "ShaderTestLibrary.h"'>include "ShaderTestLibrary.h"</a></li><li><a class="toc-href" href='#include "firstshader/firstshader.h"' title='include "FirstShader/FirstShader.h"'>include "FirstShader/FirstShader.h"</a></li><li><a class="toc-href" href='#include "common/testshaderutils.h"' title='include "Common/TestShaderUtils.h"'>include "Common/TestShaderUtils.h"</a><ul><li><a class="toc-href" href="#shi yong" title="使用">使用</a></li></ul></li></ul></li></ul></div><h2 id="chuang jian yi ge ue4cha jian">创建一个UE4插件</h2>
+<p>我们的一些测试性开发可以以UE插件的形式进行，这样方便将我们的代码方便地导入其他工程。下面我们来新建一个插件专门用作Shader开发。</p>
+<ol>
+<li>
+<p>点击菜单栏<strong>Edit -&gt; Plugins</strong></p>
+</li>
+<li>
+<p>在弹出框中点击右下方的绿色的<strong>New Plugin</strong> 按钮</p>
+</li>
+<li>
+<p>选择创建一个空插件，输入插件名（我用的是ShaderTest），不要勾选引擎插件，点<strong>Create Plugin</strong>创建。成功后工程目录下<strong>Plugin/ShaderTest</strong>就是插件的根目录</p>
+</li>
+</ol>
+<p><img alt="image-20201128171041665" src=".\image-20201128171041665.png"/></p>
+<ol>
+<li>
+<p>关闭UE4 Editor</p>
+</li>
+<li>
+<p>更改<strong>ShaderTest/Source/ShaderTest/ShaderTest.Build.cs</strong>中的如下内容：</p>
+</li>
+</ol>
+<p>```csharp
+   PublicDependencyModuleNames.AddRange(
+       new string[]
+       {
+           "Core",
+           "CoreUObject",
+           "Engine",
+           "RHI",
+           "Projects",
+           "RenderCore",
+       }
+   );</p>
+<p>PrivateDependencyModuleNames.AddRange(
+       new string[]
+       {
+           "CoreUObject",
+           "Engine",
+           "Slate",
+           "SlateCore",
+       }
+   );
+   ```</p>
+<p>UE的各种功能都是由<strong>模块</strong>组成，大致结构如下：</p>
+<p><img alt="image-20201203223346540" src="image-20201203223346540.png"/></p>
+<p>C#文件用来描述这个模块的信息，Public存放对外接口，Private存放对内部实现。</p>
+<p>如果在我们的插件中使用了某个函数的定义，却没有在<strong><em>.Build.cs</em>*中声明对这个模块的依赖，那么在链接的时候就会报</strong>找不到外部符号**的错误。</p>
+<ol>
+<li>更改<strong>ShaderTest/Source/ShaderTest/Private/ShaderTest.cpp</strong></li>
+</ol>
+<p>```cpp
+   #include "ShaderTest.h"
+   #include "Interfaces/IPluginManager.h"</p>
+<p>void FShaderTestModule::StartupModule()
+   {
+    // This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
+    FString PluginShaderDir = FPaths::Combine(IPluginManager::Get().FindPlugin(TEXT("ShaderTest"))-&gt;GetBaseDir(), TEXT("Shaders"));
+    AddShaderSourceDirectoryMapping(TEXT("/Plugin/ShaderTest"), PluginShaderDir);
+   }</p>
+<p>void FShaderTestModule::ShutdownModule()
+   {
+    // This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
+    // we call this function before unloading the module.
+   }</p>
+<p>IMPLEMENT_MODULE(FShaderTestModule, ShaderTest)
+   ```</p>
+<p><code>AddShaderSourceDirectoryMapping</code>是将一个<strong>真实</strong>的路径映射到<strong>虚拟</strong>的路径上来，UE内部加载编译Shader使用的都是虚拟路径。具体使用虚拟路径的方式可以参考<strong>ShaderCore.cpp</strong>中的<strong>GetShaderSourceFilePath</strong>函数。</p>
+<ol>
+<li>将<strong>ShaderTest.uplugin</strong>中的<strong>LoadingPhase</strong>改为<strong>PostConfigInit</strong>：</li>
+</ol>
+<p><img alt="image-20201203224117694" src="image-20201203224117694.png"/></p>
+<p>这是因为在UE看来，所有的Shader都是一种<strong>预编译资源</strong>， 必须在加载资源前准备妥当。</p>
+<h2 id="tian jia shaderwen jian">添加Shader文件</h2>
+<ol>
+<li>在插件根目录下创建<strong>Shaders/Private</strong>目录，并在改目录下创建名为<strong>FirstShader.usf</strong>的文本文件，输入：</li>
+</ol>
+<div class="highlight"><pre><span></span><code>    <span class="cp">#include</span> <span class="cpf">"/Engine/Public/Platform.ush"</span><span class="cp"></span>
+
+    <span class="kt">void</span> <span class="nf">MainVS</span><span class="p">(</span> <span class="n">in</span> <span class="n">float4</span> <span class="nl">InPosition</span> <span class="p">:</span> <span class="n">ATTRIBUTE0</span><span class="p">,</span> <span class="n">out</span> <span class="n">float4</span> <span class="nl">OutPosition</span> <span class="p">:</span> <span class="n">SV_POSITION</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="n">OutPosition</span> <span class="o">=</span> <span class="n">InPosition</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">float4</span> <span class="n">SimpleColor</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">MainPS</span><span class="p">(</span> <span class="n">out</span> <span class="n">float4</span> <span class="nl">OutColor</span> <span class="p">:</span> <span class="n">SV_Target0</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="n">OutColor</span> <span class="o">=</span> <span class="n">SimpleColor</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div>
+<p>这是一个简单的Shader，功能就是显示外部传入的颜色（SimpleColor）。</p>
+<h2 id="shaderdui ying de c++lei">Shader对应的C++类</h2>
+<p>我们知道Shader是运行在GPU上的小程序，为了能在CPU上操作GPU上的Shader， UE4提供了三种管理Shader的C++类:  <code>FGlobalShader</code>, <code>FMaterialShader</code>和<code>FMeshMaterialShader</code>。其中，GlobalShader全局只存在一份实例，所以它不需要与材质绑定，其他两种需要和材质绑定，每个材质可以有一个实例。我们使用GlobalShader来作为我们的第一个Shader。</p>
+<ol>
+<li>在<strong>Source/Private下创建</strong>Common<strong>目录，用来保存一些公用的东西，在该目录下创建</strong>MyGlobalShaderBase.h**</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="cp">#pragma once</span>
+
+<span class="cp">#include</span> <span class="cpf">"GlobalShader.h"</span><span class="cp"></span>
+
+<span class="k">class</span> <span class="nc">FMyGlobalShaderBase</span> <span class="o">:</span> <span class="k">public</span> <span class="n">FGlobalShader</span>
+<span class="p">{</span>
+
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">FMyGlobalShaderBase</span><span class="p">();</span>
+
+    <span class="n">FMyGlobalShaderBase</span><span class="p">(</span><span class="k">const</span> <span class="n">ShaderMetaType</span><span class="o">::</span><span class="n">CompiledShaderInitializerType</span><span class="o">&amp;</span> <span class="n">Initializer</span><span class="p">);</span>
+
+    <span class="c1">//是否编译着色器排列，具体信息后续章节说明</span>
+    <span class="k">static</span> <span class="kt">bool</span> <span class="nf">ShouldCompilePermutation</span><span class="p">(</span><span class="k">const</span> <span class="n">FGlobalShaderPermutationParameters</span><span class="o">&amp;</span> <span class="n">Parameters</span><span class="p">);</span>
+
+    <span class="c1">//自定义Shader中的环境变量</span>
+    <span class="k">static</span> <span class="kt">void</span> <span class="nf">ModifyCompilationEnvironment</span><span class="p">(</span><span class="k">const</span> <span class="n">FGlobalShaderPermutationParameters</span><span class="o">&amp;</span> <span class="n">Parameters</span><span class="p">,</span>
+        <span class="n">FShaderCompilerEnvironment</span><span class="o">&amp;</span> <span class="n">OutEnvironment</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre></div>
+<ol>
+<li>在<strong>Common</strong>目录下创建<strong>MyGlobalShaderBase.cpp</strong></li>
+</ol>
+<p>```cpp
+   #include "Common/MyGlobalShaderBase.h"</p>
+<p>FMyGlobalShaderBase::FMyGlobalShaderBase() {}</p>
+<p>FMyGlobalShaderBase::FMyGlobalShaderBase(const ShaderMetaType::CompiledShaderInitializerType&amp; Initializer)
+    : FGlobalShader(Initializer)
+   {
+   }</p>
+<p>bool FMyGlobalShaderBase::ShouldCompilePermutation(const FGlobalShaderPermutationParameters&amp; Parameters)
+   { 
+    return true;
+   }</p>
+<p>void FMyGlobalShaderBase::ModifyCompilationEnvironment(const FGlobalShaderPermutationParameters&amp; Parameters, FShaderCompilerEnvironment&amp; OutEnvironment)
+   {
+    FGlobalShader::ModifyCompilationEnvironment(Parameters, OutEnvironment);
+   }
+   ```</p>
+<ol>
+<li>在<strong>Source/Private</strong>下创建<strong>FirstShader</strong>目录, 并在该目录下创建<strong>FirstShader.h</strong>。这个类就是真正操作我们Shader文件的类。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="cp">#pragma once</span>
+
+<span class="cp">#include</span> <span class="cpf">"Common/MyGlobalShaderBase.h"</span><span class="cp"></span>
+
+<span class="c1">//定点着色器，对应于HLSL中的MainVS</span>
+<span class="k">class</span> <span class="nc">FFirstShaderVS</span> <span class="o">:</span> <span class="k">public</span> <span class="n">FMyGlobalShaderBase</span>
+<span class="p">{</span>
+    <span class="c1">//申明这个类会实例化出一个GlobalShader</span>
+    <span class="n">DECLARE_SHADER_TYPE</span><span class="p">(</span><span class="n">FFirstShaderVS</span><span class="p">,</span> <span class="n">Global</span><span class="p">);</span>
+
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">FFirstShaderVS</span><span class="p">()</span> <span class="p">{}</span>
+
+    <span class="n">FFirstShaderVS</span><span class="p">(</span><span class="k">const</span> <span class="n">ShaderMetaType</span><span class="o">::</span><span class="n">CompiledShaderInitializerType</span><span class="o">&amp;</span> <span class="n">Initializer</span><span class="p">)</span> <span class="o">:</span> <span class="n">FMyGlobalShaderBase</span><span class="p">(</span><span class="n">Initializer</span><span class="p">){}</span>
+<span class="p">};</span>
+
+<span class="c1">//像素着色器，对应于HLSL中的MainPS</span>
+<span class="k">class</span> <span class="nc">FFirstShaderPS</span> <span class="o">:</span> <span class="k">public</span> <span class="n">FMyGlobalShaderBase</span>
+<span class="p">{</span>
+    <span class="n">DECLARE_SHADER_TYPE</span><span class="p">(</span><span class="n">FFirstShaderPS</span><span class="p">,</span> <span class="n">Global</span><span class="p">);</span>
+
+<span class="k">private</span><span class="o">:</span>
+    <span class="c1">//申明一个对应于Shader中的变量</span>
+    <span class="n">LAYOUT_FIELD</span><span class="p">(</span><span class="n">FShaderParameter</span><span class="p">,</span> <span class="n">SimpleColorVal</span><span class="p">);</span>
+
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">FFirstShaderPS</span><span class="p">()</span> <span class="p">{}</span>
+
+    <span class="n">FFirstShaderPS</span><span class="p">(</span><span class="k">const</span> <span class="n">ShaderMetaType</span><span class="o">::</span><span class="n">CompiledShaderInitializerType</span><span class="o">&amp;</span> <span class="n">Initializer</span><span class="p">);</span>
+
+    <span class="c1">//外部设置SimgleColorVal的接口</span>
+    <span class="kt">void</span> <span class="nf">SetColor</span><span class="p">(</span><span class="n">FRHICommandListImmediate</span><span class="o">&amp;</span> <span class="n">RHICmdList</span><span class="p">,</span> <span class="k">const</span> <span class="n">FPixelShaderRHIRef</span> <span class="n">ShaderRHI</span><span class="p">,</span> <span class="k">const</span> <span class="n">FLinearColor</span><span class="o">&amp;</span> <span class="n">MyColor</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre></div>
+<ol>
+<li>在<strong>FirstShader</strong>目录下创建<strong>FirstShader.cpp</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">"FirstShader/FirstShader.h"</span><span class="cp"></span>
+
+<span class="n">FFirstShaderPS</span><span class="o">::</span><span class="n">FFirstShaderPS</span><span class="p">(</span><span class="k">const</span> <span class="n">ShaderMetaType</span><span class="o">::</span><span class="n">CompiledShaderInitializerType</span><span class="o">&amp;</span> <span class="n">Initializer</span><span class="p">)</span>
+    <span class="o">:</span> <span class="n">FMyGlobalShaderBase</span><span class="p">(</span><span class="n">Initializer</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//将变量SimpleColorVal绑定到HLSL Shader中的变量SimpleColor</span>
+    <span class="n">SimpleColorVal</span><span class="p">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">Initializer</span><span class="p">.</span><span class="n">ParameterMap</span><span class="p">,</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">"SimpleColor"</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">FFirstShaderPS</span><span class="o">::</span><span class="n">SetColor</span><span class="p">(</span><span class="n">FRHICommandListImmediate</span><span class="o">&amp;</span> <span class="n">RHICmdList</span><span class="p">,</span> <span class="k">const</span> <span class="n">FPixelShaderRHIRef</span> <span class="n">ShaderRHI</span><span class="p">,</span> <span class="k">const</span> <span class="n">FLinearColor</span><span class="o">&amp;</span> <span class="n">MyColor</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//设置变量值</span>
+    <span class="n">SetShaderValue</span><span class="p">(</span><span class="n">RHICmdList</span><span class="p">,</span> <span class="n">ShaderRHI</span><span class="p">,</span> <span class="n">SimpleColorVal</span><span class="p">,</span> <span class="n">MyColor</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">//将C++定义的顶点着色器和像素着色器和HLSL定义的着色器绑定到一起</span>
+<span class="n">IMPLEMENT_SHADER_TYPE</span><span class="p">(,</span> <span class="n">FFirstShaderVS</span><span class="p">,</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">"/Plugin/ShaderTest/Private/FirstShader.usf"</span><span class="p">),</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">"MainVS"</span><span class="p">),</span> <span class="n">SF_Vertex</span><span class="p">)</span>
+<span class="n">IMPLEMENT_SHADER_TYPE</span><span class="p">(,</span> <span class="n">FFirstShaderPS</span><span class="p">,</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">"/Plugin/ShaderTest/Private/FirstShader.usf"</span><span class="p">),</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">"MainPS"</span><span class="p">),</span> <span class="n">SF_Pixel</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="shaderdui lan tu bao lu de jie kou">Shader对蓝图暴露的接口</h2>
+<ol>
+<li><strong>Source/Public</strong>下创建<strong>ShaderTestLibrary.h</strong>，它是蓝图使用Shader的接口：</li>
+</ol>
+<p>```cpp
+   #pragma once</p>
+<p>/*<em>
+   * FisherShader对蓝图的接口 
+   </em>/</p>
+<p>#include "Engine/TextureRenderTarget2D.h"
+   #include "Kismet/BlueprintFunctionLibrary.h"
+   #include "ShaderTestLibrary.generated.h"</p>
+<p>UCLASS()
+   class UShaderTestLibrary : public UBlueprintFunctionLibrary
+   {
+    GENERATED_BODY()</p>
+<p>public:
+       //将Shader的渲染结果输入到OutputRenderTarget， MyColor就是我们要设置的颜色
+    UFUNCTION(BlueprintCallable, Category = "ShaderTestPlugin")
+    static void FirstShaderDrawRenderTarget(UTextureRenderTarget2D<em> OutputRenderTarget, AActor</em> Ac, FLinearColor MyColor);
+   };</p>
+<p>```</p>
+<ol>
+<li>
+<p>在<strong>ShaderTest/Private</strong>下创建<strong>FirstShader</strong>目录，在该目录下创建<strong>FirstShaderLibrary.cpp</strong>文件，用于实现<strong>10</strong>中结接口：</p>
+<p>```cpp</p>
+<h1 id='include "shadertestlibrary.h"_1'>include "ShaderTestLibrary.h"</h1>
+<h1 id='include "firstshader/firstshader.h"'>include "FirstShader/FirstShader.h"</h1>
+<h1 id='include "common/testshaderutils.h"'>include "Common/TestShaderUtils.h"</h1>
+<p>//渲染线程
+static void FirstShader_RenderThread(
+    FRHICommandListImmediate&amp; RHICmdList,
+    FTextureRenderTargetResource* OutTextureRenderTargetResource,
+    ERHIFeatureLevel::Type FeatureLevel,
+    FName TextureRenderTargetName,
+    FLinearColor MyColor
+)
+{
+    check(IsInRenderingThread());</p>
+<div class="highlight"><pre><span></span><code><span class="n">FRHITexture2D</span><span class="o">*</span><span class="w"> </span><span class="n">RenderTargetTexture</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OutTextureRenderTargetResource</span><span class="o">-&gt;</span><span class="n">GetRenderTargetTexture</span><span class="p">();</span><span class="w"></span>
+
+<span class="o">//</span><span class="n">使用BeginRenderPass和EndRenderPass定义一个Pass</span><span class="w"></span>
+<span class="n">FRHIRenderPassInfo</span><span class="w"> </span><span class="n">RPInfo</span><span class="p">(</span><span class="n">RenderTargetTexture</span><span class="p">,</span><span class="w"> </span><span class="nl">ERenderTargetActions</span><span class="p">:</span><span class="err">:</span><span class="n">DontLoad_Store</span><span class="p">,</span><span class="w"> </span><span class="n">OutTextureRenderTargetResource</span><span class="o">-&gt;</span><span class="n">TextureRHI</span><span class="p">);</span><span class="w"></span>
+<span class="n">RHICmdList</span><span class="p">.</span><span class="n">BeginRenderPass</span><span class="p">(</span><span class="n">RPInfo</span><span class="p">,</span><span class="w"> </span><span class="nc">TEXT</span><span class="p">(</span><span class="ss">"DrawTestShader"</span><span class="p">));</span><span class="w"></span>
+
+<span class="o">//</span><span class="n">渲染分辨率</span><span class="w"></span>
+<span class="n">FIntPoint</span><span class="w"> </span><span class="n">DrawTargetResolution</span><span class="p">(</span><span class="n">OutTextureRenderTargetResource</span><span class="o">-&gt;</span><span class="n">GetSizeX</span><span class="p">(),</span><span class="w"> </span><span class="n">OutTextureRenderTargetResource</span><span class="o">-&gt;</span><span class="n">GetSizeY</span><span class="p">());</span><span class="w"></span>
+
+<span class="o">//</span><span class="n">视口</span><span class="w"></span>
+<span class="n">RHICmdList</span><span class="p">.</span><span class="n">SetViewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">DrawTargetResolution</span><span class="p">.</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">DrawTargetResolution</span><span class="p">.</span><span class="n">Y</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="n">f</span><span class="p">);</span><span class="w"></span>
+
+<span class="o">//</span><span class="n">拿到我们定义的Global</span><span class="w"> </span><span class="n">Shader</span><span class="w"></span>
+<span class="n">FGlobalShaderMap</span><span class="o">*</span><span class="w"> </span><span class="n">GlobalShaderMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetGlobalShaderMap</span><span class="p">(</span><span class="n">FeatureLevel</span><span class="p">);</span><span class="w"></span>
+<span class="n">TShaderMapRef</span><span class="o">&lt;</span><span class="n">FFirstShaderVS</span><span class="o">&gt;</span><span class="w"> </span><span class="n">VertexShader</span><span class="p">(</span><span class="n">GlobalShaderMap</span><span class="p">);</span><span class="w"></span>
+<span class="n">TShaderMapRef</span><span class="o">&lt;</span><span class="n">FFirstShaderPS</span><span class="o">&gt;</span><span class="w"> </span><span class="n">PixelShader</span><span class="p">(</span><span class="n">GlobalShaderMap</span><span class="p">);</span><span class="w"></span>
+
+<span class="o">//</span><span class="n">设置渲染管线的一些参数</span><span class="w"></span>
+<span class="n">FGraphicsPipelineStateInitializer</span><span class="w"> </span><span class="n">GraphicsPSOInit</span><span class="p">;</span><span class="w"></span>
+<span class="n">RHICmdList</span><span class="p">.</span><span class="n">ApplyCachedRenderTargets</span><span class="p">(</span><span class="n">GraphicsPSOInit</span><span class="p">);</span><span class="w"></span>
+<span class="n">GraphicsPSOInit</span><span class="p">.</span><span class="n">DepthStencilState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TStaticDepthStencilState</span><span class="o">&lt;</span><span class="k">false</span><span class="p">,</span><span class="w"> </span><span class="n">CF_Always</span><span class="o">&gt;::</span><span class="n">GetRHI</span><span class="p">();</span><span class="w"></span>
+<span class="n">GraphicsPSOInit</span><span class="p">.</span><span class="n">BlendState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TStaticBlendState</span><span class="o">&lt;&gt;::</span><span class="n">GetRHI</span><span class="p">();</span><span class="w"></span>
+<span class="n">GraphicsPSOInit</span><span class="p">.</span><span class="n">RasterizerState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TStaticRasterizerState</span><span class="o">&lt;&gt;::</span><span class="n">GetRHI</span><span class="p">();</span><span class="w"></span>
+<span class="n">GraphicsPSOInit</span><span class="p">.</span><span class="n">PrimitiveType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PT_TriangleList</span><span class="p">;</span><span class="w"> </span><span class="o">//</span><span class="n">画三角形</span><span class="w"></span>
+<span class="n">GraphicsPSOInit</span><span class="p">.</span><span class="n">BoundShaderState</span><span class="p">.</span><span class="n">VertexDeclarationRHI</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetVertexDeclarationFVector4</span><span class="p">();</span><span class="w"></span>
+<span class="o">//</span><span class="n">我们自定义的shader</span><span class="w"></span>
+<span class="n">GraphicsPSOInit</span><span class="p">.</span><span class="n">BoundShaderState</span><span class="p">.</span><span class="n">VertexShaderRHI</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">VertexShader</span><span class="p">.</span><span class="n">GetVertexShader</span><span class="p">();</span><span class="w"></span>
+<span class="n">GraphicsPSOInit</span><span class="p">.</span><span class="n">BoundShaderState</span><span class="p">.</span><span class="n">PixelShaderRHI</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PixelShader</span><span class="p">.</span><span class="n">GetPixelShader</span><span class="p">();</span><span class="w"></span>
+<span class="n">SetGraphicsPipelineState</span><span class="p">(</span><span class="n">RHICmdList</span><span class="p">,</span><span class="w"> </span><span class="n">GraphicsPSOInit</span><span class="p">);</span><span class="w"></span>
+<span class="o">//</span><span class="n">设置自定义的参数</span><span class="w"></span>
+<span class="n">PixelShader</span><span class="o">-&gt;</span><span class="n">SetColor</span><span class="p">(</span><span class="n">RHICmdList</span><span class="p">,</span><span class="w"> </span><span class="n">PixelShader</span><span class="p">.</span><span class="n">GetPixelShader</span><span class="p">(),</span><span class="w"> </span><span class="n">MyColor</span><span class="p">);</span><span class="w"></span>
+
+<span class="o">//</span><span class="n">构造顶点数据</span><span class="w"></span>
+<span class="n">TArray</span><span class="o">&lt;</span><span class="n">FVector4</span><span class="o">&gt;</span><span class="w"> </span><span class="n">VertexList</span><span class="p">;</span><span class="w"></span>
+<span class="n">VertexList</span><span class="p">.</span><span class="k">Add</span><span class="p">(</span><span class="n">FVector4</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="n">f</span><span class="p">));</span><span class="w"></span>
+<span class="n">VertexList</span><span class="p">.</span><span class="k">Add</span><span class="p">(</span><span class="n">FVector4</span><span class="p">(</span><span class="mf">1.0</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="n">f</span><span class="p">));</span><span class="w"></span>
+<span class="n">VertexList</span><span class="p">.</span><span class="k">Add</span><span class="p">(</span><span class="n">FVector4</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="n">f</span><span class="p">));</span><span class="w"></span>
+<span class="n">VertexList</span><span class="p">.</span><span class="k">Add</span><span class="p">(</span><span class="n">FVector4</span><span class="p">(</span><span class="mf">1.0</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="n">f</span><span class="p">));</span><span class="w"></span>
+
+<span class="n">FRHIResourceCreateInfo</span><span class="w"> </span><span class="n">CreateInfo</span><span class="p">;</span><span class="w"></span>
+<span class="n">FVertexBufferRHIRef</span><span class="w"> </span><span class="n">VertexBufferRHI</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RHICreateVertexBuffer</span><span class="p">(</span><span class="n">sizeof</span><span class="p">(</span><span class="n">FVector4</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">VertexList</span><span class="p">.</span><span class="n">Num</span><span class="p">(),</span><span class="w"> </span><span class="n">BUF_Volatile</span><span class="p">,</span><span class="w"> </span><span class="n">CreateInfo</span><span class="p">);</span><span class="w"></span>
+<span class="n">void</span><span class="o">*</span><span class="w"> </span><span class="n">VoidPtr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RHILockVertexBuffer</span><span class="p">(</span><span class="n">VertexBufferRHI</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">sizeof</span><span class="p">(</span><span class="n">FVector4</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">VertexList</span><span class="p">.</span><span class="n">Num</span><span class="p">(),</span><span class="w"> </span><span class="n">RLM_WriteOnly</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">FVector4</span><span class="o">*</span><span class="w"> </span><span class="n">Vertices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">FVector4</span><span class="o">*</span><span class="p">)</span><span class="n">VoidPtr</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="nc">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">VertexList</span><span class="p">.</span><span class="n">Num</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<span class="err">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">Vertices</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">VertexList</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span><span class="w"></span>
+<span class="err">}</span><span class="w"></span>
+<span class="n">RHIUnlockVertexBuffer</span><span class="p">(</span><span class="n">VertexBufferRHI</span><span class="p">);</span><span class="w"></span>
+
+<span class="o">//</span><span class="n">构造顶点索引</span><span class="w"></span>
+<span class="n">const</span><span class="w"> </span><span class="n">uint16</span><span class="w"> </span><span class="n">Indices</span><span class="err">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="err">}</span><span class="p">;</span><span class="w"></span>
+<span class="n">TResourceArray</span><span class="o">&lt;</span><span class="n">uint16</span><span class="p">,</span><span class="w"> </span><span class="n">INDEXBUFFER_ALIGNMENT</span><span class="o">&gt;</span><span class="w"> </span><span class="n">IndexBuffer</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">IndexBuffer</span><span class="p">.</span><span class="n">AddUninitialized</span><span class="p">(</span><span class="mi">6</span><span class="p">);</span><span class="w"></span>
+<span class="nl">FMemory</span><span class="p">:</span><span class="err">:</span><span class="n">Memcpy</span><span class="p">(</span><span class="n">IndexBuffer</span><span class="p">.</span><span class="n">GetData</span><span class="p">(),</span><span class="w"> </span><span class="n">Indices</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sizeof</span><span class="p">(</span><span class="n">uint16</span><span class="p">));</span><span class="w"></span>
+
+<span class="o">//</span><span class="w"> </span><span class="k">Create</span><span class="w"> </span><span class="k">index</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="w"> </span><span class="n">Fill</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">initial</span><span class="w"> </span><span class="k">data</span><span class="w"> </span><span class="n">upon</span><span class="w"> </span><span class="n">creation</span><span class="w"></span>
+<span class="n">FRHIResourceCreateInfo</span><span class="w"> </span><span class="n">CreateInfo</span><span class="p">(</span><span class="o">&amp;</span><span class="n">IndexBuffer</span><span class="p">);</span><span class="w"></span>
+<span class="n">FIndexBufferRHIRef</span><span class="w"> </span><span class="n">IndexBufferRHI</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RHICreateIndexBuffer</span><span class="p">(</span><span class="n">sizeof</span><span class="p">(</span><span class="n">uint16</span><span class="p">),</span><span class="w"> </span><span class="n">IndexBuffer</span><span class="p">.</span><span class="n">GetResourceDataSize</span><span class="p">(),</span><span class="w"> </span><span class="n">BUF_Static</span><span class="p">,</span><span class="w"> </span><span class="n">CreateInfo</span><span class="p">);</span><span class="w"></span>
+
+<span class="o">//</span><span class="n">根据顶点数据和索引数据画三角形</span><span class="w"></span>
+<span class="n">RHICmdList</span><span class="p">.</span><span class="n">SetStreamSource</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">VertexBufferRHI</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="n">RHICmdList</span><span class="p">.</span><span class="n">DrawIndexedPrimitive</span><span class="p">(</span><span class="n">IndexBufferRHI</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">RHICmdList</span><span class="p">.</span><span class="n">EndRenderPass</span><span class="p">();</span><span class="w"></span>
+</code></pre></div>
+<p>}</p>
+<p>void UShaderTestLibrary::FirstShaderDrawRenderTarget(UTextureRenderTarget2D<em> OutputRenderTarget, AActor</em> Ac, FLinearColor MyColor)
+{
+    check(IsInGameThread());</p>
+<div class="highlight"><pre><span></span><code><span class="nt">if</span> <span class="o">(!</span><span class="nt">OutputRenderTarget</span><span class="o">)</span>
+<span class="p">{</span>
+    <span class="err">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="nt">设置一些参数</span><span class="err">，</span><span class="nt">并将渲染线程函数加入渲染task列表</span>
+<span class="nt">FTextureRenderTargetResource</span><span class="o">*</span> <span class="nt">TextureRenderTargetResource</span> <span class="o">=</span> <span class="nt">OutputRenderTarget-</span><span class="o">&gt;</span><span class="nt">GameThread_GetRenderTargetResource</span><span class="o">();</span>
+<span class="nt">UWorld</span><span class="o">*</span> <span class="nt">World</span> <span class="o">=</span> <span class="nt">Ac-</span><span class="o">&gt;</span><span class="nt">GetWorld</span><span class="o">();</span>
+<span class="nt">ERHIFeatureLevel</span><span class="p">::</span><span class="nd">Type</span> <span class="nt">FeatureLevel</span> <span class="o">=</span> <span class="nt">World-</span><span class="o">&gt;</span><span class="nt">Scene-</span><span class="o">&gt;</span><span class="nt">GetFeatureLevel</span><span class="o">();</span>
+<span class="nt">FName</span> <span class="nt">TextureRenderTargetName</span> <span class="o">=</span> <span class="nt">OutputRenderTarget-</span><span class="o">&gt;</span><span class="nt">GetFName</span><span class="o">();</span>
+<span class="nt">ENQUEUE_RENDER_COMMAND</span><span class="o">(</span><span class="nt">CaptureCommand</span><span class="o">)(</span>
+    <span class="cp">[</span><span class="nx">TextureRenderTargetResource</span><span class="p">,</span> <span class="nx">FeatureLevel</span><span class="p">,</span> <span class="nx">MyColor</span><span class="p">,</span> <span class="nx">TextureRenderTargetName</span><span class="cp">]</span><span class="o">(</span><span class="nt">FRHICommandListImmediate</span><span class="o">&amp;</span> <span class="nt">RHICmdList</span><span class="o">)</span>
+    <span class="p">{</span>
+        <span class="err">FirstShader_RenderThread(RHICmdList,</span> <span class="err">TextureRenderTargetResource,</span> <span class="err">FeatureLevel,</span> <span class="err">TextureRenderTargetName,</span> <span class="err">MyColor)</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="o">);</span>
+</code></pre></div>
+<p>}
+```</p>
+</li>
+</ol>
+<h2 id="shi yong">使用</h2>
+<ol>
+<li>
+<p>在编辑器中创建三个资源，分别为Actor, Material, RenderTarget2D</p>
+<p><img alt="image-20201128181048998" src="image-20201128181048998.png"/></p>
+</li>
+<li>
+<p>打开<strong>Mat_FirstShader</strong>, 将RT_FirstShader拖进去，然后连线</p>
+<p><img alt="image-20201128181255413" src="image-20201128181255413.png"/></p>
+</li>
+<li>
+<p>打开<strong>BP_FirstShader</strong>， 创建一个Plane和TextRender</p>
+<p><img alt="image-20201128181503145" src="image-20201128181503145.png"/></p>
+<p>将<strong>Plane</strong>的材质设为<strong>Mat_FirstShader</strong></p>
+<p><img alt="image-20201128181607848" src="image-20201128181607848.png"/></p>
+<p>打开<strong>BP_ShaderTest</strong>的输入：</p>
+<p><img alt="image-20201128181706711" src="image-20201128181706711.png"/></p>
+<p>在EventGraph中加入如下逻辑：</p>
+<p><img alt="image-20201128181901674" src="image-20201128181901674.png"/>
+4. 将<strong>BP_FirstShader</strong>拖入场景中，运行，可以看到面板的颜色随着按键123而切换。</p>
+</li>
+</ol>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="http://www.vmetu.com/blog/tag/shader-xuan-ran.html">Shader 渲染</a>
+    </p>
+  </div>
+
+
+  <div class="neighbors">
+    <a class="btn float-left" href="http://www.vmetu.com/blog/luayuan-ma-yue-du-7-nei-cun-guan-li.html" title="lua源码阅读7——内存管理">
+      <i class="fa fa-angle-left"></i> Previous Post
+    </a>
+  </div>
+
+
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'vmetu';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+
+    <footer>
+<p>&copy;  2020</p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p>    </footer>
+  </main>
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " 观心苑 ",
+  "url" : "http://www.vmetu.com/blog",
+  "image": "http://www.vmetu.com/blog/../external/images/profile.png",
+  "description": ""
+}
+</script>
+
+    <script>
+      $(document).ready(function() {
+        $('#tipue_search_input').tipuesearch();
+      });
+    </script>
+
+</body>
+</html>
