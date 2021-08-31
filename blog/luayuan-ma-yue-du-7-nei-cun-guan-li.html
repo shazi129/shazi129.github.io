@@ -51,13 +51,13 @@
     <meta name="msapplication-TileColor" content="#333">
 
 <meta name="author" content="张文" />
-<meta name="description" content="lua源码阅读7 …" />
+<meta name="description" content="[TOC …" />
 <meta name="keywords" content="">
 
 
 <meta property="og:site_name" content="观心苑"/>
 <meta property="og:title" content="lua源码阅读7——内存管理"/>
-<meta property="og:description" content="lua源码阅读7 …"/>
+<meta property="og:description" content="[TOC …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://www.vmetu.com/blog/luayuan-ma-yue-du-7-nei-cun-guan-li.html"/>
 <meta property="og:type" content="article"/>
@@ -118,17 +118,19 @@
 
 
   <div>
-    <div id="toc"><ul><li><a class="toc-href" href="#" title="lua源码阅读7&mdash;&mdash;内存管理">lua源码阅读7&mdash;&mdash;内存管理</a><ul><li><a class="toc-href" href="#nei cun shen qing he shi fang" title="内存申请和释放">内存申请和释放</a></li><li><a class="toc-href" href="#gc suan fa" title="GC 算法">GC 算法</a></li><li><a class="toc-href" href="#gcxiang guan jie gou" title="GC相关结构">GC相关结构</a><ul><li><a class="toc-href" href="#commonheader" title="CommonHeader">CommonHeader</a></li><li><a class="toc-href" href="#yan se de yi xie hong ding yi" title="颜色的一些宏定义">颜色的一些宏定义</a></li><li><a class="toc-href" href="#gczhuang tai" title="GC状态">GC状态</a></li></ul></li><li><a class="toc-href" href="#gcluo ji_1" title="GC逻辑">GC逻辑</a><ul><li><a class="toc-href" href="#zi dong gc" title="自动GC">自动GC</a></li><li><a class="toc-href" href="#luac_step" title="luaC_step">luaC_step</a></li></ul></li></ul></li></ul></div><h2 id="nei cun shen qing he shi fang">内存申请和释放</h2>
+    <p>[TOC]</p>
+<h2>内存申请和释放</h2>
 <p>Lua允许自定义内存的申请和释放的行为：</p>
-<div class="highlight"><pre><span></span><code><span class="n">LUALIB_API</span> <span class="n">lua_State</span> <span class="o">*</span><span class="nf">luaL_newstate</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="n">LUALIB_API</span> <span class="n">lua_State</span> <span class="o">*</span><span class="n">luaL_newstate</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
   <span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span> <span class="o">=</span> <span class="n">lua_newstate</span><span class="p">(</span><span class="n">l_alloc</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="c1">//设置内存申请和释放函数</span>
   <span class="k">if</span> <span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="n">lua_atpanic</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">panic</span><span class="p">);</span>
   <span class="k">return</span> <span class="n">L</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p>这个函数会被设置到<code>global_State-&gt;frealloc</code>字段中。 我们来看看默认的内存申请函数的内容：</p>
 <div class="highlight"><pre><span></span><code><span class="c1">//虚拟机内部用到的内存申请和释放的函数， 当nSize=0时，释放内存</span>
-<span class="k">static</span> <span class="kt">void</span> <span class="o">*</span><span class="nf">l_alloc</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">ud</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">osize</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">nsize</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="o">*</span><span class="n">l_alloc</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">ud</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">osize</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">nsize</span><span class="p">)</span> <span class="p">{</span>
   <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">ud</span><span class="p">;</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">osize</span><span class="p">;</span>  <span class="cm">/* not used */</span>
   <span class="k">if</span> <span class="p">(</span><span class="n">nsize</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">free</span><span class="p">(</span><span class="n">ptr</span><span class="p">);</span>
@@ -138,6 +140,7 @@
     <span class="k">return</span> <span class="n">realloc</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">nsize</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p>在实际的使用中，申请和释放内存用得跟多的是这么些宏定义：</p>
 <div class="highlight"><pre><span></span><code><span class="cp">#define luaM_freemem(L, b, s)   luaM_realloc_(L, (b), (s), 0)</span>
 <span class="cp">#define luaM_free(L, b)     luaM_realloc_(L, (b), sizeof(*(b)), 0)</span>
@@ -145,6 +148,7 @@
 
 <span class="cp">#define luaM_malloc(L,s)    luaM_realloc_(L, NULL, 0, (s))</span>
 </code></pre></div>
+
 <p>这些宏定义可以看作是对<code>luaM_realloc_</code>函数的封装：</p>
 <div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">** generic allocation routine.</span>
@@ -180,7 +184,8 @@
   <span class="k">return</span> <span class="n">newblock</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="gc suan fa">GC 算法</h2>
+
+<h2>GC 算法</h2>
 <p>Lua中gc使用的是Mark and Sweep算法，大致的过程如下</p>
 <ol>
 <li>
@@ -195,7 +200,7 @@
 <li>回收<strong>白色</strong></li>
 </ol>
 <p><a href="https://en.wikipedia.org/wiki/Tracing_garbage_collection">动画描述：</a></p>
-<p><img alt="动画描述" src="./Animation_of_tri-color_garbage_collection.gif"/></p>
+<p><img alt="动画描述" src="./Animation_of_tri-color_garbage_collection.gif"></p>
 <p>在GC过程中，有些过程是可以中断的。例如2阶段时，又有新对象创建，它可能被黑色的变量引用。为了应对这些情况，lua增加了两种颜色：</p>
 <ol>
 <li><strong>Other White</strong></li>
@@ -205,11 +210,12 @@
 <li><strong>Gray Again</strong></li>
 </ol>
 <p>当标记过程中，创建一个被黑色引用的对象，那么将黑色置为<strong>Gray Again</strong>。Gray Again的东西会在灰色对象清空之后，使用原子操作变成黑色。</p>
-<h2 id="gcxiang guan jie gou">GC相关结构</h2>
-<h3 id="commonheader">CommonHeader</h3>
+<h2>GC相关结构</h2>
+<h3>CommonHeader</h3>
 <p>在Lua中，受gc管理的数据类型，例如TString, Table, Proto, lua_State等都有一个通用头：</p>
 <div class="highlight"><pre><span></span><code><span class="cp">#define CommonHeader    GCObject *next; lu_byte tt; lu_byte marked</span>
 </code></pre></div>
+
 <p>其中：</p>
 <ul>
 <li>
@@ -223,9 +229,9 @@
 </li>
 </ul>
 <p>定义结构时，CommonHeader通常是第一个字段，那么就可以方便的把回收链表上的任意结构强转为任意结构。</p>
-<h3 id="yan se de yi xie hong ding yi">颜色的一些宏定义</h3>
+<h3>颜色的一些宏定义</h3>
 <div class="highlight"><pre><span></span><code><span class="c1">//...</span>
-<span class="cm">/* Layout for bit use in 'marked' field: */</span>
+<span class="cm">/* Layout for bit use in &#39;marked&#39; field: */</span>
 <span class="c1">//第0位表示white</span>
 <span class="cp">#define WHITE0BIT   0  </span><span class="cm">/* object is white (type 0) */</span><span class="cp"> </span>
 <span class="c1">//第1位表示 other white</span>
@@ -255,14 +261,15 @@
 <span class="cp">#define changewhite(x)  ((x)-&gt;marked ^= WHITEBITS)</span>
 <span class="c1">//...</span>
 </code></pre></div>
-<h3 id="gczhuang tai">GC状态</h3>
+
+<h3>GC状态</h3>
 <p>Lua虚拟机中gc的状态主要保存在<code>global_State</code>中</p>
 <div class="highlight"><pre><span></span><code><span class="cm">/*</span>
-<span class="cm">** 'global state', shared by all threads of this state</span>
+<span class="cm">** &#39;global state&#39;, shared by all threads of this state</span>
 <span class="cm">*/</span>
-<span class="k">typedef</span> <span class="k">struct</span> <span class="n">global_State</span> <span class="p">{</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">global_State</span> <span class="p">{</span>
   <span class="n">lua_Alloc</span> <span class="n">frealloc</span><span class="p">;</span>  <span class="cm">/* function to reallocate memory */</span>
-  <span class="kt">void</span> <span class="o">*</span><span class="n">ud</span><span class="p">;</span>         <span class="cm">/* auxiliary data to 'frealloc' */</span>
+  <span class="kt">void</span> <span class="o">*</span><span class="n">ud</span><span class="p">;</span>         <span class="cm">/* auxiliary data to &#39;frealloc&#39; */</span>
   <span class="c1">//正在使用的内存大小， 总大小-需要gc的大小</span>
   <span class="n">l_mem</span> <span class="n">totalbytes</span><span class="p">;</span>  <span class="cm">/* number of bytes currently allocated - GCdebt */</span>
   <span class="c1">//需要gc的大小</span>
@@ -294,20 +301,21 @@
   <span class="n">GCObject</span> <span class="o">*</span><span class="n">allweak</span><span class="p">;</span>  <span class="cm">/* list of all-weak tables */</span>
   <span class="n">GCObject</span> <span class="o">*</span><span class="n">tobefnz</span><span class="p">;</span>  <span class="cm">/* list of userdata to be GC */</span>
   <span class="n">GCObject</span> <span class="o">*</span><span class="n">fixedgc</span><span class="p">;</span>  <span class="cm">/* list of objects not to be collected */</span>
-  <span class="k">struct</span> <span class="n">lua_State</span> <span class="o">*</span><span class="n">twups</span><span class="p">;</span>  <span class="cm">/* list of threads with open upvalues */</span>
+  <span class="k">struct</span> <span class="nc">lua_State</span> <span class="o">*</span><span class="n">twups</span><span class="p">;</span>  <span class="cm">/* list of threads with open upvalues */</span>
   <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">gcfinnum</span><span class="p">;</span>  <span class="cm">/* number of finalizers to call in each GC step */</span>
   <span class="kt">int</span> <span class="n">gcpause</span><span class="p">;</span>  <span class="cm">/* size of pause between successive GCs */</span>
   <span class="c1">//一次收集的最大内存，和GCmemtrav配合使用</span>
-  <span class="kt">int</span> <span class="n">gcstepmul</span><span class="p">;</span>  <span class="cm">/* GC 'granularity' */</span>
+  <span class="kt">int</span> <span class="n">gcstepmul</span><span class="p">;</span>  <span class="cm">/* GC &#39;granularity&#39; */</span>
   <span class="n">lua_CFunction</span> <span class="n">panic</span><span class="p">;</span>  <span class="cm">/* to be called in unprotected errors */</span>
-  <span class="k">struct</span> <span class="n">lua_State</span> <span class="o">*</span><span class="n">mainthread</span><span class="p">;</span>
+  <span class="k">struct</span> <span class="nc">lua_State</span> <span class="o">*</span><span class="n">mainthread</span><span class="p">;</span>
   <span class="k">const</span> <span class="n">lua_Number</span> <span class="o">*</span><span class="n">version</span><span class="p">;</span>  <span class="cm">/* pointer to version number */</span>
   <span class="n">TString</span> <span class="o">*</span><span class="n">memerrmsg</span><span class="p">;</span>  <span class="cm">/* memory-error message */</span>
   <span class="n">TString</span> <span class="o">*</span><span class="n">tmname</span><span class="p">[</span><span class="n">TM_N</span><span class="p">];</span>  <span class="cm">/* array with tag-method names */</span>
-  <span class="k">struct</span> <span class="n">Table</span> <span class="o">*</span><span class="n">mt</span><span class="p">[</span><span class="n">LUA_NUMTAGS</span><span class="p">];</span>  <span class="cm">/* metatables for basic types */</span>
+  <span class="k">struct</span> <span class="nc">Table</span> <span class="o">*</span><span class="n">mt</span><span class="p">[</span><span class="n">LUA_NUMTAGS</span><span class="p">];</span>  <span class="cm">/* metatables for basic types */</span>
   <span class="n">TString</span> <span class="o">*</span><span class="n">strcache</span><span class="p">[</span><span class="n">STRCACHE_N</span><span class="p">][</span><span class="n">STRCACHE_M</span><span class="p">];</span>  <span class="cm">/* cache for strings in API */</span>
 <span class="p">}</span> <span class="n">global_State</span><span class="p">;</span>
 </code></pre></div>
+
 <div class="highlight"><pre><span></span><code><span class="cp">#define GCSpropagate    0  </span><span class="c1">//遍历阶段</span>
 <span class="cp">#define GCSatomic   1</span>
 <span class="cp">#define GCSswpallgc 2</span>
@@ -317,8 +325,9 @@
 <span class="cp">#define GCScallfin  6</span>
 <span class="cp">#define GCSpause    7</span>
 </code></pre></div>
-<h2 id="gcluo ji_1">GC逻辑</h2>
-<h3 id="zi dong gc">自动GC</h3>
+
+<h2>GC逻辑</h2>
+<h3>自动GC</h3>
 <p>在lua虚拟机中，在导致内存增长的操作中，会自动执行GC, 例如</p>
 <div class="highlight"><pre><span></span><code><span class="c1">//lvm.c</span>
 <span class="n">vmcase</span><span class="p">(</span><span class="n">OP_NEWTABLE</span><span class="p">)</span> <span class="p">{</span>
@@ -332,13 +341,15 @@
     <span class="n">vmbreak</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p><code>checkGC</code>实际是调用：</p>
 <div class="highlight"><pre><span></span><code><span class="cp">#define luaC_condGC(L,pre,pos) \</span>
 <span class="cp">    { if (G(L)-&gt;GCdebt &gt; 0) { pre; luaC_step(L); pos;}; \</span>
 <span class="cp">      condchangemem(L,pre,pos); }</span>
 </code></pre></div>
+
 <p>当<code>global-&gt;GCdebt</code>标志大于0时，会触发一次GC</p>
-<h3 id="luac_step">luaC_step</h3>
+<h3>luaC_step</h3>
 <div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">** performs a basic GC step when collector is running</span>
 <span class="cm">*/</span>
@@ -353,7 +364,7 @@
   <span class="p">}</span>
 
   <span class="c1">//如果要gc的内存小于debt+GCSTEPSIZE， 这个循环一次性处理完</span>
-  <span class="k">do</span> <span class="p">{</span>  <span class="cm">/* repeat until pause or enough "credit" (negative debt) */</span>
+  <span class="k">do</span> <span class="p">{</span>  <span class="cm">/* repeat until pause or enough &quot;credit&quot; (negative debt) */</span>
     <span class="n">lu_mem</span> <span class="n">work</span> <span class="o">=</span> <span class="n">singlestep</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>  <span class="cm">/* perform one single step */</span>
     <span class="n">debt</span> <span class="o">-=</span> <span class="n">work</span><span class="p">;</span>
   <span class="p">}</span>
@@ -364,12 +375,13 @@
   <span class="k">if</span> <span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">gcstate</span> <span class="o">==</span> <span class="n">GCSpause</span><span class="p">)</span>
     <span class="n">setpause</span><span class="p">(</span><span class="n">g</span><span class="p">);</span>  <span class="cm">/* pause until next cycle */</span>
   <span class="k">else</span> <span class="p">{</span>
-    <span class="n">debt</span> <span class="o">=</span> <span class="p">(</span><span class="n">debt</span> <span class="o">/</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">gcstepmul</span><span class="p">)</span> <span class="o">*</span> <span class="n">STEPMULADJ</span><span class="p">;</span>  <span class="cm">/* convert 'work units' to Kb */</span>
+    <span class="n">debt</span> <span class="o">=</span> <span class="p">(</span><span class="n">debt</span> <span class="o">/</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">gcstepmul</span><span class="p">)</span> <span class="o">*</span> <span class="n">STEPMULADJ</span><span class="p">;</span>  <span class="cm">/* convert &#39;work units&#39; to Kb */</span>
     <span class="n">luaE_setdebt</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">debt</span><span class="p">);</span>
     <span class="n">runafewfinalizers</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p>这里主要说一下<code>setpause</code>, 它的功能主要是在gc完成之后，设置下一次gc的时机。假设某次gc完成后，未回收的的内存有1k， 那么<code>totalbytes</code>=2k , <code>debt=-1k</code>， 即自动回收门槛增加了一倍。如果在调用栈比较深的地方触发自动gc， 很多临时变量不能被正确的mark, 那么这个自动回收的门槛值也会变大。</p>
   </div>
   <div class="tag-cloud">

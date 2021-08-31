@@ -50,17 +50,25 @@
     <!-- Microsoft EDGE -->
     <meta name="msapplication-TileColor" content="#333">
 
-    <meta name="author" content="张文" />
-    <meta name="description" content="" />
+<meta name="author" content="张文" />
+<meta name="description" content="安装remote-ssh插件 …" />
+<meta name="keywords" content="docker vscode">
+
+
 <meta property="og:site_name" content="观心苑"/>
-<meta property="og:type" content="blog"/>
-<meta property="og:title" content="观心苑"/>
-<meta property="og:description" content=""/>
+<meta property="og:title" content="vscode连远程主机上的docker container"/>
+<meta property="og:description" content="安装remote-ssh插件 …"/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="http://www.vmetu.com/blog"/>
+<meta property="og:url" content="http://www.vmetu.com/blog/vscodelian-yuan-cheng-zhu-ji-shang-de-docker-container.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2021-08-26 00:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="http://www.vmetu.com/blog/author/zhang-wen.html">
+<meta property="article:section" content="环境搭建"/>
+<meta property="article:tag" content="docker vscode"/>
 <meta property="og:image" content="http://www.vmetu.com/blog/../external/images/profile.png">
 
-  <title>观心苑 &ndash; Category 编程语言</title>
+  <title>观心苑 &ndash; vscode连远程主机上的docker container</title>
 
 </head>
 <body class="dark-theme">
@@ -99,55 +107,78 @@
 
     </nav>
 
-
-
-<article>
+<article class="single">
   <header>
-    <h2><a href="http://www.vmetu.com/blog/linuxxia-wei-zhuang-icmpgong-ji-de-shi-xian.html#linuxxia-wei-zhuang-icmpgong-ji-de-shi-xian">linux下伪装ICMP攻击的实现</a></h2>
+      
+    <h1 id="vscodelian-yuan-cheng-zhu-ji-shang-de-docker-container">vscode连远程主机上的docker container</h1>
     <p>
-      Posted on 周六 24 四月 2010 in <a href="http://www.vmetu.com/blog/category/bian-cheng-yu-yan.html">编程语言</a>
+      Posted on 周四 26 八月 2021 in <a href="http://www.vmetu.com/blog/category/huan-jing-da-jian.html">环境搭建</a>
 
-          &#8226; Tagged with
-              <a href="http://www.vmetu.com/blog/tag/python.html">Python</a>
     </p>
   </header>
+
+
   <div>
-      <h1>linux下伪装ICMP攻击的实现 …</h1>
-        <br>
-        <a class="btn"
-           href="http://www.vmetu.com/blog/linuxxia-wei-zhuang-icmpgong-ji-de-shi-xian.html#linuxxia-wei-zhuang-icmpgong-ji-de-shi-xian">
-          Continue reading
-        </a>
+    <ol>
+<li>安装remote-ssh插件，并配置：</li>
+</ol>
+<p><code>Host server_docker
+       HostName {远程主机ip}
+       User root
+       Port 1122</code>
+2. 创建并进入容器，并开启端口映射
+   <code>docker run -it --name my_container -p 1122:22 {image} /bin/bash</code>
+3. 确保container中存在sshd服务，如果没有，装一个
+   <code>ps -e|grep ssh</code>
+4. 打开container中的/etc/ssh/sshd_config文件，加上:
+   <code>PermitRootLogin yes
+   PubkeyAuthentication no
+   PasswordAuthentication yes</code>
+   这里我们使用用户名密码登录</p>
+<ol>
+<li>
+<p>重启sshd
+   <code>/etc/init.d/ssh restart</code></p>
+</li>
+<li>
+<p>设置container root账户的密码
+   <code>passwd root</code></p>
+</li>
+<li>
+<p>使用vscode连接，输入密码即可</p>
+</li>
+</ol>
   </div>
-  <hr />
-</article>
-<article>
-  <header>
-    <h2><a href="http://www.vmetu.com/blog/yi-ge-jian-dan-de-linux-rootkit.html#yi-ge-jian-dan-de-linux-rootkit">一个简单的linux rootkit</a></h2>
+  <div class="tag-cloud">
     <p>
-      Posted on 周六 24 四月 2010 in <a href="http://www.vmetu.com/blog/category/bian-cheng-yu-yan.html">编程语言</a>
-
-          &#8226; Tagged with
-              <a href="http://www.vmetu.com/blog/tag/xin-xi-an-quan.html">信息安全</a>,              <a href="http://www.vmetu.com/blog/tag/linux.html">Linux</a>,              <a href="http://www.vmetu.com/blog/tag/rootkit.html">rootkit</a>
+      <a href="http://www.vmetu.com/blog/tag/docker-vscode.html">docker vscode</a>
     </p>
-  </header>
-  <div>
-      <h1>一个简单的linux …</h1>
-        <br>
-        <a class="btn"
-           href="http://www.vmetu.com/blog/yi-ge-jian-dan-de-linux-rootkit.html#yi-ge-jian-dan-de-linux-rootkit">
-          Continue reading
-        </a>
   </div>
-</article>
 
-  <div class="pagination">
-    <a class="btn float-right" href="http://www.vmetu.com/blog/category/bian-cheng-yu-yan.html">
-      Newer Posts <i class="fa fa-angle-right"></i>
+
+  <div class="neighbors">
+    <a class="btn float-left" href="http://www.vmetu.com/blog/ue4xuan-ran-bian-cheng-01_di-yi-ge-shader.html" title="UE4渲染编程01_第一个Shader">
+      <i class="fa fa-angle-left"></i> Previous Post
     </a>
   </div>
 
 
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'vmetu';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
 
     <footer>
 <p>&copy;  2020</p>

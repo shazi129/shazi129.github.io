@@ -51,13 +51,13 @@
     <meta name="msapplication-TileColor" content="#333">
 
 <meta name="author" content="张文" />
-<meta name="description" content="UE4渲染编程01_第一个Shader …" />
+<meta name="description" content="[TOC …" />
 <meta name="keywords" content="Shader 渲染">
 
 
 <meta property="og:site_name" content="观心苑"/>
 <meta property="og:title" content="UE4渲染编程01_第一个Shader"/>
-<meta property="og:description" content="UE4渲染编程01_第一个Shader …"/>
+<meta property="og:description" content="[TOC …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://www.vmetu.com/blog/ue4xuan-ran-bian-cheng-01_di-yi-ge-shader.html"/>
 <meta property="og:type" content="article"/>
@@ -119,8 +119,8 @@
 
 
   <div>
-    <h1 id="ue4xuan ran bian cheng 01_di yi ge shader">UE4渲染编程01_第一个Shader</h1>
-<div id="toc"><ul><li><a class="toc-href" href="#" title="UE4渲染编程01_第一个Shader">UE4渲染编程01_第一个Shader</a><ul><li><a class="toc-href" href="#ue4xuan ran bian cheng 01_di yi ge shader" title="UE4渲染编程01_第一个Shader">UE4渲染编程01_第一个Shader</a><ul><li><a class="toc-href" href="#chuang jian yi ge ue4cha jian" title="创建一个UE4插件">创建一个UE4插件</a></li><li><a class="toc-href" href="#tian jia shaderwen jian" title="添加Shader文件">添加Shader文件</a></li><li><a class="toc-href" href="#shaderdui ying de c++lei" title="Shader对应的C++类">Shader对应的C++类</a></li><li><a class="toc-href" href="#shaderdui lan tu bao lu de jie kou" title="Shader对蓝图暴露的接口">Shader对蓝图暴露的接口</a></li></ul></li><li><a class="toc-href" href='#include "shadertestlibrary.h"_1' title='include "ShaderTestLibrary.h"'>include "ShaderTestLibrary.h"</a></li><li><a class="toc-href" href='#include "firstshader/firstshader.h"' title='include "FirstShader/FirstShader.h"'>include "FirstShader/FirstShader.h"</a></li><li><a class="toc-href" href='#include "common/testshaderutils.h"' title='include "Common/TestShaderUtils.h"'>include "Common/TestShaderUtils.h"</a><ul><li><a class="toc-href" href="#shi yong" title="使用">使用</a></li></ul></li></ul></li></ul></div><h2 id="chuang jian yi ge ue4cha jian">创建一个UE4插件</h2>
+    <p>[TOC]</p>
+<h2>创建一个UE4插件</h2>
 <p>我们的一些测试性开发可以以UE插件的形式进行，这样方便将我们的代码方便地导入其他工程。下面我们来新建一个插件专门用作Shader开发。</p>
 <ol>
 <li>
@@ -133,7 +133,7 @@
 <p>选择创建一个空插件，输入插件名（我用的是ShaderTest），不要勾选引擎插件，点<strong>Create Plugin</strong>创建。成功后工程目录下<strong>Plugin/ShaderTest</strong>就是插件的根目录</p>
 </li>
 </ol>
-<p><img alt="image-20201128171041665" src=".\image-20201128171041665.png"/></p>
+<p><img alt="image-20201128171041665" src=".\image-20201128171041665.png"></p>
 <ol>
 <li>
 <p>关闭UE4 Editor</p>
@@ -165,7 +165,7 @@
    );
    ```</p>
 <p>UE的各种功能都是由<strong>模块</strong>组成，大致结构如下：</p>
-<p><img alt="image-20201203223346540" src="image-20201203223346540.png"/></p>
+<p><img alt="image-20201203223346540" src="image-20201203223346540.png"></p>
 <p>C#文件用来描述这个模块的信息，Public存放对外接口，Private存放对内部实现。</p>
 <p>如果在我们的插件中使用了某个函数的定义，却没有在<strong><em>.Build.cs</em>*中声明对这个模块的依赖，那么在链接的时候就会报</strong>找不到外部符号**的错误。</p>
 <ol>
@@ -191,13 +191,13 @@
 <ol>
 <li>将<strong>ShaderTest.uplugin</strong>中的<strong>LoadingPhase</strong>改为<strong>PostConfigInit</strong>：</li>
 </ol>
-<p><img alt="image-20201203224117694" src="image-20201203224117694.png"/></p>
+<p><img alt="image-20201203224117694" src="image-20201203224117694.png"></p>
 <p>这是因为在UE看来，所有的Shader都是一种<strong>预编译资源</strong>， 必须在加载资源前准备妥当。</p>
-<h2 id="tian jia shaderwen jian">添加Shader文件</h2>
+<h2>添加Shader文件</h2>
 <ol>
 <li>在插件根目录下创建<strong>Shaders/Private</strong>目录，并在改目录下创建名为<strong>FirstShader.usf</strong>的文本文件，输入：</li>
 </ol>
-<div class="highlight"><pre><span></span><code>    <span class="cp">#include</span> <span class="cpf">"/Engine/Public/Platform.ush"</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><code>    <span class="cp">#include</span> <span class="cpf">&quot;/Engine/Public/Platform.ush&quot;</span><span class="cp"></span>
 
     <span class="kt">void</span> <span class="nf">MainVS</span><span class="p">(</span> <span class="n">in</span> <span class="n">float4</span> <span class="nl">InPosition</span> <span class="p">:</span> <span class="n">ATTRIBUTE0</span><span class="p">,</span> <span class="n">out</span> <span class="n">float4</span> <span class="nl">OutPosition</span> <span class="p">:</span> <span class="n">SV_POSITION</span><span class="p">)</span>
     <span class="p">{</span>
@@ -210,15 +210,16 @@
     <span class="n">OutColor</span> <span class="o">=</span> <span class="n">SimpleColor</span><span class="p">;</span>
     <span class="p">}</span>
 </code></pre></div>
+
 <p>这是一个简单的Shader，功能就是显示外部传入的颜色（SimpleColor）。</p>
-<h2 id="shaderdui ying de c++lei">Shader对应的C++类</h2>
+<h2>Shader对应的C++类</h2>
 <p>我们知道Shader是运行在GPU上的小程序，为了能在CPU上操作GPU上的Shader， UE4提供了三种管理Shader的C++类:  <code>FGlobalShader</code>, <code>FMaterialShader</code>和<code>FMeshMaterialShader</code>。其中，GlobalShader全局只存在一份实例，所以它不需要与材质绑定，其他两种需要和材质绑定，每个材质可以有一个实例。我们使用GlobalShader来作为我们的第一个Shader。</p>
 <ol>
 <li>在<strong>Source/Private下创建</strong>Common<strong>目录，用来保存一些公用的东西，在该目录下创建</strong>MyGlobalShaderBase.h**</li>
 </ol>
 <div class="highlight"><pre><span></span><code><span class="cp">#pragma once</span>
 
-<span class="cp">#include</span> <span class="cpf">"GlobalShader.h"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;GlobalShader.h&quot;</span><span class="cp"></span>
 
 <span class="k">class</span> <span class="nc">FMyGlobalShaderBase</span> <span class="o">:</span> <span class="k">public</span> <span class="n">FGlobalShader</span>
 <span class="p">{</span>
@@ -229,13 +230,14 @@
     <span class="n">FMyGlobalShaderBase</span><span class="p">(</span><span class="k">const</span> <span class="n">ShaderMetaType</span><span class="o">::</span><span class="n">CompiledShaderInitializerType</span><span class="o">&amp;</span> <span class="n">Initializer</span><span class="p">);</span>
 
     <span class="c1">//是否编译着色器排列，具体信息后续章节说明</span>
-    <span class="k">static</span> <span class="kt">bool</span> <span class="nf">ShouldCompilePermutation</span><span class="p">(</span><span class="k">const</span> <span class="n">FGlobalShaderPermutationParameters</span><span class="o">&amp;</span> <span class="n">Parameters</span><span class="p">);</span>
+    <span class="k">static</span> <span class="kt">bool</span> <span class="n">ShouldCompilePermutation</span><span class="p">(</span><span class="k">const</span> <span class="n">FGlobalShaderPermutationParameters</span><span class="o">&amp;</span> <span class="n">Parameters</span><span class="p">);</span>
 
     <span class="c1">//自定义Shader中的环境变量</span>
-    <span class="k">static</span> <span class="kt">void</span> <span class="nf">ModifyCompilationEnvironment</span><span class="p">(</span><span class="k">const</span> <span class="n">FGlobalShaderPermutationParameters</span><span class="o">&amp;</span> <span class="n">Parameters</span><span class="p">,</span>
+    <span class="k">static</span> <span class="kt">void</span> <span class="n">ModifyCompilationEnvironment</span><span class="p">(</span><span class="k">const</span> <span class="n">FGlobalShaderPermutationParameters</span><span class="o">&amp;</span> <span class="n">Parameters</span><span class="p">,</span>
         <span class="n">FShaderCompilerEnvironment</span><span class="o">&amp;</span> <span class="n">OutEnvironment</span><span class="p">);</span>
 <span class="p">};</span>
 </code></pre></div>
+
 <ol>
 <li>在<strong>Common</strong>目录下创建<strong>MyGlobalShaderBase.cpp</strong></li>
 </ol>
@@ -260,7 +262,7 @@
 </ol>
 <div class="highlight"><pre><span></span><code><span class="cp">#pragma once</span>
 
-<span class="cp">#include</span> <span class="cpf">"Common/MyGlobalShaderBase.h"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;Common/MyGlobalShaderBase.h&quot;</span><span class="cp"></span>
 
 <span class="c1">//定点着色器，对应于HLSL中的MainVS</span>
 <span class="k">class</span> <span class="nc">FFirstShaderVS</span> <span class="o">:</span> <span class="k">public</span> <span class="n">FMyGlobalShaderBase</span>
@@ -292,16 +294,17 @@
     <span class="kt">void</span> <span class="nf">SetColor</span><span class="p">(</span><span class="n">FRHICommandListImmediate</span><span class="o">&amp;</span> <span class="n">RHICmdList</span><span class="p">,</span> <span class="k">const</span> <span class="n">FPixelShaderRHIRef</span> <span class="n">ShaderRHI</span><span class="p">,</span> <span class="k">const</span> <span class="n">FLinearColor</span><span class="o">&amp;</span> <span class="n">MyColor</span><span class="p">);</span>
 <span class="p">};</span>
 </code></pre></div>
+
 <ol>
 <li>在<strong>FirstShader</strong>目录下创建<strong>FirstShader.cpp</strong></li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">"FirstShader/FirstShader.h"</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&quot;FirstShader/FirstShader.h&quot;</span><span class="cp"></span>
 
 <span class="n">FFirstShaderPS</span><span class="o">::</span><span class="n">FFirstShaderPS</span><span class="p">(</span><span class="k">const</span> <span class="n">ShaderMetaType</span><span class="o">::</span><span class="n">CompiledShaderInitializerType</span><span class="o">&amp;</span> <span class="n">Initializer</span><span class="p">)</span>
     <span class="o">:</span> <span class="n">FMyGlobalShaderBase</span><span class="p">(</span><span class="n">Initializer</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="c1">//将变量SimpleColorVal绑定到HLSL Shader中的变量SimpleColor</span>
-    <span class="n">SimpleColorVal</span><span class="p">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">Initializer</span><span class="p">.</span><span class="n">ParameterMap</span><span class="p">,</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">"SimpleColor"</span><span class="p">));</span>
+    <span class="n">SimpleColorVal</span><span class="p">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">Initializer</span><span class="p">.</span><span class="n">ParameterMap</span><span class="p">,</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">&quot;SimpleColor&quot;</span><span class="p">));</span>
 <span class="p">}</span>
 
 <span class="kt">void</span> <span class="n">FFirstShaderPS</span><span class="o">::</span><span class="n">SetColor</span><span class="p">(</span><span class="n">FRHICommandListImmediate</span><span class="o">&amp;</span> <span class="n">RHICmdList</span><span class="p">,</span> <span class="k">const</span> <span class="n">FPixelShaderRHIRef</span> <span class="n">ShaderRHI</span><span class="p">,</span> <span class="k">const</span> <span class="n">FLinearColor</span><span class="o">&amp;</span> <span class="n">MyColor</span><span class="p">)</span>
@@ -311,10 +314,11 @@
 <span class="p">}</span>
 
 <span class="c1">//将C++定义的顶点着色器和像素着色器和HLSL定义的着色器绑定到一起</span>
-<span class="n">IMPLEMENT_SHADER_TYPE</span><span class="p">(,</span> <span class="n">FFirstShaderVS</span><span class="p">,</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">"/Plugin/ShaderTest/Private/FirstShader.usf"</span><span class="p">),</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">"MainVS"</span><span class="p">),</span> <span class="n">SF_Vertex</span><span class="p">)</span>
-<span class="n">IMPLEMENT_SHADER_TYPE</span><span class="p">(,</span> <span class="n">FFirstShaderPS</span><span class="p">,</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">"/Plugin/ShaderTest/Private/FirstShader.usf"</span><span class="p">),</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">"MainPS"</span><span class="p">),</span> <span class="n">SF_Pixel</span><span class="p">)</span>
+<span class="n">IMPLEMENT_SHADER_TYPE</span><span class="p">(,</span> <span class="n">FFirstShaderVS</span><span class="p">,</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">&quot;/Plugin/ShaderTest/Private/FirstShader.usf&quot;</span><span class="p">),</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">&quot;MainVS&quot;</span><span class="p">),</span> <span class="n">SF_Vertex</span><span class="p">)</span>
+<span class="n">IMPLEMENT_SHADER_TYPE</span><span class="p">(,</span> <span class="n">FFirstShaderPS</span><span class="p">,</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">&quot;/Plugin/ShaderTest/Private/FirstShader.usf&quot;</span><span class="p">),</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">&quot;MainPS&quot;</span><span class="p">),</span> <span class="n">SF_Pixel</span><span class="p">)</span>
 </code></pre></div>
-<h2 id="shaderdui lan tu bao lu de jie kou">Shader对蓝图暴露的接口</h2>
+
+<h2>Shader对蓝图暴露的接口</h2>
 <ol>
 <li><strong>Source/Public</strong>下创建<strong>ShaderTestLibrary.h</strong>，它是蓝图使用Shader的接口：</li>
 </ol>
@@ -340,9 +344,9 @@
 <li>
 <p>在<strong>ShaderTest/Private</strong>下创建<strong>FirstShader</strong>目录，在该目录下创建<strong>FirstShaderLibrary.cpp</strong>文件，用于实现<strong>10</strong>中结接口：</p>
 <p>```cpp</p>
-<h1 id='include "shadertestlibrary.h"_1'>include "ShaderTestLibrary.h"</h1>
-<h1 id='include "firstshader/firstshader.h"'>include "FirstShader/FirstShader.h"</h1>
-<h1 id='include "common/testshaderutils.h"'>include "Common/TestShaderUtils.h"</h1>
+<h1>include "ShaderTestLibrary.h"</h1>
+<h1>include "FirstShader/FirstShader.h"</h1>
+<h1>include "Common/TestShaderUtils.h"</h1>
 <p>//渲染线程
 static void FirstShader_RenderThread(
     FRHICommandListImmediate&amp; RHICmdList,
@@ -357,7 +361,7 @@ static void FirstShader_RenderThread(
 
 <span class="o">//</span><span class="n">使用BeginRenderPass和EndRenderPass定义一个Pass</span><span class="w"></span>
 <span class="n">FRHIRenderPassInfo</span><span class="w"> </span><span class="n">RPInfo</span><span class="p">(</span><span class="n">RenderTargetTexture</span><span class="p">,</span><span class="w"> </span><span class="nl">ERenderTargetActions</span><span class="p">:</span><span class="err">:</span><span class="n">DontLoad_Store</span><span class="p">,</span><span class="w"> </span><span class="n">OutTextureRenderTargetResource</span><span class="o">-&gt;</span><span class="n">TextureRHI</span><span class="p">);</span><span class="w"></span>
-<span class="n">RHICmdList</span><span class="p">.</span><span class="n">BeginRenderPass</span><span class="p">(</span><span class="n">RPInfo</span><span class="p">,</span><span class="w"> </span><span class="nc">TEXT</span><span class="p">(</span><span class="ss">"DrawTestShader"</span><span class="p">));</span><span class="w"></span>
+<span class="n">RHICmdList</span><span class="p">.</span><span class="n">BeginRenderPass</span><span class="p">(</span><span class="n">RPInfo</span><span class="p">,</span><span class="w"> </span><span class="nc">TEXT</span><span class="p">(</span><span class="ss">&quot;DrawTestShader&quot;</span><span class="p">));</span><span class="w"></span>
 
 <span class="o">//</span><span class="n">渲染分辨率</span><span class="w"></span>
 <span class="n">FIntPoint</span><span class="w"> </span><span class="n">DrawTargetResolution</span><span class="p">(</span><span class="n">OutTextureRenderTargetResource</span><span class="o">-&gt;</span><span class="n">GetSizeX</span><span class="p">(),</span><span class="w"> </span><span class="n">OutTextureRenderTargetResource</span><span class="o">-&gt;</span><span class="n">GetSizeY</span><span class="p">());</span><span class="w"></span>
@@ -421,6 +425,7 @@ static void FirstShader_RenderThread(
 
 <span class="n">RHICmdList</span><span class="p">.</span><span class="n">EndRenderPass</span><span class="p">();</span><span class="w"></span>
 </code></pre></div>
+
 <p>}</p>
 <p>void UShaderTestLibrary::FirstShaderDrawRenderTarget(UTextureRenderTarget2D<em> OutputRenderTarget, AActor</em> Ac, FLinearColor MyColor)
 {
@@ -442,29 +447,30 @@ static void FirstShader_RenderThread(
     <span class="p">}</span>
 <span class="o">);</span>
 </code></pre></div>
+
 <p>}
 ```</p>
 </li>
 </ol>
-<h2 id="shi yong">使用</h2>
+<h2>使用</h2>
 <ol>
 <li>
 <p>在编辑器中创建三个资源，分别为Actor, Material, RenderTarget2D</p>
-<p><img alt="image-20201128181048998" src="image-20201128181048998.png"/></p>
+<p><img alt="image-20201128181048998" src="image-20201128181048998.png"></p>
 </li>
 <li>
 <p>打开<strong>Mat_FirstShader</strong>, 将RT_FirstShader拖进去，然后连线</p>
-<p><img alt="image-20201128181255413" src="image-20201128181255413.png"/></p>
+<p><img alt="image-20201128181255413" src="image-20201128181255413.png"></p>
 </li>
 <li>
 <p>打开<strong>BP_FirstShader</strong>， 创建一个Plane和TextRender</p>
-<p><img alt="image-20201128181503145" src="image-20201128181503145.png"/></p>
+<p><img alt="image-20201128181503145" src="image-20201128181503145.png"></p>
 <p>将<strong>Plane</strong>的材质设为<strong>Mat_FirstShader</strong></p>
-<p><img alt="image-20201128181607848" src="image-20201128181607848.png"/></p>
+<p><img alt="image-20201128181607848" src="image-20201128181607848.png"></p>
 <p>打开<strong>BP_ShaderTest</strong>的输入：</p>
-<p><img alt="image-20201128181706711" src="image-20201128181706711.png"/></p>
+<p><img alt="image-20201128181706711" src="image-20201128181706711.png"></p>
 <p>在EventGraph中加入如下逻辑：</p>
-<p><img alt="image-20201128181901674" src="image-20201128181901674.png"/>
+<p><img alt="image-20201128181901674" src="image-20201128181901674.png">
 4. 将<strong>BP_FirstShader</strong>拖入场景中，运行，可以看到面板的颜色随着按键123而切换。</p>
 </li>
 </ol>
@@ -479,6 +485,9 @@ static void FirstShader_RenderThread(
   <div class="neighbors">
     <a class="btn float-left" href="http://www.vmetu.com/blog/luayuan-ma-yue-du-7-nei-cun-guan-li.html" title="lua源码阅读7——内存管理">
       <i class="fa fa-angle-left"></i> Previous Post
+    </a>
+    <a class="btn float-right" href="http://www.vmetu.com/blog/vscodelian-yuan-cheng-zhu-ji-shang-de-docker-container.html" title="vscode连远程主机上的docker container">
+      Next Post <i class="fa fa-angle-right"></i>
     </a>
   </div>
 

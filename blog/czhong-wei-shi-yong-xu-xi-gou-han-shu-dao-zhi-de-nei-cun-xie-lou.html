@@ -122,7 +122,7 @@
     <p>代码</p>
 <div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">"vld.h"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;vld.h&quot;</span><span class="cp"></span>
 
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
 
@@ -132,7 +132,7 @@
     <span class="n">Base</span><span class="p">(){}</span>
     <span class="o">~</span><span class="n">Base</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Base Destructor"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Base Destructor&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
 
@@ -146,7 +146,7 @@
     <span class="p">}</span>
     <span class="o">~</span><span class="n">Derive</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Derive Destructor"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Derive Destructor&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
     <span class="p">}</span>
 
     <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vecInt</span><span class="p">;</span>
@@ -159,15 +159,16 @@
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p>vld内存检查：</p>
 <blockquote>
 <p>Leak Hash: 0xFF7D4793, Count: 1, Total 8 bytes
   Call Stack (TID 7516):
     MSVCR100D.dll!operator new()
-    e:\program files (x86)\microsoft visual studio 10.0\vc\include\xmemory (36): TestPrj.exe!std::_Allocate<std::_container_proxy>() + 0x15 bytes
-    e:\program files (x86)\microsoft visual studio 10.0\vc\include\xmemory (187): TestPrj.exe!std::allocator<std::_container_proxy>::allocate() + 0xB bytes
-    e:\program files (x86)\microsoft visual studio 10.0\vc\include\vector (442): TestPrj.exe!std::_Vector_val<int,std::allocator\<int> &gt;::_Vector_val<int,std::allocator\<int> &gt;() + 0xA bytes
-    e:\program files (x86)\microsoft visual studio 10.0\vc\include\vector (508): TestPrj.exe!std::vector<int,std::allocator\<int> &gt;::vector<int,std::allocator\<int> &gt;()
+    e:\program files (x86)\microsoft visual studio 10.0\vc\include\xmemory (36): TestPrj.exe!std::_Allocate<std::_Container_proxy>() + 0x15 bytes
+    e:\program files (x86)\microsoft visual studio 10.0\vc\include\xmemory (187): TestPrj.exe!std::allocator<std::_Container_proxy>::allocate() + 0xB bytes
+    e:\program files (x86)\microsoft visual studio 10.0\vc\include\vector (442): TestPrj.exe!std::_Vector_val<int,std::allocator\<int> >::_Vector_val<int,std::allocator\<int> >() + 0xA bytes
+    e:\program files (x86)\microsoft visual studio 10.0\vc\include\vector (508): TestPrj.exe!std::vector<int,std::allocator\<int> >::vector<int,std::allocator\<int> >()
     f:\workspace\testprj\testprj\singletest\virtualdestructor.cpp (25): TestPrj.exe!Derive::Derive() + 0x59 bytes
     f:\workspace\testprj\testprj\singletest\virtualdestructor.cpp (40): TestPrj.exe!test_interface() + 0x2B bytes
     f:\workspace\testprj\testprj\main.cpp (6): TestPrj.exe!main() + 0xD bytes
@@ -177,7 +178,7 @@
     ntdll.dll!RtlInitializeExceptionChain() + 0x63 bytes
     ntdll.dll!RtlInitializeExceptionChain() + 0x36 bytes
   Data:
-    D8 4C 48 00    00 00 00 00                                   .LH..... ........</int,std::allocator\<int></int,std::allocator\<int></int,std::allocator\<int></int,std::allocator\<int></std::_container_proxy></std::_container_proxy></p>
+    D8 4C 48 00    00 00 00 00                                   .LH..... ........</p>
 </blockquote>
 <p>因为基类的析构函数没有加virtual，delete的时候只会释放基类声明的内存块，子类的成员变量占用的内存就忽略了，导致内存泄漏。</p>
   </div>

@@ -131,19 +131,19 @@
 <span class="k">class</span> <span class="nc">Base</span>
 <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
-    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">print</span><span class="p">()</span> <span class="p">{</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"this is class Base"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;}</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">print</span><span class="p">()</span> <span class="p">{</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;this is class Base&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;}</span>
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">DeriveA</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Base</span>
 <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
-    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">print</span><span class="p">()</span> <span class="p">{</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"this is class DeriveA"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;}</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">print</span><span class="p">()</span> <span class="p">{</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;this is class DeriveA&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;}</span>
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">DeriveB</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Base</span>
 <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
-    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">print</span><span class="p">()</span> <span class="p">{</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"this is class DeriveB"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;}</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">print</span><span class="p">()</span> <span class="p">{</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;this is class DeriveB&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;}</span>
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">Factory</span>
@@ -152,7 +152,7 @@
     <span class="k">static</span> <span class="n">Factory</span> <span class="o">*</span> <span class="n">shareInstance</span><span class="p">();</span>
     <span class="o">~</span><span class="n">Factory</span><span class="p">();</span>
 
-    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="o">&gt;</span>
     <span class="n">T</span><span class="o">*</span> <span class="n">getClass</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="n">string</span> <span class="n">keyName</span> <span class="o">=</span> <span class="n">string</span><span class="p">(</span><span class="k">typeid</span><span class="p">(</span><span class="n">T</span><span class="p">).</span><span class="n">name</span><span class="p">());</span>
@@ -180,6 +180,7 @@
     <span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">Base</span><span class="o">*&gt;</span> <span class="n">mClassMap</span><span class="p">;</span>
 <span class="p">};</span>
 </code></pre></div>
+
 <p>源文件</p>
 <div class="highlight"><pre><span></span><code><span class="n">Factory</span><span class="o">::</span><span class="n">Factory</span><span class="p">(){}</span>
 

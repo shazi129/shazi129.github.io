@@ -51,13 +51,13 @@
     <meta name="msapplication-TileColor" content="#333">
 
 <meta name="author" content="张文" />
-<meta name="description" content="Unity下C …" />
+<meta name="description" content="[TOC …" />
 <meta name="keywords" content="Unity">
 
 
 <meta property="og:site_name" content="观心苑"/>
 <meta property="og:title" content="Unity下C#与Java的交互(一)"/>
-<meta property="og:description" content="Unity下C …"/>
+<meta property="og:description" content="[TOC …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://www.vmetu.com/blog/unityxia-cyu-javade-jiao-hu-yi.html"/>
 <meta property="og:type" content="article"/>
@@ -119,14 +119,15 @@
 
 
   <div>
-    <div id="toc"><ul><li><a class="toc-href" href="#" title="Unity下C#与Java的交互(一)">Unity下C#与Java的交互(一)</a><ul><li><a class="toc-href" href="#1. chuang jian androidgong cheng" title="1. 创建Android工程">1. 创建Android工程</a></li><li><a class="toc-href" href="#2. bian xie javadai ma bing dao chu" title="2. 编写java代码并导出">2. 编写java代码并导出</a></li><li><a class="toc-href" href="#3. bian xie c#dai ma" title="3. 编写C#代码">3. 编写C#代码</a></li><li><a class="toc-href" href="#da androidbao yun xing" title="打Android包运行">打Android包运行</a><ul><li><a class="toc-href" href="#geng gai androidmanifest" title="更改AndroidManifest">更改AndroidManifest</a></li></ul></li></ul></li></ul></div><p>这种情况主要发生在Unity要使用Android代码的情况下。Unity提供的方式是将用到的Android代码打成jar文件，放到Unity的plugins文件中，然后使用。</p>
-<p><img alt="Alt text" src="./1509070611569.png"/></p>
+    <p>[TOC]</p>
+<p>这种情况主要发生在Unity要使用Android代码的情况下。Unity提供的方式是将用到的Android代码打成jar文件，放到Unity的plugins文件中，然后使用。</p>
+<p><img alt="Alt text" src="./1509070611569.png"></p>
 <p>示例用到的是utils.jar</p>
-<h2 id="1. chuang jian androidgong cheng">1. 创建Android工程</h2>
+<h2>1. 创建Android工程</h2>
 <p>创建一个Android工程，并导入Unity提供的jar，下面是我的示例：</p>
-<p><img alt="Alt text" src="./1509070478123.png"/></p>
+<p><img alt="Alt text" src="./1509070478123.png"></p>
 <p>其中，<code>com.zw.utils</code>是要导出的包，<code>com.zw.unity_test</code>是我用来测试jar包的代码，class.jar是导入的unity提供的jar包。</p>
-<h2 id="2. bian xie javadai ma bing dao chu">2. 编写java代码并导出</h2>
+<h2>2. 编写java代码并导出</h2>
 <p>这里先实现一个小功能：</p>
 <div class="highlight"><pre><span></span><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Utils</span> <span class="p">{</span>
     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">addOne</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">){</span>
@@ -134,10 +135,11 @@
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p>右击<code>com.zw.utils</code>导出jar：</p>
-<p><img alt="Alt text" src="./1509071051400.png"/></p>
+<p><img alt="Alt text" src="./1509071051400.png"></p>
 <p>并将utils.jar放到Unity的 <strong>Asset/Plugins/Android/bin</strong> 目录下</p>
-<h2 id="3. bian xie c#dai ma">3. 编写C#代码</h2>
+<h2>3. 编写C#代码</h2>
 <div class="highlight"><pre><span></span><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestAndroid</span> <span class="p">:</span> <span class="n">MonoBehaviour</span> <span class="p">{</span>
 
     <span class="kd">private</span> <span class="n">Button</span> <span class="n">selfBtn</span><span class="p">;</span>
@@ -157,10 +159,10 @@
         <span class="k">try</span>
         <span class="p">{</span>
 <span class="err">#</span><span class="k">if</span> <span class="n">UNITY_ANDROID</span>
-            <span class="n">AndroidJavaClass</span> <span class="n">jClass</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AndroidJavaClass</span><span class="p">(</span><span class="s">"com.zw.utils.Utils"</span><span class="p">);</span>
-            <span class="n">a</span> <span class="o">=</span> <span class="n">jClass</span><span class="p">.</span><span class="na">CallStatic</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">"addOne"</span><span class="p">,</span> <span class="n">a</span><span class="p">);</span>
+            <span class="n">AndroidJavaClass</span> <span class="n">jClass</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AndroidJavaClass</span><span class="p">(</span><span class="s">&quot;com.zw.utils.Utils&quot;</span><span class="p">);</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">jClass</span><span class="p">.</span><span class="na">CallStatic</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;addOne&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">);</span>
 <span class="err">#</span><span class="n">endif</span>
-            <span class="n">selfText</span><span class="p">.</span><span class="na">text</span> <span class="o">=</span> <span class="s">""</span> <span class="o">+</span> <span class="n">a</span><span class="p">;</span>
+            <span class="n">selfText</span><span class="p">.</span><span class="na">text</span> <span class="o">=</span> <span class="s">&quot;&quot;</span> <span class="o">+</span> <span class="n">a</span><span class="p">;</span>
         <span class="p">}</span>
         <span class="k">catch</span><span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span>
         <span class="p">{</span>
@@ -169,16 +171,17 @@
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p>Unity界面</p>
-<p><img alt="Alt text" src="./1509071407810.png"/></p>
+<p><img alt="Alt text" src="./1509071407810.png"></p>
 <p>button上的text显示java代码返回的结果，另一个text显示错误信息。</p>
-<h2 id="da androidbao yun xing">打Android包运行</h2>
-<h3 id="geng gai androidmanifest">更改AndroidManifest</h3>
+<h2>打Android包运行</h2>
+<h3>更改AndroidManifest</h3>
 <p>当我们在android中加入了一些需要权限的代码，例如读取sd卡数据。有两种方法，一是在Unity的Player Setting中设置这个：</p>
-<p><img alt="Alt text" src="./1509701336890.png"/></p>
+<p><img alt="Alt text" src="./1509701336890.png"></p>
 <p>二是更改AndroidManifest.xml</p>
 <p>Unity在打apk包时，会以：</p>
-<p><img alt="Alt text" src="./1509701445692.png"/></p>
+<p><img alt="Alt text" src="./1509701445692.png"></p>
 <p>为模版来修改，那我们要做的，就是将这个xml复制到<strong>Asset/Plugins/Android/</strong>下，然后加入权限申明就可以了。</p>
 <p>其他略</p>
   </div>

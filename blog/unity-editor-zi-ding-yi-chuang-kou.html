@@ -51,13 +51,13 @@
     <meta name="msapplication-TileColor" content="#333">
 
 <meta name="author" content="张文" />
-<meta name="description" content="Unity …" />
+<meta name="description" content="[TOC …" />
 <meta name="keywords" content="学习笔记, Unity, shader">
 
 
 <meta property="og:site_name" content="观心苑"/>
 <meta property="og:title" content="Unity Editor 自定义窗口"/>
-<meta property="og:description" content="Unity …"/>
+<meta property="og:description" content="[TOC …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://www.vmetu.com/blog/unity-editor-zi-ding-yi-chuang-kou.html"/>
 <meta property="og:type" content="article"/>
@@ -121,13 +121,14 @@
 
 
   <div>
-    <div id="toc"><ul><li><a class="toc-href" href="#" title="Unity Editor 自定义窗口">Unity Editor 自定义窗口</a><ul><li><a class="toc-href" href="#shi li dai ma" title="示例代码">示例代码</a></li><li><a class="toc-href" href="#apijie xi" title="API解析">API解析</a><ul><li><a class="toc-href" href="#getwindow" title="GetWindow">GetWindow</a></li><li><a class="toc-href" href="#ongui()" title="OnGUI()">OnGUI()</a></li><li><a class="toc-href" href="#focusedwindowhe mouseoverwindow" title="focusedWindow和mouseOverWindow">focusedWindow和mouseOverWindow</a></li><li><a class="toc-href" href="#oninspectorupdate()" title="OnInspectorUpdate()">OnInspectorUpdate()</a></li><li><a class="toc-href" href="#repaint" title="Repaint">Repaint</a></li></ul></li></ul></li></ul></div><p>Unity 提供<code>EditorWindow</code>给开发者使得开发者可以创建自定义的编辑器界面，像这样的：</p>
-<p><img alt="Alt text" src="./1511317912545.png"/></p>
+    <p>[TOC]</p>
+<p>Unity 提供<code>EditorWindow</code>给开发者使得开发者可以创建自定义的编辑器界面，像这样的：</p>
+<p><img alt="Alt text" src="./1511317912545.png"></p>
 <p>下面来深入了解一下。</p>
-<h2 id="shi li dai ma">示例代码</h2>
+<h2>示例代码</h2>
 <div class="highlight"><pre><span></span><code><span class="k">public</span> <span class="k">class</span> <span class="nc">MyWindow</span> <span class="o">:</span> <span class="n">EditorWindow</span> <span class="p">{</span>
 
-    <span class="p">[</span><span class="n">MenuItem</span><span class="p">(</span><span class="s">"Window/MyWindow"</span><span class="p">)]</span>
+    <span class="p">[</span><span class="n">MenuItem</span><span class="p">(</span><span class="s">&quot;Window/MyWindow&quot;</span><span class="p">)]</span>
     <span class="k">static</span> <span class="kt">void</span> <span class="n">myWindow</span><span class="p">()</span> <span class="c1">//创建自定义窗口</span>
     <span class="p">{</span>
         <span class="n">MyWindow</span> <span class="n">window</span> <span class="o">=</span> <span class="p">(</span><span class="n">MyWindow</span><span class="p">)</span><span class="n">EditorWindow</span><span class="p">.</span><span class="n">GetWindow</span><span class="p">(</span><span class="n">typeof</span><span class="p">(</span><span class="n">MyWindow</span><span class="p">));</span>
@@ -136,9 +137,9 @@
 
     <span class="k">private</span> <span class="kt">void</span> <span class="n">OnGUI</span><span class="p">()</span> <span class="c1">//构建界面</span>
     <span class="p">{</span>
-        <span class="n">string</span> <span class="n">focuseName</span> <span class="o">=</span> <span class="n">focusedWindow</span> <span class="o">==</span> <span class="n">null</span> <span class="o">?</span> <span class="s">"Nothing"</span> <span class="o">:</span> <span class="n">focusedWindow</span><span class="p">.</span><span class="n">ToString</span><span class="p">();</span>
-        <span class="n">string</span> <span class="n">overName</span> <span class="o">=</span> <span class="n">mouseOverWindow</span> <span class="o">==</span> <span class="n">null</span> <span class="o">?</span> <span class="s">"Nothing"</span> <span class="o">:</span> <span class="n">mouseOverWindow</span><span class="p">.</span><span class="n">ToString</span><span class="p">();</span>
-        <span class="n">GUILayout</span><span class="p">.</span><span class="n">Label</span><span class="p">(</span><span class="s">"Focus Win:"</span> <span class="o">+</span> <span class="n">focuseName</span> <span class="o">+</span> <span class="s">", Mouse over:"</span> <span class="o">+</span> <span class="n">overName</span><span class="p">);</span>
+        <span class="n">string</span> <span class="n">focuseName</span> <span class="o">=</span> <span class="n">focusedWindow</span> <span class="o">==</span> <span class="n">null</span> <span class="o">?</span> <span class="s">&quot;Nothing&quot;</span> <span class="o">:</span> <span class="n">focusedWindow</span><span class="p">.</span><span class="n">ToString</span><span class="p">();</span>
+        <span class="n">string</span> <span class="n">overName</span> <span class="o">=</span> <span class="n">mouseOverWindow</span> <span class="o">==</span> <span class="n">null</span> <span class="o">?</span> <span class="s">&quot;Nothing&quot;</span> <span class="o">:</span> <span class="n">mouseOverWindow</span><span class="p">.</span><span class="n">ToString</span><span class="p">();</span>
+        <span class="n">GUILayout</span><span class="p">.</span><span class="n">Label</span><span class="p">(</span><span class="s">&quot;Focus Win:&quot;</span> <span class="o">+</span> <span class="n">focuseName</span> <span class="o">+</span> <span class="s">&quot;, Mouse over:&quot;</span> <span class="o">+</span> <span class="n">overName</span><span class="p">);</span>
     <span class="p">}</span>
 
     <span class="kt">void</span> <span class="n">OnInspectorUpdate</span><span class="p">()</span> <span class="c1">//实时更新</span>
@@ -147,25 +148,28 @@
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="apijie xi">API解析</h2>
-<h3 id="getwindow"><a href="https://docs.unity3d.com/ScriptReference/EditorWindow.GetWindow.html">GetWindow</a></h3>
+
+<h2>API解析</h2>
+<h3><a href="https://docs.unity3d.com/ScriptReference/EditorWindow.GetWindow.html">GetWindow</a></h3>
 <p>函数原型：</p>
-<div class="highlight"><pre><span></span><code><span class="k">public</span> <span class="k">static</span> <span class="n">EditorWindow</span> <span class="nf">GetWindow</span><span class="p">(</span><span class="n">Type</span> <span class="n">t</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">utility</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="n">string</span> <span class="n">title</span> <span class="o">=</span> <span class="n">null</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">focus</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="k">public</span> <span class="k">static</span> <span class="n">EditorWindow</span> <span class="n">GetWindow</span><span class="p">(</span><span class="n">Type</span> <span class="n">t</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">utility</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="n">string</span> <span class="n">title</span> <span class="o">=</span> <span class="n">null</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">focus</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
 </code></pre></div>
+
 <p>这个函数的作用是返回当前Uinty界面上的第一个类型为<code>t</code>的窗口，如果没有，创建并返回。</p>
 <p>参数utility如果为true，那么这个窗口始终是一个浮动窗口，不会和其他窗口组合。</p>
-<h3 id="ongui()"><a href="https://docs.unity3d.com/ScriptReference/EditorWindow.OnGUI.html">OnGUI()</a></h3>
+<h3><a href="https://docs.unity3d.com/ScriptReference/EditorWindow.OnGUI.html">OnGUI()</a></h3>
 <p>自定义窗口的UI实现</p>
-<h3 id="focusedwindowhe mouseoverwindow"><a href="https://docs.unity3d.com/ScriptReference/EditorWindow-focusedWindow.html">focusedWindow</a>和<a href="https://docs.unity3d.com/ScriptReference/EditorWindow-mouseOverWindow.html">mouseOverWindow</a></h3>
+<h3><a href="https://docs.unity3d.com/ScriptReference/EditorWindow-focusedWindow.html">focusedWindow</a>和<a href="https://docs.unity3d.com/ScriptReference/EditorWindow-mouseOverWindow.html">mouseOverWindow</a></h3>
 <p>这是EditorWindow中的两个自定义变量：</p>
 <div class="highlight"><pre><span></span><code><span class="err">public static EditorWindow mouseOverWindow;</span>
 <span class="err">public static EditorWindow focusedWindow;</span>
 </code></pre></div>
+
 <p>表示当前Unity界面中，焦点窗口和鼠标Over窗口，可为Null。</p>
-<h3 id="oninspectorupdate()"><a href="https://docs.unity3d.com/ScriptReference/EditorWindow.OnInspectorUpdate.html">OnInspectorUpdate()</a></h3>
+<h3><a href="https://docs.unity3d.com/ScriptReference/EditorWindow.OnInspectorUpdate.html">OnInspectorUpdate()</a></h3>
 <p>这个函数每秒会被调用10次，用来实时更新自定义窗口的信息。</p>
 <p>在我们的示例程序中，因为要实时监听鼠标的Over事件和窗口的focus事件，所以需要这个函数。</p>
-<h3 id="repaint"><a href="https://docs.unity3d.com/ScriptReference/EditorWindow.Repaint.html">Repaint</a></h3>
+<h3><a href="https://docs.unity3d.com/ScriptReference/EditorWindow.Repaint.html">Repaint</a></h3>
 <p>重新绘制窗口</p>
   </div>
   <div class="tag-cloud">

@@ -119,22 +119,23 @@
 
 
   <div>
-    <h1 id="vszhong error c2001de jie jue ban fa">VS中Error C2001的解决办法</h1>
+    <h1>VS中Error C2001的解决办法</h1>
 <p>今天遇到一个问题，在VS2010工程中，出现中文字符串时，出现了如下错误：</p>
-<div class="highlight"><pre><span></span><code><span class="err">error C2001: newline in constant</span>
-<span class="err">error C2143: syntax error : missing ')' before '}'</span>
-<span class="err">error C2143: syntax error : missing ';' before '}'</span>
+<div class="highlight"><pre><span></span><code><span class="n">error</span> <span class="n">C2001</span><span class="p">:</span> <span class="n">newline</span> <span class="ow">in</span> <span class="n">constant</span>
+<span class="n">error</span> <span class="n">C2143</span><span class="p">:</span> <span class="n">syntax</span> <span class="n">error</span> <span class="p">:</span> <span class="n">missing</span> <span class="s1">&#39;)&#39;</span> <span class="n">before</span> <span class="s1">&#39;}&#39;</span>
+<span class="n">error</span> <span class="n">C2143</span><span class="p">:</span> <span class="n">syntax</span> <span class="n">error</span> <span class="p">:</span> <span class="n">missing</span> <span class="s1">&#39;;&#39;</span> <span class="n">before</span> <span class="s1">&#39;}&#39;</span>
 </code></pre></div>
-<p>产生原因可以参照：<a href="http://blog.163.com/zhaowenjia1989@126/blog/static/1094985792010224153119/">http://blog.163.com/zhaowenjia1989@126/blog/static/1094985792010224153119/</a> <br/>
+
+<p>产生原因可以参照：<a href="http://blog.163.com/zhaowenjia1989@126/blog/static/1094985792010224153119/">http://blog.163.com/zhaowenjia1989@126/blog/static/1094985792010224153119/</a>  <br>
 一些结局办法可以参照：<a href="http://www.cnblogs.com/kuliuheng/p/3397796.html">http://www.cnblogs.com/kuliuheng/p/3397796.html</a></p>
-<p>还有一个简单的办法：  <br/>
-1. 在VS中打开该代码文件。           <br/>
-2. 选择VS菜单栏中<strong>File</strong>-&gt;<strong>Advanced Save Options</strong> <br/>
-<img alt="Alt text" src="./1478142429124.png"/></p>
+<p>还有一个简单的办法：  <br>
+1. 在VS中打开该代码文件。           <br>
+2. 选择VS菜单栏中<strong>File</strong>-&gt;<strong>Advanced Save Options</strong>    <br>
+<img alt="Alt text" src="./1478142429124.png"></p>
 <ol>
 <li>
-<p>选择中文的编码：       <br/>
-<img alt="Alt text" src="./1478142455517.png"/></p>
+<p>选择中文的编码：       <br>
+<img alt="Alt text" src="./1478142455517.png"></p>
 </li>
 <li>
 <p>重新编译，OK</p>

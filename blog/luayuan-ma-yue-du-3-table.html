@@ -51,13 +51,13 @@
     <meta name="msapplication-TileColor" content="#333">
 
 <meta name="author" content="张文" />
-<meta name="description" content="lua源码阅读3 …" />
+<meta name="description" content="[TOC …" />
 <meta name="keywords" content="">
 
 
 <meta property="og:site_name" content="观心苑"/>
 <meta property="og:title" content="lua源码阅读3——table"/>
-<meta property="og:description" content="lua源码阅读3 …"/>
+<meta property="og:description" content="[TOC …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://www.vmetu.com/blog/luayuan-ma-yue-du-3-table.html"/>
 <meta property="og:type" content="article"/>
@@ -118,30 +118,33 @@
 
 
   <div>
-    <div id="toc"><ul><li><a class="toc-href" href="#" title="lua源码阅读3&mdash;&mdash;table">lua源码阅读3&mdash;&mdash;table</a><ul><li><a class="toc-href" href="#tablejie gou ti" title="Table结构体">Table结构体</a><ul><li><a class="toc-href" href="#jie dian de jie gou" title="节点的结构">节点的结构</a></li><li><a class="toc-href" href="#jie gou tu" title="结构图">结构图</a></li><li><a class="toc-href" href="#tablede da xiao" title="table的大小">table的大小</a></li></ul></li><li><a class="toc-href" href="#chuang jian_1" title="创建">创建</a><ul><li><a class="toc-href" href="#chuang jian table" title="创建table">创建table</a></li><li><a class="toc-href" href="#chuang jian key" title="创建key">创建key</a></li><li><a class="toc-href" href="#kuo zhan da xiao" title="扩展大小">扩展大小</a></li></ul></li><li><a class="toc-href" href="#cha_1" title="查">查</a><ul><li><a class="toc-href" href="#zhu ru kou" title="主入口">主入口</a></li><li><a class="toc-href" href="#cha zhao keywei duan zi fu chuan de zhi" title="查找key为短字符串的值">查找key为短字符串的值</a></li></ul></li></ul></li></ul></div><p>​     </p>
-<h2 id="tablejie gou ti">Table结构体</h2>
-<div class="highlight"><pre><span></span><code><span class="k">typedef</span> <span class="k">struct</span> <span class="n">Table</span> <span class="p">{</span>
+    <p>[TOC]</p>
+<p>​     </p>
+<h2>Table结构体</h2>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">Table</span> <span class="p">{</span>
     <span class="n">CommonHeader</span><span class="p">;</span>
     <span class="n">lu_byte</span> <span class="n">flags</span><span class="p">;</span>  <span class="cm">/* 1&lt;&lt;p means tagmethod(p) is not present */</span>
-    <span class="n">lu_byte</span> <span class="n">lsizenode</span><span class="p">;</span>  <span class="cm">/* log2 of size of 'node' array 例如5标识node数组大小为32 */</span>
-    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">sizearray</span><span class="p">;</span>  <span class="cm">/* size of 'array' array 数组部分的大小*/</span>
+    <span class="n">lu_byte</span> <span class="n">lsizenode</span><span class="p">;</span>  <span class="cm">/* log2 of size of &#39;node&#39; array 例如5标识node数组大小为32 */</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">sizearray</span><span class="p">;</span>  <span class="cm">/* size of &#39;array&#39; array 数组部分的大小*/</span>
     <span class="n">TValue</span> <span class="o">*</span><span class="n">array</span><span class="p">;</span>  <span class="cm">/* array part */</span>
     <span class="n">Node</span> <span class="o">*</span><span class="n">node</span><span class="p">;</span>   <span class="c1">//哈希部分，也是一片连续内存</span>
 
     <span class="c1">//例如初始有16个node， 那么lasfree=node+16</span>
     <span class="n">Node</span> <span class="o">*</span><span class="n">lastfree</span><span class="p">;</span>  <span class="cm">/*any free position is before this position*/</span>
-    <span class="k">struct</span> <span class="n">Table</span> <span class="o">*</span><span class="n">metatable</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="nc">Table</span> <span class="o">*</span><span class="n">metatable</span><span class="p">;</span>
     <span class="n">GCObject</span> <span class="o">*</span><span class="n">gclist</span><span class="p">;</span>
 <span class="p">}</span> <span class="n">Table</span><span class="p">;</span>
 </code></pre></div>
-<h3 id="jie dian de jie gou">节点的结构</h3>
-<div class="highlight"><pre><span></span><code><span class="k">typedef</span> <span class="k">struct</span> <span class="n">Node</span> <span class="p">{</span>
+
+<h3>节点的结构</h3>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">Node</span> <span class="p">{</span>
   <span class="n">TValue</span> <span class="n">i_val</span><span class="p">;</span>
   <span class="n">TKey</span> <span class="n">i_key</span><span class="p">;</span>  
 <span class="p">}</span> <span class="n">Node</span><span class="p">;</span>
 </code></pre></div>
+
 <p>一个节点包含一个key和value。我们主要来看看TKey:</p>
-<div class="highlight"><pre><span></span><code><span class="k">typedef</span> <span class="k">union</span> <span class="n">TKey</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span> <span class="k">union</span> <span class="nc">TKey</span> <span class="p">{</span>
   <span class="k">struct</span> <span class="p">{</span>
     <span class="n">TValuefields</span><span class="p">;</span>
     <span class="c1">//当前版本已经不使用链表来保存数据了，分配一片连续的内存，推测是为了加快访问速度</span>
@@ -150,10 +153,11 @@
   <span class="n">TValue</span> <span class="n">tvk</span><span class="p">;</span> <span class="c1">//代表着一个值</span>
 <span class="p">}</span> <span class="n">TKey</span><span class="p">;</span>
 </code></pre></div>
-<h3 id="jie gou tu">结构图</h3>
-<h3 id="tablede da xiao">table的大小</h3>
+
+<h3>结构图</h3>
+<h3>table的大小</h3>
 <div class="highlight"><pre><span></span><code><span class="cm">/*</span>
-<span class="cm">** Try to find a boundary in table 't'. A 'boundary' is an integer index</span>
+<span class="cm">** Try to find a boundary in table &#39;t&#39;. A &#39;boundary&#39; is an integer index</span>
 <span class="cm">** such that t[i] is non-nil and t[i+1] is nil (and 0 if t[1] is nil).</span>
 <span class="cm">*/</span>
 <span class="n">lua_Unsigned</span> <span class="nf">luaH_getn</span> <span class="p">(</span><span class="n">Table</span> <span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="p">{</span>
@@ -177,19 +181,21 @@
   <span class="k">else</span> <span class="k">return</span> <span class="n">unbound_search</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p>这个函数用来获取table中的数组大小，用在tabe的<code>#</code>运算上。我们注意到，它是通过二分查找来找的，就会导致一个有趣的现象：</p>
 <div class="highlight"><pre><span></span><code><span class="o">#</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="kc">nil</span><span class="p">}</span> <span class="o">==</span> <span class="mi">6</span>
 <span class="o">#</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="kc">nil</span><span class="p">}</span> <span class="o">==</span> <span class="mi">6</span>
 <span class="o">#</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="kc">nil</span><span class="p">}</span> <span class="o">==</span> <span class="mi">2</span>
 </code></pre></div>
+
 <p>因为二分法的步长把3号位的nil跳过去了。</p>
 <p>当最后一个元素不是nil时，使用的是<code>unbound_search</code>来获取大小，它的本质还是一个二分查找：</p>
-<div class="highlight"><pre><span></span><code><span class="k">static</span> <span class="n">lua_Unsigned</span> <span class="nf">unbound_search</span> <span class="p">(</span><span class="n">Table</span> <span class="o">*</span><span class="n">t</span><span class="p">,</span> <span class="n">lua_Unsigned</span> <span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">static</span> <span class="n">lua_Unsigned</span> <span class="n">unbound_search</span> <span class="p">(</span><span class="n">Table</span> <span class="o">*</span><span class="n">t</span><span class="p">,</span> <span class="n">lua_Unsigned</span> <span class="n">j</span><span class="p">)</span> <span class="p">{</span>
   <span class="n">lua_Unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>  <span class="cm">/* i is zero or a present index */</span>
   <span class="n">j</span><span class="o">++</span><span class="p">;</span>
 
   <span class="c1">//以2的幂次方为步长，找到一个为nil的下标</span>
-  <span class="cm">/* find 'i' and 'j' such that i is present and j is not */</span>
+  <span class="cm">/* find &#39;i&#39; and &#39;j&#39; such that i is present and j is not */</span>
   <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">ttisnil</span><span class="p">(</span><span class="n">luaH_getint</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="p">)))</span> <span class="p">{</span>
     <span class="n">i</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">&gt;</span> <span class="n">l_castS2U</span><span class="p">(</span><span class="n">LUA_MAXINTEGER</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>  <span class="cm">/* overflow? */</span>
@@ -210,9 +216,10 @@
   <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p>通过这部分源代码我们可以看出来，lua认为nil为一个数组的结尾，为了不出现意外的情况，我们在建立数组时，<strong>数组里面的值最好不要有nil</strong>。</p>
-<h2 id="chuang jian_1">创建</h2>
-<h3 id="chuang jian table">创建table</h3>
+<h2>创建</h2>
+<h3>创建table</h3>
 <div class="highlight"><pre><span></span><code><span class="n">Table</span> <span class="o">*</span><span class="nf">luaH_new</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">)</span> <span class="p">{</span>
   <span class="n">GCObject</span> <span class="o">*</span><span class="n">o</span> <span class="o">=</span> <span class="n">luaC_newobj</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">LUA_TTABLE</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Table</span><span class="p">));</span>
   <span class="n">Table</span> <span class="o">*</span><span class="n">t</span> <span class="o">=</span> <span class="n">gco2t</span><span class="p">(</span><span class="n">o</span><span class="p">);</span>
@@ -224,10 +231,11 @@
   <span class="k">return</span> <span class="n">t</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="chuang jian key">创建key</h3>
+
+<h3>创建key</h3>
 <div class="highlight"><pre><span></span><code><span class="cm">/* 新建一个key，范围该key的value</span>
 <span class="cm">** 主要用在添加非数组的值上。因为数组的key就是其下标</span>
-<span class="cm">** inserts a new key into a hash table; first, check whether key's main</span>
+<span class="cm">** inserts a new key into a hash table; first, check whether key&#39;s main</span>
 <span class="cm">** position is free. If not, check whether colliding node is in its main</span>
 <span class="cm">** position or not: if it is not, move colliding node to an empty place and</span>
 <span class="cm">** put new key in its main position; otherwise (colliding node is in its main</span>
@@ -238,7 +246,7 @@
   <span class="n">TValue</span> <span class="n">aux</span><span class="p">;</span>
 
   <span class="c1">//key不能是nil</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">ttisnil</span><span class="p">(</span><span class="n">key</span><span class="p">))</span> <span class="n">luaG_runerror</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="s">"table index is nil"</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ttisnil</span><span class="p">(</span><span class="n">key</span><span class="p">))</span> <span class="n">luaG_runerror</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="s">&quot;table index is nil&quot;</span><span class="p">);</span>
 
   <span class="c1">//检查key是否为nil, 并看能不能将float的key转成int的key</span>
   <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">ttisfloat</span><span class="p">(</span><span class="n">key</span><span class="p">))</span> <span class="p">{</span>
@@ -248,7 +256,7 @@
       <span class="n">key</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">aux</span><span class="p">;</span>  <span class="cm">/* insert it as an integer */</span>
     <span class="p">}</span>
     <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">luai_numisnan</span><span class="p">(</span><span class="n">fltvalue</span><span class="p">(</span><span class="n">key</span><span class="p">)))</span>
-      <span class="n">luaG_runerror</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="s">"table index is NaN"</span><span class="p">);</span>
+      <span class="n">luaG_runerror</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="s">&quot;table index is NaN&quot;</span><span class="p">);</span>
   <span class="p">}</span>
 
   <span class="c1">//根据key的哈希值得到它应该在的节点</span>
@@ -260,7 +268,7 @@
     <span class="n">Node</span> <span class="o">*</span><span class="n">f</span> <span class="o">=</span> <span class="n">getfreepos</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>  <span class="cm">/* get a free place */</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">f</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>  <span class="cm">/* cannot find a free place? */</span>
       <span class="n">rehash</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>  <span class="cm">/* grow table */</span>
-      <span class="cm">/* whatever called 'newkey' takes care of TM cache */</span>
+      <span class="cm">/* whatever called &#39;newkey&#39; takes care of TM cache */</span>
       <span class="k">return</span> <span class="n">luaH_set</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>  <span class="cm">/* insert key into grown table */</span>
     <span class="p">}</span>
     <span class="n">lua_assert</span><span class="p">(</span><span class="o">!</span><span class="n">isdummy</span><span class="p">(</span><span class="n">t</span><span class="p">));</span>
@@ -275,11 +283,11 @@
       <span class="k">while</span> <span class="p">(</span><span class="n">othern</span> <span class="o">+</span> <span class="n">gnext</span><span class="p">(</span><span class="n">othern</span><span class="p">)</span> <span class="o">!=</span> <span class="n">mp</span><span class="p">)</span>  <span class="cm">/* find previous */</span>
         <span class="n">othern</span> <span class="o">+=</span> <span class="n">gnext</span><span class="p">(</span><span class="n">othern</span><span class="p">);</span>
       <span class="c1">//把mp处的节点放到lastfree的位置</span>
-      <span class="n">gnext</span><span class="p">(</span><span class="n">othern</span><span class="p">)</span> <span class="o">=</span> <span class="n">cast_int</span><span class="p">(</span><span class="n">f</span> <span class="o">-</span> <span class="n">othern</span><span class="p">);</span>  <span class="cm">/* rechain to point to 'f' */</span>
+      <span class="n">gnext</span><span class="p">(</span><span class="n">othern</span><span class="p">)</span> <span class="o">=</span> <span class="n">cast_int</span><span class="p">(</span><span class="n">f</span> <span class="o">-</span> <span class="n">othern</span><span class="p">);</span>  <span class="cm">/* rechain to point to &#39;f&#39; */</span>
       <span class="o">*</span><span class="n">f</span> <span class="o">=</span> <span class="o">*</span><span class="n">mp</span><span class="p">;</span>  <span class="cm">/* copy colliding node into free pos. (mp-&gt;next also goes) */</span>
       <span class="k">if</span> <span class="p">(</span><span class="n">gnext</span><span class="p">(</span><span class="n">mp</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">gnext</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">+=</span> <span class="n">cast_int</span><span class="p">(</span><span class="n">mp</span> <span class="o">-</span> <span class="n">f</span><span class="p">);</span>  <span class="cm">/* correct 'next' */</span>
-        <span class="n">gnext</span><span class="p">(</span><span class="n">mp</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="cm">/* now 'mp' is free */</span>
+        <span class="n">gnext</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">+=</span> <span class="n">cast_int</span><span class="p">(</span><span class="n">mp</span> <span class="o">-</span> <span class="n">f</span><span class="p">);</span>  <span class="cm">/* correct &#39;next&#39; */</span>
+        <span class="n">gnext</span><span class="p">(</span><span class="n">mp</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="cm">/* now &#39;mp&#39; is free */</span>
       <span class="p">}</span>
       <span class="n">setnilvalue</span><span class="p">(</span><span class="n">gval</span><span class="p">(</span><span class="n">mp</span><span class="p">));</span>
     <span class="p">}</span>
@@ -299,8 +307,9 @@
   <span class="k">return</span> <span class="n">gval</span><span class="p">(</span><span class="n">mp</span><span class="p">);</span> <span class="c1">//返回key对应的value</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p>用图表来说明下这个过程，例如一个表的初始状态如下:</p>
-<p><img alt="1589880557562" src="./1589880557562.png"/></p>
+<p><img alt="1589880557562" src="./1589880557562.png"></p>
 <p>有A, B, C 三个Node， 他们的hash值都6，通过next串联起来。现在需要创建一个节点D</p>
 <ol>
 <li>
@@ -311,15 +320,15 @@
 <ul>
 <li>D和A的hash值相同</li>
 </ul>
-<p><img alt="1589881658868" src="./1589881658868.png"/></p>
+<p><img alt="1589881658868" src="./1589881658868.png"></p>
 <ul>
 <li>D和A的hash值不同</li>
 </ul>
-<p><img alt="1589881734978" src="./1589881734978.png"/></p>
+<p><img alt="1589881734978" src="./1589881734978.png"></p>
 </li>
 </ol>
-<h3 id="kuo zhan da xiao">扩展大小</h3>
-<div class="highlight"><pre><span></span><code><span class="k">static</span> <span class="kt">void</span> <span class="nf">rehash</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="n">Table</span> <span class="o">*</span><span class="n">t</span><span class="p">,</span> <span class="k">const</span> <span class="n">TValue</span> <span class="o">*</span><span class="n">ek</span><span class="p">)</span> <span class="p">{</span>
+<h3>扩展大小</h3>
+<div class="highlight"><pre><span></span><code><span class="k">static</span> <span class="kt">void</span> <span class="n">rehash</span> <span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="n">Table</span> <span class="o">*</span><span class="n">t</span><span class="p">,</span> <span class="k">const</span> <span class="n">TValue</span> <span class="o">*</span><span class="n">ek</span><span class="p">)</span> <span class="p">{</span>
   <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">asize</span><span class="p">;</span>  <span class="cm">/* optimal size for array part */</span>
   <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">na</span><span class="p">;</span>  <span class="cm">/* number of keys in the array part */</span>
 
@@ -348,17 +357,18 @@
   <span class="n">luaH_resize</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">asize</span><span class="p">,</span> <span class="n">totaluse</span> <span class="o">-</span> <span class="n">na</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p>简要来说：</p>
 <ol>
 <li>对于key为数字部分，将其分布写入位图，当空间利用率大于50%的时候，扩展。</li>
 <li>对于hash部分，找不到空闲节点了就需要扩展了。</li>
 </ol>
-<h2 id="cha_1">查</h2>
-<h3 id="zhu ru kou">主入口</h3>
+<h2>查</h2>
+<h3>主入口</h3>
 <div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">** main search function</span>
 <span class="cm">*/</span>
-<span class="k">const</span> <span class="n">TValue</span> <span class="o">*</span><span class="nf">luaH_get</span> <span class="p">(</span><span class="n">Table</span> <span class="o">*</span><span class="n">t</span><span class="p">,</span> <span class="k">const</span> <span class="n">TValue</span> <span class="o">*</span><span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">const</span> <span class="n">TValue</span> <span class="o">*</span><span class="n">luaH_get</span> <span class="p">(</span><span class="n">Table</span> <span class="o">*</span><span class="n">t</span><span class="p">,</span> <span class="k">const</span> <span class="n">TValue</span> <span class="o">*</span><span class="n">key</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">//根据key的类型调用不同的函数来查找</span>
   <span class="k">switch</span> <span class="p">(</span><span class="n">ttype</span><span class="p">(</span><span class="n">key</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">case</span> <span class="nl">LUA_TSHRSTR</span><span class="p">:</span> <span class="k">return</span> <span class="n">luaH_getshortstr</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">tsvalue</span><span class="p">(</span><span class="n">key</span><span class="p">));</span>
@@ -376,18 +386,19 @@
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p>在这里我们看到一个比较有趣的地方，即在lua中，肯定有<code>t[2.0] == t[2]</code>,  由于各机器上<code>double</code>是有精度限制的，如果<code>10 == 10.0000000000000001</code>， 那么<code>t[10] == t[10.0000000000000001]</code>。</p>
-<h3 id="cha zhao keywei duan zi fu chuan de zhi">查找key为短字符串的值</h3>
+<h3>查找key为短字符串的值</h3>
 <div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">** search function for short strings</span>
 <span class="cm">*/</span>
-<span class="k">const</span> <span class="n">TValue</span> <span class="o">*</span><span class="nf">luaH_getshortstr</span> <span class="p">(</span><span class="n">Table</span> <span class="o">*</span><span class="n">t</span><span class="p">,</span> <span class="n">TString</span> <span class="o">*</span><span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">const</span> <span class="n">TValue</span> <span class="o">*</span><span class="n">luaH_getshortstr</span> <span class="p">(</span><span class="n">Table</span> <span class="o">*</span><span class="n">t</span><span class="p">,</span> <span class="n">TString</span> <span class="o">*</span><span class="n">key</span><span class="p">)</span> <span class="p">{</span>
   <span class="n">Node</span> <span class="o">*</span><span class="n">n</span> <span class="o">=</span> <span class="n">hashstr</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span> <span class="c1">//根据短字符串的哈希值找到桶</span>
   <span class="n">lua_assert</span><span class="p">(</span><span class="n">key</span><span class="o">-&gt;</span><span class="n">tt</span> <span class="o">==</span> <span class="n">LUA_TSHRSTR</span><span class="p">);</span>
-  <span class="k">for</span> <span class="p">(;;)</span> <span class="p">{</span>  <span class="cm">/* check whether 'key' is somewhere in the chain */</span>
+  <span class="k">for</span> <span class="p">(;;)</span> <span class="p">{</span>  <span class="cm">/* check whether &#39;key&#39; is somewhere in the chain */</span>
     <span class="k">const</span> <span class="n">TValue</span> <span class="o">*</span><span class="n">k</span> <span class="o">=</span> <span class="n">gkey</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">ttisshrstring</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">eqshrstr</span><span class="p">(</span><span class="n">tsvalue</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">key</span><span class="p">))</span>
-      <span class="k">return</span> <span class="n">gval</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>  <span class="cm">/* that's it */</span>
+      <span class="k">return</span> <span class="n">gval</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>  <span class="cm">/* that&#39;s it */</span>
     <span class="k">else</span> <span class="p">{</span>
       <span class="kt">int</span> <span class="n">nx</span> <span class="o">=</span> <span class="n">gnext</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
       <span class="k">if</span> <span class="p">(</span><span class="n">nx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>

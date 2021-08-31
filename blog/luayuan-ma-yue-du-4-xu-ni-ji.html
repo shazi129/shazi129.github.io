@@ -51,13 +51,13 @@
     <meta name="msapplication-TileColor" content="#333">
 
 <meta name="author" content="张文" />
-<meta name="description" content="lua源码阅读4 …" />
+<meta name="description" content="[TOC …" />
 <meta name="keywords" content="">
 
 
 <meta property="og:site_name" content="观心苑"/>
 <meta property="og:title" content="lua源码阅读4——虚拟机"/>
-<meta property="og:description" content="lua源码阅读4 …"/>
+<meta property="og:description" content="[TOC …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://www.vmetu.com/blog/luayuan-ma-yue-du-4-xu-ni-ji.html"/>
 <meta property="og:type" content="article"/>
@@ -118,13 +118,14 @@
 
 
   <div>
-    <div id="toc"><ul><li><a class="toc-href" href="#" title="lua源码阅读4&mdash;&mdash;虚拟机">lua源码阅读4&mdash;&mdash;虚拟机</a><ul><li><a class="toc-href" href="#lua_state" title="lua_State">lua_State</a></li></ul></li></ul></div><h2 id="lua_state">lua_State</h2>
+    <p>[TOC]</p>
+<h2>lua_State</h2>
 <div class="highlight"><pre><span></span><code><span class="cm">/*</span>
-<span class="cm">** 'per thread' state  每个虚拟机线程的上下文</span>
+<span class="cm">** &#39;per thread&#39; state  每个虚拟机线程的上下文</span>
 <span class="cm">*/</span>
-<span class="k">struct</span> <span class="n">lua_State</span> <span class="p">{</span>
+<span class="k">struct</span> <span class="nc">lua_State</span> <span class="p">{</span>
   <span class="n">CommonHeader</span><span class="p">;</span>
-  <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">nci</span><span class="p">;</span>  <span class="cm">/* number of items in 'ci' list */</span>
+  <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">nci</span><span class="p">;</span>  <span class="cm">/* number of items in &#39;ci&#39; list */</span>
   <span class="n">lu_byte</span> <span class="n">status</span><span class="p">;</span>
   <span class="n">StkId</span> <span class="n">top</span><span class="p">;</span>  <span class="cm">/* first free slot in the stack */</span>
 
@@ -140,8 +141,8 @@
   <span class="n">StkId</span> <span class="n">stack</span><span class="p">;</span>  <span class="cm">/* stack base */</span>
   <span class="n">UpVal</span> <span class="o">*</span><span class="n">openupval</span><span class="p">;</span>  <span class="cm">/* list of open upvalues in this stack */</span>
   <span class="n">GCObject</span> <span class="o">*</span><span class="n">gclist</span><span class="p">;</span>
-  <span class="k">struct</span> <span class="n">lua_State</span> <span class="o">*</span><span class="n">twups</span><span class="p">;</span>  <span class="cm">/* list of threads with open upvalues */</span>
-  <span class="k">struct</span> <span class="n">lua_longjmp</span> <span class="o">*</span><span class="n">errorJmp</span><span class="p">;</span>  <span class="cm">/* current error recover point */</span>
+  <span class="k">struct</span> <span class="nc">lua_State</span> <span class="o">*</span><span class="n">twups</span><span class="p">;</span>  <span class="cm">/* list of threads with open upvalues */</span>
+  <span class="k">struct</span> <span class="nc">lua_longjmp</span> <span class="o">*</span><span class="n">errorJmp</span><span class="p">;</span>  <span class="cm">/* current error recover point */</span>
   <span class="n">CallInfo</span> <span class="n">base_ci</span><span class="p">;</span>  <span class="cm">/* CallInfo for first level (C calling Lua) */</span>
   <span class="k">volatile</span> <span class="n">lua_Hook</span> <span class="n">hook</span><span class="p">;</span>
   <span class="kt">ptrdiff_t</span> <span class="n">errfunc</span><span class="p">;</span>  <span class="cm">/* current error handling function (stack index) */</span>

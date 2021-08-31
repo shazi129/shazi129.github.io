@@ -51,13 +51,13 @@
     <meta name="msapplication-TileColor" content="#333">
 
 <meta name="author" content="张文" />
-<meta name="description" content="PlayerLoop简要流程 …" />
+<meta name="description" content="[TOC …" />
 <meta name="keywords" content="Unity">
 
 
 <meta property="og:site_name" content="观心苑"/>
 <meta property="og:title" content="PlayerLoop简要流程"/>
-<meta property="og:description" content="PlayerLoop简要流程 …"/>
+<meta property="og:description" content="[TOC …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="http://www.vmetu.com/blog/playerloopjian-yao-liu-cheng.html"/>
 <meta property="og:type" content="article"/>
@@ -119,59 +119,63 @@
 
 
   <div>
-    <div id="toc"><ul><li><a class="toc-href" href="#" title="PlayerLoop简要流程">PlayerLoop简要流程</a><ul><li><a class="toc-href" href="#playerloopjian jie" title="PlayerLoop简介">PlayerLoop简介</a></li><li><a class="toc-href" href="#reentrancychecker" title="ReentrancyChecker">ReentrancyChecker</a></li><li><a class="toc-href" href="#isworldplaying" title="IsWorldPlaying">IsWorldPlaying</a></li><li><a class="toc-href" href="#s_defaultloop" title="s_defaultLoop">s_defaultLoop</a></li><li><a class="toc-href" href="#playerloopsystemzu zhi fang shi" title="PlayerLoopSystem组织方式">PlayerLoopSystem组织方式</a></li><li><a class="toc-href" href="#playerloopsystemde chu li han shu" title="PlayerLoopSystem的处理函数">PlayerLoopSystem的处理函数</a></li><li><a class="toc-href" href="#executeplayerloop" title="ExecutePlayerLoop">ExecutePlayerLoop</a></li></ul></li></ul></div><h2 id="playerloopjian jie">PlayerLoop简介</h2>
+    <p>[TOC]</p>
+<h2>PlayerLoop简介</h2>
 <p>PlayerLoop是Unity的主循环，每帧都会跑一次。Unity 2018添加了PlayerLoop相关的API, 我们可以利用如下代码来查看一个PlayerLoop干了那些事：</p>
 <div class="highlight"><pre><span></span><code><span class="kt">var</span> <span class="n">playerLoop</span> <span class="p">=</span> <span class="n">PlayerLoop</span><span class="p">.</span><span class="n">GetDefaultPlayerLoop</span><span class="p">();</span>
 <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">header</span> <span class="k">in</span> <span class="n">playerLoop</span><span class="p">.</span><span class="n">subSystemList</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="n">Debug</span><span class="p">.</span><span class="n">LogFormat</span><span class="p">(</span><span class="s">"------{0}------"</span><span class="p">,</span> <span class="n">header</span><span class="p">.</span><span class="n">type</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span>
+    <span class="n">Debug</span><span class="p">.</span><span class="n">LogFormat</span><span class="p">(</span><span class="s">&quot;------{0}------&quot;</span><span class="p">,</span> <span class="n">header</span><span class="p">.</span><span class="n">type</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span>
     <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">subSystem</span> <span class="k">in</span> <span class="n">header</span><span class="p">.</span><span class="n">subSystemList</span><span class="p">)</span>
     <span class="p">{</span>
-        <span class="n">Debug</span><span class="p">.</span><span class="n">LogFormat</span><span class="p">(</span><span class="s">"{0}.{1}"</span><span class="p">,</span> <span class="n">header</span><span class="p">.</span><span class="n">type</span><span class="p">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">subSystem</span><span class="p">.</span><span class="n">type</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span>
+        <span class="n">Debug</span><span class="p">.</span><span class="n">LogFormat</span><span class="p">(</span><span class="s">&quot;{0}.{1}&quot;</span><span class="p">,</span> <span class="n">header</span><span class="p">.</span><span class="n">type</span><span class="p">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">subSystem</span><span class="p">.</span><span class="n">type</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p>会得到一长串的东西：</p>
-<div class="highlight"><pre><span></span><code><span class="err">------Initialization------</span>
-<span class="err">Initialization.PlayerUpdateTime</span>
-<span class="err">Initialization.AsyncUploadTimeSlicedUpdate</span>
-<span class="err">Initialization.SynchronizeInputs</span>
-<span class="err">Initialization.SynchronizeState</span>
-<span class="err">Initialization.XREarlyUpdate</span>
-<span class="err">------EarlyUpdate------</span>
-<span class="err">EarlyUpdate.PollPlayerConnection</span>
-<span class="err">//...略</span>
-<span class="err">------FixedUpdate------</span>
-<span class="err">FixedUpdate.ClearLines</span>
-<span class="err">//...略</span>
-<span class="err">------PreUpdate------</span>
-<span class="err">//...略</span>
-<span class="err">------Update------</span>
-<span class="err">//...略</span>
-<span class="err">------PreLateUpdate------</span>
-<span class="err">//...略</span>
-<span class="err">------PostLateUpdate------</span>
-<span class="err">//...略</span>
+<div class="highlight"><pre><span></span><code><span class="o">------</span><span class="n">Initialization</span><span class="o">------</span>
+<span class="n">Initialization</span><span class="o">.</span><span class="n">PlayerUpdateTime</span>
+<span class="n">Initialization</span><span class="o">.</span><span class="n">AsyncUploadTimeSlicedUpdate</span>
+<span class="n">Initialization</span><span class="o">.</span><span class="n">SynchronizeInputs</span>
+<span class="n">Initialization</span><span class="o">.</span><span class="n">SynchronizeState</span>
+<span class="n">Initialization</span><span class="o">.</span><span class="n">XREarlyUpdate</span>
+<span class="o">------</span><span class="n">EarlyUpdate</span><span class="o">------</span>
+<span class="n">EarlyUpdate</span><span class="o">.</span><span class="n">PollPlayerConnection</span>
+<span class="o">//...</span><span class="err">略</span>
+<span class="o">------</span><span class="n">FixedUpdate</span><span class="o">------</span>
+<span class="n">FixedUpdate</span><span class="o">.</span><span class="n">ClearLines</span>
+<span class="o">//...</span><span class="err">略</span>
+<span class="o">------</span><span class="n">PreUpdate</span><span class="o">------</span>
+<span class="o">//...</span><span class="err">略</span>
+<span class="o">------</span><span class="n">Update</span><span class="o">------</span>
+<span class="o">//...</span><span class="err">略</span>
+<span class="o">------</span><span class="n">PreLateUpdate</span><span class="o">------</span>
+<span class="o">//...</span><span class="err">略</span>
+<span class="o">------</span><span class="n">PostLateUpdate</span><span class="o">------</span>
+<span class="o">//...</span><span class="err">略</span>
 </code></pre></div>
+
 <p>在源码中，PlayerLoop的的入口为<code>PlayerLoop</code>函数。</p>
-<h2 id="reentrancychecker">ReentrancyChecker</h2>
+<h2>ReentrancyChecker</h2>
 <div class="highlight"><pre><span></span><code><span class="n">ReentrancyChecker</span> <span class="nf">checker</span><span class="p">(</span><span class="o">&amp;</span><span class="n">s_InsidePlayerLoop</span><span class="p">);</span>
 <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">checker</span><span class="p">.</span><span class="n">IsOK</span><span class="p">())</span>
 <span class="p">{</span>
     <span class="c1">//...</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p>相当于判断<code>s_InsidePlayerLoop</code>标志位的一个工具类，基本逻辑：</p>
 <ol>
 <li><code>s_InsidePlayerLoop == false</code> 则 <code>IsOk</code>返回<code>true</code>, 并把 <code>`s_InsidePlayerLoop</code>置为<code>true</code></li>
 <li><code>s_InsidePlayerLoop == false</code> 则 <code>IsOk</code>返回<code>false</code></li>
 </ol>
 <p>主要用来防止PlayerLoop出现递归情况。</p>
-<h2 id="isworldplaying">IsWorldPlaying</h2>
+<h2>IsWorldPlaying</h2>
 <p>这个函数用来判断当前是否是在运行状态。</p>
-<h2 id="s_defaultloop">s_defaultLoop</h2>
+<h2>s_defaultLoop</h2>
 <p>初始化：</p>
-<div class="highlight"><pre><span></span><code><span class="k">static</span> <span class="kt">void</span> <span class="nf">InitDefaultPlayerLoop</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="k">static</span> <span class="kt">void</span> <span class="n">InitDefaultPlayerLoop</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="c1">//...</span>
    <span class="n">s_defaultLoop</span><span class="p">.</span><span class="n">resize_initialized</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> 
@@ -187,10 +191,11 @@
     <span class="c1">//...</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p>大致意思就是初始化这么多的回调，每个回调对应的是<code>CoreScriptingClasses</code>中的相应函数。</p>
-<h2 id="playerloopsystemzu zhi fang shi">PlayerLoopSystem组织方式</h2>
+<h2>PlayerLoopSystem组织方式</h2>
 <p>所有的PlayerLoopSystem保存在<code>s_currentLoop</code>中，它内部是一个<code>NativePlayerLoopSystem</code>的数组，大致如下：</p>
-<p><img alt="1588249654028" src="./1588249654028.png"/></p>
+<p><img alt="1588249654028" src="./1588249654028.png"></p>
 <ul>
 <li>
 <p>列表头记录了所有PlayerLoopSystem的个数</p>
@@ -205,7 +210,7 @@
 <p>subSystem中只有处理逻辑</p>
 </li>
 </ul>
-<h2 id="playerloopsystemde chu li han shu">PlayerLoopSystem的处理函数</h2>
+<h2>PlayerLoopSystem的处理函数</h2>
 <p>定义于<code>PlayerLoopCallbacks.h</code>：</p>
 <div class="highlight"><pre><span></span><code><span class="n">UpdateFunc</span><span class="o">*</span> <span class="n">RegisteredInitializationFunctions</span><span class="p">[</span><span class="n">PLAYER_LOOP_Initialization_COUNT</span><span class="p">];</span>
 <span class="n">UpdateFunc</span><span class="o">*</span> <span class="n">RegisteredEarlyUpdateFunctions</span><span class="p">[</span><span class="n">PLAYER_LOOP_EarlyUpdate_COUNT</span><span class="p">];</span>
@@ -215,6 +220,7 @@
 <span class="n">UpdateFunc</span><span class="o">*</span> <span class="n">RegisteredPreLateUpdateFunctions</span><span class="p">[</span><span class="n">PLAYER_LOOP_PreLateUpdate_COUNT</span><span class="p">];</span>
 <span class="n">UpdateFunc</span><span class="o">*</span> <span class="n">RegisteredPostLateUpdateFunctions</span><span class="p">[</span><span class="n">PLAYER_LOOP_PostLateUpdate_COUNT</span><span class="p">];</span>
 </code></pre></div>
+
 <p>具体回调函数通过宏<code>REGISTER_PLAYERLOOP_CALL</code>来注册，例如<code>Player.cpp</code>中：</p>
 <div class="highlight"><pre><span></span><code><span class="kt">void</span> <span class="nf">InitPlayerLoopCallbacks</span><span class="p">()</span>
 <span class="p">{</span>
@@ -225,6 +231,7 @@
     <span class="p">...</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p>或者<code>ClusterInputModuleRegistration.cpp</code>中：</p>
 <div class="highlight"><pre><span></span><code><span class="kt">void</span> <span class="nf">InitClusterInput</span><span class="p">()</span>
 <span class="p">{</span>
@@ -232,11 +239,13 @@
     <span class="n">REGISTER_PLAYERLOOP_CALL</span><span class="p">(</span><span class="n">Initialization</span><span class="p">,</span> <span class="n">SynchronizeInputs</span><span class="p">,</span> <span class="n">GetClusterInputModule</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">Update</span><span class="p">());</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="executeplayerloop">ExecutePlayerLoop</h2>
+
+<h2>ExecutePlayerLoop</h2>
 <p>首先判断本个NativePlayerLoopSystem要不要再当前帧执行：</p>
 <div class="highlight"><pre><span></span><code><span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">system</span><span class="o">-&gt;</span><span class="n">loopConditionFunction</span> <span class="o">||</span> <span class="n">system</span><span class="o">-&gt;</span><span class="n">loopConditionFunction</span><span class="p">())</span>
 <span class="p">{...}</span>
 </code></pre></div>
+
 <p>例如FixedUpdateCondition就限制了只有在与上次执行相隔大于一定时间才可以执行。</p>
 <div class="highlight"><pre><span></span><code><span class="c1">//如果有系统的处理函数</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">childSystem</span><span class="o">-&gt;</span><span class="n">updateFunction</span><span class="p">)</span>
@@ -258,6 +267,7 @@
     <span class="n">childSystem</span> <span class="o">+=</span> <span class="n">childSystem</span><span class="o">-&gt;</span><span class="n">numSubSystems</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
+
 <p>使用如下代码可以在系统的update前加入我们自己的些处理：</p>
 <div class="highlight"><pre><span></span><code><span class="na">[RuntimeInitializeOnLoadMethod]</span>
 <span class="k">static</span> <span class="k">void</span> <span class="nf">OnRuntimeMethodLoad</span><span class="p">()</span>
@@ -267,7 +277,7 @@
         <span class="n">type</span> <span class="p">=</span> <span class="k">typeof</span><span class="p">(</span><span class="n">MyUpdateHacker</span><span class="p">),</span>
         <span class="n">updateDelegate</span> <span class="p">=</span> <span class="p">()</span> <span class="p">=&gt;</span> 
         <span class="p">{</span>
-            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"=========hi, I'm hacking"</span><span class="p">);</span>
+            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&quot;=========hi, I&#39;m hacking&quot;</span><span class="p">);</span>
         <span class="p">},</span>
     <span class="p">};</span>
 

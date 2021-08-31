@@ -121,33 +121,35 @@
 
 
   <div>
-    <h1 id="unity shader xue xi bi ji 1---- di yi ge shader">Unity Shader 学习笔记1&mdash;&mdash; 第一个Shader</h1>
+    <h1>Unity Shader 学习笔记1—— 第一个Shader</h1>
 <p>@(计算机图形学)[学习笔记, Unity, shader]</p>
-<div id="toc"><ul><li><a class="toc-href" href="#" title="Unity Shader 学习笔记1 &mdash;&mdash; 第一个Shader">Unity Shader 学习笔记1 &mdash;&mdash; 第一个Shader</a><ul><li><a class="toc-href" href="#unity shader xue xi bi ji 1---- di yi ge shader" title="Unity Shader 学习笔记1&mdash;&mdash; 第一个Shader">Unity Shader 学习笔记1&mdash;&mdash; 第一个Shader</a><ul><li><a class="toc-href" href="#shaderjie gou" title="Shader结构">Shader结构</a><ul><li><a class="toc-href" href="#properties" title="Properties">Properties</a></li><li><a class="toc-href" href="#subshader he  fallback" title="SubShader 和 Fallback">SubShader 和 Fallback</a></li><li><a class="toc-href" href="#yi ge shi li" title="一个示例">一个示例</a></li><li><a class="toc-href" href="#shi yong" title="使用">使用</a></li></ul></li></ul></li></ul></li></ul></div><h2 id="shaderjie gou">Shader结构</h2>
-<p><img alt="Alt text" src="./1508917517324.png"/></p>
-<h3 id="properties">Properties</h3>
-<p><img alt="Alt text" src="./1508917908028.png"/></p>
+<p>[TOC]</p>
+<h2>Shader结构</h2>
+<p><img alt="Alt text" src="./1508917517324.png"></p>
+<h3>Properties</h3>
+<p><img alt="Alt text" src="./1508917908028.png"></p>
 <p>示例：</p>
 <div class="highlight"><pre><span></span><code><span class="err">Properties{</span>
-<span class="err">    _Color("Color Tint", Color) = (1.0, 1.0, 1.0, 1.0)</span>
-<span class="err">    _Offset("Offset", Vector) = (0, 0, 0, 0)</span>
+<span class="err">    _Color(&quot;Color Tint&quot;, Color) = (1.0, 1.0, 1.0, 1.0)</span>
+<span class="err">    _Offset(&quot;Offset&quot;, Vector) = (0, 0, 0, 0)</span>
 <span class="err">}</span>
 </code></pre></div>
+
 <p>类似于定义变量。例如_Color一行的含义为：Shader中有个<code>_Color</code>的变量，它的类型是<code>Color</code>, 值由编辑器中的<strong>Color Tint</strong>来编辑。效果：
-<img alt="Alt text" src="./1508918262889.png"/></p>
-<h3 id="subshader he  fallback">SubShader 和 Fallback</h3>
+<img alt="Alt text" src="./1508918262889.png"></p>
+<h3>SubShader 和 Fallback</h3>
 <p>SubShader是Unity Shader用来支持不同显卡的方式。当Unity加载一个Shader时，会从这个Shader中选取第一个可以支持的SubShader加载，如果都不支持，使用FallBack指定的Shader</p>
 <p>SubShader中每个渲染流程可以用Pass包起来，一个SubShader中可以有多个渲染流程</p>
-<h3 id="yi ge shi li">一个示例</h3>
-<div class="highlight"><pre><span></span><code><span class="n">Shader</span> <span class="ss">"Custom/1_shader"</span> <span class="err">{</span>
+<h3>一个示例</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Shader</span> <span class="s">&quot;Custom/1_shader&quot;</span> <span class="p">{</span>
 
-    <span class="n">Properties</span><span class="err">{</span>
-        <span class="n">_Color</span><span class="p">(</span><span class="ss">"Color Tint"</span><span class="p">,</span> <span class="n">Color</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">_Offset</span><span class="p">(</span><span class="ss">"Offset"</span><span class="p">,</span> <span class="n">Vector</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="err">}</span>
+    <span class="n">Properties</span><span class="p">{</span>
+        <span class="n">_Color</span><span class="p">(</span><span class="s">&quot;Color Tint&quot;</span><span class="p">,</span> <span class="n">Color</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">_Offset</span><span class="p">(</span><span class="s">&quot;Offset&quot;</span><span class="p">,</span> <span class="n">Vector</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">}</span>
 
-    <span class="n">SubShader</span><span class="err">{</span>
-        <span class="n">Pass</span> <span class="err">{</span>
+    <span class="n">SubShader</span><span class="p">{</span>
+        <span class="n">Pass</span> <span class="p">{</span>
             <span class="n">CGPROGRAM</span>
 
             <span class="o">//</span><span class="err">定义顶点着色器和片元着色器的代码</span>
@@ -157,21 +159,22 @@
             <span class="n">fixed4</span> <span class="n">_Color</span><span class="p">;</span>
             <span class="n">fixed4</span> <span class="n">_Offset</span><span class="p">;</span>
 
-            <span class="n">float4</span> <span class="n">vert</span><span class="p">(</span><span class="n">float4</span> <span class="n">v</span> <span class="p">:</span> <span class="k">POSITION</span><span class="p">)</span> <span class="p">:</span> <span class="n">SV_POSITION</span> <span class="err">{</span>
-                <span class="o">//</span><span class="err">意思是将模型空间中的点转换为剪裁空间（屏幕）中的点，然后加上</span><span class="k">offset</span>
-                <span class="k">return</span> <span class="n">UnityObjectToClipPos</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">+</span> <span class="n">_Offset</span><span class="p">;</span>
-            <span class="err">}</span>
+            <span class="n">float4</span> <span class="n">vert</span><span class="p">(</span><span class="n">float4</span> <span class="n">v</span> <span class="p">:</span> <span class="n">POSITION</span><span class="p">)</span> <span class="p">:</span> <span class="n">SV_POSITION</span> <span class="p">{</span>
+                <span class="o">//</span><span class="err">意思是将模型空间中的点转换为剪裁空间（屏幕）中的点，然后加上</span><span class="n">offset</span>
+                <span class="n">return</span> <span class="n">UnityObjectToClipPos</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">+</span> <span class="n">_Offset</span><span class="p">;</span>
+            <span class="p">}</span>
 
-            <span class="n">fixed4</span> <span class="n">frag</span><span class="p">()</span> <span class="p">:</span> <span class="n">SV_Target</span> <span class="err">{</span>
-                <span class="k">return</span> <span class="n">_Color</span><span class="p">;</span>
-            <span class="err">}</span>
+            <span class="n">fixed4</span> <span class="n">frag</span><span class="p">()</span> <span class="p">:</span> <span class="n">SV_Target</span> <span class="p">{</span>
+                <span class="n">return</span> <span class="n">_Color</span><span class="p">;</span>
+            <span class="p">}</span>
 
             <span class="n">ENDCG</span>
-        <span class="err">}</span>
-    <span class="err">}</span>
-<span class="err">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
-<h3 id="shi yong">使用</h3>
+
+<h3>使用</h3>
 <ol>
 <li>
 <p><strong>创建shader文件</strong>
@@ -180,12 +183,12 @@
 <li>
 <p><strong>创建Meterial</strong>
 创建后，将Shader设为自己的Shader
-<img alt="Alt text" src="./1510731314629.png"/></p>
+<img alt="Alt text" src="./1510731314629.png"></p>
 </li>
 <li>
 <p><strong>MeshRender使用</strong>
 创建一个GameObject, 增加MeshRender组件，将材质设为刚才创建的材质，就可以看到效果了
-<img alt="Alt text" src="./1510731430279.png"/></p>
+<img alt="Alt text" src="./1510731430279.png"></p>
 </li>
 </ol>
   </div>

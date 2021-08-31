@@ -136,21 +136,22 @@
 <li>
 <p>启动pelican创建工程，pelican－quickstart, 此时有可能出现如下错误：</p>
 <div class="highlight"><pre><span></span><code><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>  
-<span class="n">File</span> <span class="s2">"/usr/local/bin/pelican-quickstart"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">7</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
+<span class="n">File</span> <span class="s2">&quot;/usr/local/bin/pelican-quickstart&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">7</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
     <span class="kn">from</span> <span class="nn">pelican.tools.pelican_quickstart</span> <span class="kn">import</span> <span class="n">main</span>  
-<span class="n">File</span> <span class="s2">"/Library/Python/2.7/site-packages/pelican/__init__.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">20</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
+<span class="n">File</span> <span class="s2">&quot;/Library/Python/2.7/site-packages/pelican/__init__.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">20</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
     <span class="kn">from</span> <span class="nn">pelican.generators</span> <span class="kn">import</span> <span class="p">(</span><span class="n">ArticlesGenerator</span><span class="p">,</span> <span class="n">PagesGenerator</span><span class="p">,</span>  
-<span class="n">File</span> <span class="s2">"/Library/Python/2.7/site-packages/pelican/generators.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">22</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
+<span class="n">File</span> <span class="s2">&quot;/Library/Python/2.7/site-packages/pelican/generators.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">22</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
     <span class="kn">from</span> <span class="nn">pelican.readers</span> <span class="kn">import</span> <span class="n">Readers</span>  
-<span class="n">File</span> <span class="s2">"/Library/Python/2.7/site-packages/pelican/readers.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">24</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
+<span class="n">File</span> <span class="s2">&quot;/Library/Python/2.7/site-packages/pelican/readers.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">24</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>  
     <span class="kn">from</span> <span class="nn">six.moves.html_parser</span> <span class="kn">import</span> <span class="n">HTMLParser</span>  
 <span class="ne">ImportError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="n">html_parser</span>
 </code></pre></div>
-<p>这时只需要更改一下源文件即可：<code>vim /Library/Python/2.7/site-packages/pelican/readers.py</code>。<br/>
-将24行的：<br/>
-<code>from six.moves.html_parser import HTMLParser</code><br/>
- 换成：<br/>
-<code>from HTMLParser import HTMLParser</code><br/>
+
+<p>这时只需要更改一下源文件即可：<code>vim /Library/Python/2.7/site-packages/pelican/readers.py</code>。<br>
+将24行的：<br>
+<code>from six.moves.html_parser import HTMLParser</code><br>
+ 换成：<br>
+<code>from HTMLParser import HTMLParser</code><br>
 即可</p>
 </li>
 </ul>

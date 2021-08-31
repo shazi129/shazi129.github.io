@@ -120,27 +120,28 @@
 
   <div>
     <p>这里对Mathf相关函数做一个简要说明，抄的。</p>
-<h2 id="mathf.absjue dui zhi ##">Mathf.Abs绝对值##</h2>
+<h2>Mathf.Abs绝对值##</h2>
 <p>计算并返回指定参数 f 绝对值。 </p>
-<h2 id="mathf.acosfan yu xian">Mathf.Acos反余弦</h2>
-<p><code>static function Acos (f : float) : float</code> <br/>
+<h2>Mathf.Acos反余弦</h2>
+<p><code>static function Acos (f : float) : float</code>   <br>
 以弧度为单位计算并返回参数 f 中指定的数字的反余弦值。 </p>
-<h2 id="mathf.approximatelyjin si">Mathf.Approximately近似</h2>
-<p><code>static function Approximately (a : float, b: float) : bool</code> <br/>
+<h2>Mathf.Approximately近似</h2>
+<p><code>static function Approximately (a : float, b: float) : bool</code>  <br>
 比较两个浮点数值，看它们是否非常接近, 由于浮点数值不精确，不建议使用等于来比较它们。例如，1.0==10.0/10.0也许不会返回true。 </p>
 <div class="highlight"><pre><span></span><code><span class="err">public class example : MonoBehaviour { </span>
 <span class="err">    publicvoid Awake() { </span>
 <span class="err">        if(Mathf.Approximately(1.0F, 10.0F / 10.0F)) </span>
-<span class="err">            print("same"); </span>
+<span class="err">            print(&quot;same&quot;); </span>
 <span class="err">    } </span>
 <span class="err">}</span>
 </code></pre></div>
-<h2 id="mathf.asinfan zheng xian">Mathf.Asin反正弦</h2>
-<p><code>static function Asin (f : float) : float</code> <br/>
+
+<h2>Mathf.Asin反正弦</h2>
+<p><code>static function Asin (f : float) : float</code>  <br>
 以弧度为单位计算并返回参数 f 中指定的数字的反正弦值。 </p>
-<h2 id="mathf.atan2fan zheng qie">Mathf.Atan2反正切</h2>
-<p><code>static function Atan2 (y : float, x :float) : float</code> <br/>
-以弧度为单位计算并返回 y/x 的反正切值。返回值表示相对直角三角形对角的角，其中 x 是临边边长，而 y 是对边边长。    <br/>
+<h2>Mathf.Atan2反正切</h2>
+<p><code>static function Atan2 (y : float, x :float) : float</code>  <br>
+以弧度为单位计算并返回 y/x 的反正切值。返回值表示相对直角三角形对角的角，其中 x 是临边边长，而 y 是对边边长。    <br>
 返回值是在x轴和一个二维向量开始于0个结束在(x,y)处之间的角。 </p>
 <div class="highlight"><pre><span></span><code><span class="err">public class example : MonoBehaviour { </span>
 <span class="err">    publicTransform target; </span>
@@ -151,45 +152,47 @@
 <span class="err">    } </span>
 <span class="err">}</span>
 </code></pre></div>
-<h2 id="mathf.atanfan zheng qie">Mathf.Atan反正切</h2>
-<p><code>static function Atan (f : float) :float</code> <br/>
+
+<h2>Mathf.Atan反正切</h2>
+<p><code>static function Atan (f : float) :float</code>  <br>
 计算并返回参数 f 中指定的数字的反正切值。返回值介于负二分之 pi 与正二分之 pi 之间。 </p>
-<h2 id="mathf.ceiltointzui xiao zheng shu">Mathf.CeilToInt最小整数</h2>
-<p><code>static function CeilToInt (f : float) : int</code> <br/>
+<h2>Mathf.CeilToInt最小整数</h2>
+<p><code>static function CeilToInt (f : float) : int</code>  <br>
 返回最小的整数大于或等于f。 </p>
-<h2 id="mathf.ceilshang xian zhi">Mathf.Ceil上限值</h2>
-<p><code>static function Ceil (f : float) : float</code> <br/>
+<h2>Mathf.Ceil上限值</h2>
+<p><code>static function Ceil (f : float) : float</code>  <br>
 返回 f 指定数字或表达式的上限值。数字的上限值是大于等于该数字的最接近的整数。 </p>
-<h2 id="mathf.clamp01">Mathf.Clamp01</h2>
-<p><code>static function Clamp01 (value : float) :float</code> <br/>
+<h2>Mathf.Clamp01</h2>
+<p><code>static function Clamp01 (value : float) :float</code>  <br>
 限制value在0,1之间并返回value。如果value小于0，返回0。如果value大于1,返回1，否则返回value 。 </p>
-<h2 id="mathf.clamp">Mathf.Clamp</h2>
-<p><code>static function Clamp (value : float, min :float, max : float) : float</code> <br/>
+<h2>Mathf.Clamp</h2>
+<p><code>static function Clamp (value : float, min :float, max : float) : float</code>  <br>
 限制value的值在min和max之间， 如果value小于min，返回min。 如果value大于max，返回max，否则返回value </p>
-<p><code>static function Clamp (value : int, min :int, max : int) : int</code> <br/>
+<p><code>static function Clamp (value : int, min :int, max : int) : int</code>  <br>
 限制value的值在min和max之间，并返回value。 </p>
-<h2 id="mathf.closestpoweroftwozui jin de er ci fang">Mathf.ClosestPowerOfTwo最近的二次方</h2>
-<p><code>static function ClosestPowerOfTwo (value :int) : int</code> <br/>
+<h2>Mathf.ClosestPowerOfTwo最近的二次方</h2>
+<p><code>static function ClosestPowerOfTwo (value :int) : int</code>  <br>
 返回距离value最近的2的次方数。 </p>
-<h2 id="mathf.cosyu xian">Mathf.Cos余弦</h2>
-<p><code>static function Cos (f : float) : float</code> <br/>
+<h2>Mathf.Cos余弦</h2>
+<p><code>static function Cos (f : float) : float</code>  <br>
 返回由参数 f 指定的角的余弦值（介于 -1.0 与 1.0 之间的值）。 </p>
-<h2 id="mathf.deg2raddu zhuan hu du">Mathf.Deg2Rad度转弧度</h2>
-<p><code>static var Deg2Rad : float</code> <br/>
-度到弧度的转化常量。（只读）   <br/>
+<h2>Mathf.Deg2Rad度转弧度</h2>
+<p><code>static var Deg2Rad : float</code>  <br>
+度到弧度的转化常量。（只读）   <br>
 这等于(PI * 2) / 360。 </p>
-<h2 id="mathf.mathf.rad2deg hu du zhuan du">Mathf.Mathf.Rad2Deg 弧度转度</h2>
-<p><code>static var Rad2Deg : float</code> <br/>
-弧度到度的转化常量。（只读）   <br/>
+<h2>Mathf.Mathf.Rad2Deg 弧度转度</h2>
+<p><code>static var Rad2Deg : float</code>  <br>
+弧度到度的转化常量。（只读）   <br>
 这等于 360 / (PI * 2)。 </p>
-<h2 id="mathf.deltaanglezeng liang jiao">Mathf.DeltaAngle增量角</h2>
-<p><code>static function DeltaAngle (current :float, target : float) : float</code> <br/>
+<h2>Mathf.DeltaAngle增量角</h2>
+<p><code>static function DeltaAngle (current :float, target : float) : float</code>  <br>
 计算给定的两个角之间最短的差异。 </p>
 <div class="highlight"><pre><span></span><code><span class="err">// Prints 90 </span>
 <span class="err">Debug.Log(Mathf.DeltaAngle(1080,90));</span>
 </code></pre></div>
-<h2 id="mathf.epsilonxiao zheng shu">Mathf.Epsilon小正数</h2>
-<p><code>static var Epsilon : float</code> <br/>
+
+<h2>Mathf.Epsilon小正数</h2>
+<p><code>static var Epsilon : float</code> <br>
 一个很小的浮点数值。（只读） 
 最小的浮点值，不同于0。 
 以下规则： 
@@ -206,34 +209,36 @@ public class example : MonoBehaviour {
                                     returnfalse; 
             } 
 } </p>
-<h2 id="mathf.expzhi shu">Mathf.Exp指数</h2>
-<p><code>static function Exp (power : float) : float</code> <br/>
+<h2>Mathf.Exp指数</h2>
+<p><code>static function Exp (power : float) : float</code>  <br>
 返回 e 的 power 次方的值。 </p>
-<h2 id="mathf.floortointzui da zheng shu">Mathf.FloorToInt最大整数</h2>
-<p><code>static function FloorToInt (f : float) :int</code> <br/>
+<h2>Mathf.FloorToInt最大整数</h2>
+<p><code>static function FloorToInt (f : float) :int</code>  <br>
 返回最大的整数，小于或等于f。 </p>
-<h2 id="mathf.floorxia xian zhi">Mathf.Floor下限值</h2>
-<p><code>static function Floor (f : float) : float</code> <br/>
+<h2>Mathf.Floor下限值</h2>
+<p><code>static function Floor (f : float) : float</code>  <br>
 返回参数 f 中指定的数字或表达式的下限值。下限值是小于等于指定数字或表达式的最接近的整数。 </p>
-<h2 id="mathf.infinityzheng wu qiong">Mathf.Infinity正无穷</h2>
-<p><code>static var Infinity : float</code> <br/>
-表示正无穷，也就是无穷大，&infin; （只读） </p>
-<h2 id="mathf.inverselerpfan cha zhi">Mathf.InverseLerp反插值</h2>
+<h2>Mathf.Infinity正无穷</h2>
+<p><code>static var Infinity : float</code>   <br>
+表示正无穷，也就是无穷大，∞ （只读） </p>
+<h2>Mathf.InverseLerp反插值</h2>
 <p>计算两个值之间的Lerp参数。也就是value在from和to之间的比例值。     </p>
 <div class="highlight"><pre><span></span><code><span class="err">//现在参数是3/5 </span>
 <span class="err">float parameter =Mathf.InverseLerp(walkSpeed, runSpeed, speed);</span>
 </code></pre></div>
-<h2 id="mathf.ispoweroftwoshi fou 2de mi">Mathf.IsPowerOfTwo是否2的幂</h2>
-<p><code>static function IsPowerOfTwo (value : int): bool</code> <br/>
+
+<h2>Mathf.IsPowerOfTwo是否2的幂</h2>
+<p><code>static function IsPowerOfTwo (value : int): bool</code>  <br>
 如果该值是2的幂，返回true。 </p>
 <div class="highlight"><pre><span></span><code><span class="err">// prints false </span>
 <span class="err">Debug.Log(Mathf.IsPowerOfTwo(7)); </span>
 <span class="err">// prints true </span>
 <span class="err">Debug.Log(Mathf.IsPowerOfTwo(32));</span>
 </code></pre></div>
-<h2 id="mathf.lerpanglecha zhi jiao du">Mathf.LerpAngle插值角度</h2>
-<p><code>static function LerpAngle (a : float, b :float, t : float) : float</code> <br/>
-和Lerp的原理一样，当他们环绕360度确保插值正确。   <br/>
+
+<h2>Mathf.LerpAngle插值角度</h2>
+<p><code>static function LerpAngle (a : float, b :float, t : float) : float</code>   <br>
+和Lerp的原理一样，当他们环绕360度确保插值正确。   <br>
 a和b是代表度数。 </p>
 <div class="highlight"><pre><span></span><code><span class="err">public class example : MonoBehaviour { </span>
 <span class="err">    publicfloat minAngle = 0.0F; </span>
@@ -244,55 +249,57 @@ a和b是代表度数。 </p>
 <span class="err">    } </span>
 <span class="err">}</span>
 </code></pre></div>
-<h2 id="mathf.lerpcha zhi">Mathf.Lerp插值</h2>
-<p><code>static function Lerp (from : float, to :float, t : float) : float</code> <br/>
-基于浮点数t返回a到b之间的插值，t限制在0～1之间。   <br/>
+
+<h2>Mathf.Lerp插值</h2>
+<p><code>static function Lerp (from : float, to :float, t : float) : float</code>   <br>
+基于浮点数t返回a到b之间的插值，t限制在0～1之间。   <br>
 当t = 0返回from，当t = 1 返回to。当t = 0.5 返回from和to的平均值。 </p>
-<h2 id="mathf.log10ji shu 10de dui shu">Mathf.Log10基数10的对数</h2>
-<p><code>static function Log10 (f : float) : float</code> <br/>
+<h2>Mathf.Log10基数10的对数</h2>
+<p><code>static function Log10 (f : float) : float</code>   <br>
 返回f的对数，基数为10。 </p>
-<h2 id="mathf.logdui shu">Mathf.Log对数</h2>
-<p><code>static function Log (f : float, p : float): float</code> <br/>
+<h2>Mathf.Log对数</h2>
+<p><code>static function Log (f : float, p : float): float</code>   <br>
 返回参数 f 的对数。 </p>
 <div class="highlight"><pre><span></span><code><span class="err">// logarithm of 6 in base 2 </span>
 <span class="err">//以2为底6的对数 </span>
 <span class="err">// prints 2.584963 </span>
 <span class="err">print(Mathf.Log(6, 2));</span>
 </code></pre></div>
-<h2 id="mathf.maxzui da zhi">Mathf.Max最大值</h2>
-<p><code>static function Max (a : float, b : float): float</code> <br/>
-<code>static function Max (params values :float[]) : float</code> <br/>
+
+<h2>Mathf.Max最大值</h2>
+<p><code>static function Max (a : float, b : float): float</code>   <br>
+<code>static function Max (params values :float[]) : float</code>    <br>
 返回两个或更多值中最大的值。 </p>
-<h2 id="mathf.minzui xiao zhi">Mathf.Min最小值</h2>
-<p><code>static function Min (a : float, b : float): float</code> <br/>
-<code>static function Min (params values :float[]) : float</code> <br/>
+<h2>Mathf.Min最小值</h2>
+<p><code>static function Min (a : float, b : float): float</code>    <br>
+<code>static function Min (params values :float[]) : float</code>         <br>
 返回两个或更多值中最小的值。 </p>
-<h2 id="mathf.movetowardsangleyi dong jiao">Mathf.MoveTowardsAngle移动角</h2>
-<p><code>static function MoveTowardsAngle (current :float, target : float, maxDelta : float) : float</code> <br/>
-像MoveTowards,但是当它们环绕360度确保插值正确。     <br/>
+<h2>Mathf.MoveTowardsAngle移动角</h2>
+<p><code>static function MoveTowardsAngle (current :float, target : float, maxDelta : float) : float</code>  <br>
+像MoveTowards,但是当它们环绕360度确保插值正确。     <br>
 变量current和target是作为度数。为优化原因，maxDelta负值的不被支持，可能引起振荡。从target角推开current，添加180度角代替。 </p>
-<h1 id="mathf.movetowardsyi xiang_1">Mathf.MoveTowards移向</h1>
-<p><code>static function MoveTowards (current :float, target : float, maxDelta : float) : float</code> <br/>
-改变一个当前值向目标值靠近。      <br/>
+<h1>Mathf.MoveTowards移向</h1>
+<p><code>static function MoveTowards (current :float, target : float, maxDelta : float) : float</code>    <br>
+改变一个当前值向目标值靠近。      <br>
 这实际上和 Mathf.Lerp相同，而是该函数将确保我们的速度不会超过maxDelta。maxDelta为负值将目标从推离。 </p>
-<h2 id="mathf.negativeinfinityfu wu qiong">Mathf.NegativeInfinity负无穷</h2>
-<p><code>static var NegativeInfinity : float</code> <br/>
-表示负无穷，也就是无穷小，-&infin;（只读） </p>
-<h2 id="mathf.nextpoweroftwoxia ge 2de mi">Mathf.NextPowerOfTwo下个2的幂</h2>
-<h2 id="mathf.pingpongping pang">Mathf.PingPong乒乓</h2>
-<p><code>static function PingPong (t : float, length: float) : float</code> <br/>
-0到length之间往返。t值永远不会大于length的值，也永远不会小于0。   <br/>
-The returned value will move back and forthbetween 0 and length.   <br/>
+<h2>Mathf.NegativeInfinity负无穷</h2>
+<p><code>static var NegativeInfinity : float</code>   <br>
+表示负无穷，也就是无穷小，-∞（只读） </p>
+<h2>Mathf.NextPowerOfTwo下个2的幂</h2>
+<h2>Mathf.PingPong乒乓</h2>
+<p><code>static function PingPong (t : float, length: float) : float</code>   <br>
+0到length之间往返。t值永远不会大于length的值，也永远不会小于0。   <br>
+The returned value will move back and forthbetween 0 and length.   <br>
 返回值将在0和length之间来回移动。      </p>
-<h2 id="mathf.piyuan zhou lu">Mathf.PI圆周率</h2>
-<p><code>static var PI : float</code> <br/>
-PI（读pai）的值，也就是圆周率（&pi;）的值3.14159265358979323846...（只读） </p>
-<h2 id="mathf.powci fang">Mathf.Pow次方</h2>
-<p><code>static function Pow (f : float, p : float): float</code> <br/>
+<h2>Mathf.PI圆周率</h2>
+<p><code>static var PI : float</code>     <br>
+PI（读pai）的值，也就是圆周率（π）的值3.14159265358979323846...（只读） </p>
+<h2>Mathf.Pow次方</h2>
+<p><code>static function Pow (f : float, p : float): float</code>     <br>
 计算并返回 f 的 p 次方。 </p>
-<h2 id="mathf.repeatzhong fu">Mathf.Repeat重复</h2>
-<p><code>static function Repeat (t : float, length :float) : float</code> <br/>
-循环数值t，0到length之间。t值永远不会大于length的值，也永远不会小于0。    <br/>
+<h2>Mathf.Repeat重复</h2>
+<p><code>static function Repeat (t : float, length :float) : float</code>   <br>
+循环数值t，0到length之间。t值永远不会大于length的值，也永远不会小于0。    <br>
 这是类似于模运算符，但可以使用浮点数。</p>
 <div class="highlight"><pre><span></span><code><span class="err">public class example : MonoBehaviour { </span>
 <span class="err">    voidUpdate() { </span>
@@ -300,30 +307,31 @@ PI（读pai）的值，也就是圆周率（&pi;）的值3.14159265358979323846.
 <span class="err">    } </span>
 <span class="err">}</span>
 </code></pre></div>
-<h2 id="mathf.roundtointsi she wu ru dao zheng shu">Mathf.RoundToInt四舍五入到整数</h2>
-<p><code>static function RoundToInt (f : float) :int</code> <br/>
-返回 f 指定的值四舍五入到最近的整数。    <br/>
+
+<h2>Mathf.RoundToInt四舍五入到整数</h2>
+<p><code>static function RoundToInt (f : float) :int</code>  <br>
+返回 f 指定的值四舍五入到最近的整数。    <br>
 如果数字末尾是.5，因此它是在两个整数中间，不管是偶数或是奇数，将返回偶数。       </p>
-<h2 id="mathf.roundsi she wu ru">Mathf.Round四舍五入</h2>
-<p><code>static function Round (f : float) : float</code> <br/>
-返回浮点数 f 进行四舍五入最接近的整数。    <br/>
+<h2>Mathf.Round四舍五入</h2>
+<p><code>static function Round (f : float) : float</code>   <br>
+返回浮点数 f 进行四舍五入最接近的整数。    <br>
 如果数字末尾是.5，因此它是在两个整数中间，不管是偶数或是奇数，将返回偶数。      </p>
-<h2 id="mathf.signfu hao">Mathf.Sign符号</h2>
-<p><code>static function Sign (f : float) : float</code> <br/>
-返回 f 的符号。    <br/>
+<h2>Mathf.Sign符号</h2>
+<p><code>static function Sign (f : float) : float</code>     <br>
+返回 f 的符号。    <br>
 当 f 为正或为0返回1，为负返回-1。       </p>
-<h2 id="mathf.sinzheng xian">Mathf.Sin正弦</h2>
-<p><code>static function Sin (f : float) : float</code> <br/>
+<h2>Mathf.Sin正弦</h2>
+<p><code>static function Sin (f : float) : float</code>  <br>
 计算并返回以弧度为单位指定的角 f 的正弦值。 </p>
-<h2 id="mathf.smoothdampangleping hua zu ni jiao du">Mathf.SmoothDampAngle平滑阻尼角度</h2>
-<p><code>static function SmoothDampAngle (current :float, target : float, ref currentVelocity : float, smoothTime : float,maxSpeed : float = Mathf.Infinity, deltaTime : float = Time.deltaTime) : float</code> <br/>
-参数   <br/>
-<strong>current</strong>: 当前的位置。   <br/>
-<strong>target</strong>: 我们试图达到的位置。   <br/>
-<strong>currentVelocity</strong>:  当前速度，这个值在你访问这个函数的时候会被随时修改。   <br/>
-<strong>smoothTime</strong>: 要到达目标位置的近似时间，实际到达目标时要快一些。   <br/>
-<strong>maxSpeed</strong>: 可选参数，允许你限制的最大速度。   <br/>
-<strong>deltaTime</strong>: 上次调用该函数到现在的时间。缺省为Time.deltaTime。    <br/>
+<h2>Mathf.SmoothDampAngle平滑阻尼角度</h2>
+<p><code>static function SmoothDampAngle (current :float, target : float, ref currentVelocity : float, smoothTime : float,maxSpeed : float = Mathf.Infinity, deltaTime : float = Time.deltaTime) : float</code>      <br>
+参数   <br>
+<strong>current</strong>: 当前的位置。   <br>
+<strong>target</strong>: 我们试图达到的位置。   <br>
+<strong>currentVelocity</strong>:  当前速度，这个值在你访问这个函数的时候会被随时修改。   <br>
+<strong>smoothTime</strong>: 要到达目标位置的近似时间，实际到达目标时要快一些。   <br>
+<strong>maxSpeed</strong>: 可选参数，允许你限制的最大速度。   <br>
+<strong>deltaTime</strong>: 上次调用该函数到现在的时间。缺省为Time.deltaTime。    <br>
 随着时间的推移逐渐改变一个给定的角度到期望的角度。 
 这个值通过一些弹簧减震器类似的功能被平滑。这个函数可以用来平滑任何一种值，位置，颜色，标量。最常见的是平滑一个跟随摄像机。 </p>
 <div class="highlight"><pre><span></span><code><span class="err">//一个简单的平滑跟随摄像机 </span>
@@ -347,15 +355,16 @@ PI（读pai）的值，也就是圆周率（&pi;）的值3.14159265358979323846.
 <span class="err">    } </span>
 <span class="err">}</span>
 </code></pre></div>
-<h2 id="mathf.smoothdampping hua zu ni">Mathf.SmoothDamp平滑阻尼</h2>
-<p><code>static function SmoothDamp (current :float, target : float, ref currentVelocity : float, smoothTime : float,maxSpeed : float = Mathf.Infinity, deltaTime : float = Time.deltaTime) : float</code> <br/>
-参数   <br/>
-<strong>current</strong>: 当前的位置。   <br/>
-<strong>target</strong>:  我们试图达到的位置。   <br/>
-<strong>currentVelocity</strong>: 当前速度，这个值在你访问这个函数的时候会被随时修改。           <br/>
-<strong>smoothTime</strong>: 要到达目标位置的近似时间，实际到达目标时要快一些。          <br/>
-<strong>maxSpeed</strong>: 可选参数，允许你限制的最大速度。          <br/>
-<strong>deltaTime</strong>:  上次调用该函数到现在的时间。缺省为Time.deltaTime。      <br/>
+
+<h2>Mathf.SmoothDamp平滑阻尼</h2>
+<p><code>static function SmoothDamp (current :float, target : float, ref currentVelocity : float, smoothTime : float,maxSpeed : float = Mathf.Infinity, deltaTime : float = Time.deltaTime) : float</code>     <br>
+参数   <br>
+<strong>current</strong>: 当前的位置。   <br>
+<strong>target</strong>:  我们试图达到的位置。   <br>
+<strong>currentVelocity</strong>: 当前速度，这个值在你访问这个函数的时候会被随时修改。           <br>
+<strong>smoothTime</strong>: 要到达目标位置的近似时间，实际到达目标时要快一些。          <br>
+<strong>maxSpeed</strong>: 可选参数，允许你限制的最大速度。          <br>
+<strong>deltaTime</strong>:  上次调用该函数到现在的时间。缺省为Time.deltaTime。      <br>
 描述 
 随着时间的推移逐渐改变一个值到期望值。 
 这个值就像被一个不会崩溃的弹簧减振器一样被平滑。这个函数可以用来平滑任何类型的值，位置，颜色，标量。</p>
@@ -369,8 +378,9 @@ PI（读pai）的值，也就是圆周率（&pi;）的值3.14159265358979323846.
 <span class="err">        } </span>
 <span class="err">}</span>
 </code></pre></div>
-<h2 id="mathf.smoothstepping hua cha zhi">Mathf.SmoothStep平滑插值</h2>
-<p><code>static function SmoothStep (from : float,to : float, t : float) : float</code> <br/>
+
+<h2>Mathf.SmoothStep平滑插值</h2>
+<p><code>static function SmoothStep (from : float,to : float, t : float) : float</code>   <br>
 和lerp类似，在最小和最大值之间的插值，并在限制处渐入渐出。 </p>
 <div class="highlight"><pre><span></span><code><span class="err">public class example : MonoBehaviour { </span>
 <span class="err">        publicfloat minimum = 10.0F; </span>
@@ -380,11 +390,12 @@ PI（读pai）的值，也就是圆周率（&pi;）的值3.14159265358979323846.
 <span class="err">        } </span>
 <span class="err">}</span>
 </code></pre></div>
-<h2 id="mathf.sqrtping fang gen">Mathf.Sqrt平方根</h2>
-<p><code>static function Sqrt (f : float) : float</code> <br/>
+
+<h2>Mathf.Sqrt平方根</h2>
+<p><code>static function Sqrt (f : float) : float</code>  <br>
 计算并返回 f 的平方根。 </p>
-<h2 id="mathf.tanzheng qie">Mathf.Tan正切</h2>
-<p><code>static function Tan (f : float) : float</code> <br/>
+<h2>Mathf.Tan正切</h2>
+<p><code>static function Tan (f : float) : float</code>   <br>
 计算并返回以弧度为单位 f 指定角度的正切值。</p>
   </div>
   <div class="tag-cloud">
